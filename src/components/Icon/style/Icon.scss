@@ -1,0 +1,25 @@
+
+/**
+ * Component: Icon
+ */
+
+[data-component="icon"] {
+  display: inline-block;
+
+  .icon {
+    font-weight: normal;
+    font-style: normal;
+    display: inline-block;
+    text-transform: none;
+    letter-spacing: normal;
+    word-wrap: normal;
+    white-space: nowrap;
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-size: 100% auto;
+    vertical-align: middle;
+    fill: $grey;
+    width: 24px;
+    height: 24px;
+  }
+}
