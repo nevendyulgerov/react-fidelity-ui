@@ -1,4 +1,10 @@
-import Dropdown, { changeSingleSelect, changeMultiSelect } from './src/components/Dropdown/';
+import Dropdown, {
+  changeSingleSelect,
+  changeMultiSelect,
+  deselectItem,
+  filterItemsByName,
+  syncDropdownMenuOffset
+} from './src/components/Dropdown/';
 import Icon from './src/components/Icon';
 import Checkbox from './src/components/Checkbox';
 import Timeline from './src/components/Timeline';
@@ -7,7 +13,10 @@ import './dist/style.min.css';
 
 const utils = {
   changeSingleSelect,
-  changeMultiSelect
+  changeMultiSelect,
+  deselectItem,
+  filterItemsByName,
+  syncDropdownMenuOffset
 };
 
 export {
@@ -17,4 +26,4 @@ export {
   Timeline,
   Panel,
   utils
-}
+};
