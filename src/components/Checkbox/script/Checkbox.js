@@ -9,7 +9,7 @@ const Checkbox = ({ id = '', labelText = '', labelTitle = '', isChecked = false,
       disabled={isDisabled}
       onChange={onChange}
     />
-    <label htmlFor={id} title={labelTitle} >
+    <label htmlFor={id} title={labelTitle}>
       {labelText}
     </label>
   </div>

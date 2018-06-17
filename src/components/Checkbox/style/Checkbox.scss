@@ -6,8 +6,8 @@
 [data-component="checkbox"] {
   position: relative;
   cursor: pointer;
-  
-  &:selection {
+
+  &::selection {
 	background: transparent;
   }
 
@@ -38,6 +38,7 @@
     overflow: hidden;
     -o-text-overflow: ellipsis;
     text-overflow: ellipsis;
+    cursor: pointer;
 
     &:before {
       content: '';
