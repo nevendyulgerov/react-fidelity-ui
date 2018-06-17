@@ -1,30 +1,24 @@
 import React, { Component } from 'react';
-import uid from 'uid';
-import $ from 'jquery';
 import Icon from '../../Icon/';
 import Loader from '../../Loader/';
 import Checkbox from '../../Checkbox/';
-import { isFunc } from '../../../utils/ammo';
+import { isFunc, isHovered } from '../../../utils/ammo';
 
 class Dropdown extends Component {
   state = {
-    menuTriggerId: '',
-    menuId: '',
     filterText: '',
     isMenuOpened: false
   };
 
   componentWillMount() {
-    this.setState({
-      menuTriggerId: uid(),
-      menuId: uid()
-    });
     this.attachClickMonitor();
   }
 
   componentWillUnmount() {
     this.detachClickMonitor();
   }
+
+  refComponent;
 
   /**
    * @description Attach click monitor
@@ -44,9 +38,12 @@ class Dropdown extends Component {
    * @description Close via outside click
    */
   closeViaOutsideClick = () => {
-    const { menuTriggerId, menuId, isMenuOpened } = this.state;
-    const isMenuTriggerHovered = $(`#${menuTriggerId}`).is(':hover');
-    const isMenuHovered = $(`#${menuId}`).is(':hover');
+    const { isMenuOpened } = this.state;
+    const toggleMenu = this.refComponent.querySelector('.trigger.toggle-menu');
+    const menu = this.refComponent.querySelector('.menu');
+    const isMenuTriggerHovered = isHovered(toggleMenu);
+    const isMenuHovered = isHovered(menu);
+
 
     if (!isMenuHovered && !isMenuTriggerHovered && isMenuOpened) {
       this.setState({ isMenuOpened: false });
@@ -58,14 +55,15 @@ class Dropdown extends Component {
    */
   toggleMenu() {
     const { onToggleMenu, isFilterable = false } = this.props;
-    const { isMenuOpened, menuId } = this.state;
+    const { isMenuOpened } = this.state;
 
     this.setState({ isMenuOpened: !isMenuOpened }, () => {
       const { isMenuOpened } = this.state;
 
       if (isMenuOpened && isFilterable) {
-        const $filterInput = $(`#${menuId}`).find('.filter').find('input');
-        $filterInput.focus();
+        const menu = this.refComponent.querySelector('.menu');
+        const filterInput = menu.querySelector('.filter').querySelector('input');
+        filterInput.focus();
       }
 
       if (isFunc(onToggleMenu)) {
@@ -105,14 +103,20 @@ class Dropdown extends Component {
       onChange = () => {},
       onAddItem = () => {}
     } = this.props;
-    const { menuTriggerId, menuId, filterText, isMenuOpened } = this.state;
+    const { filterText, isMenuOpened } = this.state;
     const selectedItems = items.filter(item => item.isSelected);
     const itemsLength = items.length;
 
     return (
-      <div className={`${isDisabled ? 'disabled' : ''}`} data-component="dropdown" title={triggerText}>
+      <div
+        className={`${isDisabled ? 'disabled' : ''}`}
+        data-component="dropdown"
+        title={triggerText}
+        ref={node => {
+          this.refComponent = node;
+        }}
+      >
         <div
-          id={menuTriggerId}
           className={`trigger toggle-menu ${isMenuOpened ? 'active' : ''}`}
           onClick={() => this.toggleMenu()}
         >
@@ -135,7 +139,6 @@ class Dropdown extends Component {
         </div>
 
         <div
-          id={menuId}
           className={`menu ${isMenuOpened && (itemsLength > 0 || isFilterable) ? 'active' : ''} ${isLoading ? 'loading' : ''}`}
         >
           <div className="menu-heading">
