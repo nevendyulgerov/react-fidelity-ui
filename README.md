@@ -38,7 +38,7 @@ Breadcrumbs component. This component works with array of objects with schema:
   name: 'Google', // string
   isSelected: true // boolean
 }, {
-  url: 'https://yahoo.com,
+  url: 'https://yahoo.com',
   name: 'Yahoo',
   isSelected: false
 }]
@@ -59,7 +59,7 @@ class App extends Component {
       name: 'Google', // string
       isSelected: true // boolean
     }, {
-      url: 'https://yahoo.com,
+      url: 'https://yahoo.com',
       name: 'Yahoo',
       isSelected: false
     }]
