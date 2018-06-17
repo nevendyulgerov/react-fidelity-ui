@@ -1,4 +1,3 @@
-import moment from 'moment';
 import { extend, shape } from '../../../utils/ammo';
 
 
@@ -8,11 +7,12 @@ import { extend, shape } from '../../../utils/ammo';
  * @param targetKey
  * @returns {*}
  */
-const groupItemsByDate = (items, targetKey) => {
+export const groupItemsByDate = (items, targetKey) => {
   // group items by date
   const groupedItems = items.reduce((accumulator, item, index) => {
     const nextItem = extend({}, item);
-    const nextItemDate = moment(nextItem[targetKey]);
+    const nextItemDate = new Date(nextItem[targetKey]);
+    const nextItemDateObj = getDateYMD(nextItemDate);
     const alreadyAddedItems = shape(accumulator).reduceTo('items').fetch();
     const isAlreadyAdded = alreadyAddedItems.filter(item => item.id === nextItem.id).length > 0;
 
@@ -21,8 +21,9 @@ const groupItemsByDate = (items, targetKey) => {
     }
 
     const itemsMatchingByDay = items.filter(filterItem => {
-      const filterItemDate = moment(filterItem[targetKey]);
-      return filterItemDate.isSame(nextItemDate, 'day');
+      const filterItemDate = new Date(filterItem[targetKey]);
+      const filterItemDateObj = getDateYMD(filterItemDate);
+      return isSameDate(nextItemDateObj, filterItemDateObj);
     });
 
     const groupedItems = {
@@ -44,4 +45,37 @@ const groupItemsByDate = (items, targetKey) => {
   }, []);
 };
 
-export default groupItemsByDate;
+/**
+ * @description Get difference in days
+ * @param dateA
+ * @param dateB
+ * @returns {number}
+ */
+export const getDifferenceInDays = (dateA, dateB) => {
+  const millisecondsInDay = 1000 * 60 * 60 * 24;
+  const dateObjA = getDateYMD(dateA);
+  const dateObjB = getDateYMD(dateB);
+  const utcDateA = Date.UTC(dateObjA.year, dateObjA.month, dateObjA.day);
+  const utcDateB = Date.UTC(dateObjB.year, dateObjB.month, dateObjB.day);
+
+  return Math.floor((utcDateB - utcDateA) / millisecondsInDay);
+};
+
+/**
+ * @description Get date year - month - day
+ * @param date
+ * @returns {{year: number, month: number, day: number}}
+ */
+const getDateYMD = date => ({
+  year: date.getFullYear(),
+  month: date.getMonth(),
+  day: date.getDate()
+});
+
+/**
+ * @description Is same date
+ * @param dateA
+ * @param dateB
+ * @returns {boolean}
+ */
+const isSameDate = (dateA, dateB) => dateA.year === dateB.year && dateA.month === dateB.month && dateA.day === dateB.day;

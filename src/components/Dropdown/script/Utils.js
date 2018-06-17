@@ -1,5 +1,4 @@
 import { extend } from '../../../utils/ammo';
-import $ from 'jquery';
 
 
 /**
@@ -47,14 +46,13 @@ export const filterItemsByName = (items, filterText) => items.filter(item => ite
 
 /**
  * @description Sync dropdown menu offset
- * @param $component
+ * @param component
  * @param stepOffset
  */
-export const syncDropdownMenuOffset = ($component, stepOffset = 36) => {
-  const $toggleMenu = $component.find('.trigger.toggle-menu');
-  const $menu = $component.find('.menu');
-  const toggleMenuHeight = $toggleMenu.height();
-  $menu.css({
-    top: `${toggleMenuHeight + stepOffset}px`
-  });
+export const syncDropdownMenuOffset = (component, stepOffset = 9) => {
+  const toggleMenu = component.querySelector('.trigger.toggle-menu');
+  const menu = component.querySelector('.menu');
+  const toggleMenuHeight = toggleMenu.offsetHeight;
+
+  menu.style.top = `${toggleMenuHeight + stepOffset}px`;
 };
