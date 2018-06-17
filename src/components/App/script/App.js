@@ -73,7 +73,7 @@ class App extends Component {
 
   /**
    * @description Get node
-   * @returns {*|jQuery}
+   * @returns {*}
    */
   getNode = () => {
     const app = select('[data-component="fidelity-ui-test-app"]').get();
