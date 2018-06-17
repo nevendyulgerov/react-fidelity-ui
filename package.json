@@ -61,6 +61,7 @@
     "styles": "gulp styles:watch",
     "dist": "webpack --config webpack-prod.config.js -p"
   },
+  "keywords": ["react-ui", "material-ui", "ui-pack"],
   "author": "Neven Dyulgerov",
   "license": "MIT"
 }
