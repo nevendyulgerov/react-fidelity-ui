@@ -3,11 +3,12 @@ import $ from 'jquery';
 import moment from 'moment';
 import Icon from '../../Icon/';
 import Dropdown from '../../Dropdown/';
-import { extend, shape, sortBy, select, selectAll } from '../../../utils/ammo';
+import groupItemsByDate from './Utils';
+import { extend, shape, sortBy, select, selectAll, isObj } from '../../../utils/ammo';
 
 class Timeline extends Component {
   state = {
-    groupedItems: [],
+    groupedItems: groupItemsByDate(this.props.items, this.props.targetKey),
     sortingOptions: [{
       id: 'asc',
       name: 'Ascending order',
@@ -20,42 +21,11 @@ class Timeline extends Component {
   };
 
   componentWillReceiveProps({ items, targetKey }) {
-    const groupedItemsByDate = this.groupItemsByDate(items, targetKey);
+    const groupedItemsByDate = groupItemsByDate(items, targetKey);
     this.setState({ groupedItems: groupedItemsByDate });
   }
 
   refComponent;
-
-  /**
-   * @description Group items by date
-   * @param items
-   * @param targetKey
-   * @returns {*}
-   */
-  groupItemsByDate = (items, targetKey) => items.reduce((accumulator, item, index) => {
-    const nextItem = extend({}, item);
-    const nextItemDate = moment(nextItem[targetKey]);
-    const alreadyAddedItems = shape(accumulator).reduceTo('items').fetch();
-    const isAlreadyAdded = alreadyAddedItems.filter(item => item.id === nextItem.id).length > 0;
-
-    if (isAlreadyAdded) {
-      return accumulator;
-    }
-
-    const itemsMatchingByDay = items.filter(filterItem => {
-      const filterItemDate = moment(filterItem[targetKey]);
-      return filterItemDate.isSame(nextItemDate, 'day');
-    });
-
-    const groupedItems = {
-      id: index,
-      date: nextItemDate.toString(),
-      items: itemsMatchingByDay
-    };
-
-    accumulator.push(groupedItems);
-    return accumulator;
-  }, []);
 
   /**
    * @description Toggle timeline item
@@ -194,7 +164,7 @@ class Timeline extends Component {
             {groupedItems.map(({ id, items }, index) => (
               <li
                 key={id}
-                className={`timeline-item collapsed ${index < length - 1 || length === 2
+                className={`timeline-item collapsed ${(index < length - 1 || length === 2) && isObj(groupedItems[index + 1])
                   ? `time-spacing-${this.getTimeSpacing(
                     items[0][targetKey],
                     groupedItems[index + 1].items[0][targetKey],
@@ -211,7 +181,7 @@ class Timeline extends Component {
 
                 <div className="count-panel">
                   <span className="text">
-                      {`${items.length} ${items.length === 1 ? 'item' : 'items'}`}
+                    {`${items.length} ${items.length === 1 ? 'item' : 'items'}`}
                   </span>
                 </div>
 
@@ -222,8 +192,8 @@ class Timeline extends Component {
                 >
                   {items.length > 1 ? (
                     <span>
-                      <Icon name="add" className="icon-expand"/>
-                      <Icon name="remove" className="icon-collapse"/>
+                      <Icon name="add" className="icon-expand" />
+                      <Icon name="remove" className="icon-collapse" />
                     </span>
                   ) : (
                     <span className="icon dot">•</span>
