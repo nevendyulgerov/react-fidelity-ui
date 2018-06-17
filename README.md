@@ -28,21 +28,26 @@ Run `npm install --save react-fidelity-ui`
 ## Components
 
 #### Breadcrumbs
-Breadcrumbs component. This component works with array of objects with schema:
+Breadcrumbs component. This component offers a number of UI configurations via its options.
 
-##### Object schema:
+##### Example
 
 ```javascript
-[{
-  url: 'https://google.com', // string
-  name: 'Google', // string
-  isSelected: true // boolean
-}, {
-  url: 'https://yahoo.com',
-  name: 'Yahoo',
-  isSelected: false
-}]
+import React, { Component } from 'react';
+import { Breadcrumbs } from 'react-fidelity-ui';
+
+const BreadcrumbsComponent = () => (
+  <Breadcrumbs
+    isToggleableOnMobile={true} // boolean, default = true, optional
+    isStackedOnMobile={false} // boolean, default = true, optional
+    items={[{ url: '', name: '', isSelected: false }]} // array of objects, required
+    onChange={({ url, name, isSelected, event }) => {}} // function, optional
+  />
+);
 ```
+
+#### Dropdown
+Multi-purpose dropdown component. This component supports single/multi select, items filtering, adding new items, integration for tagging. This component can also take advantage of several helper methods from the `utils` space.
 
 ##### Example
 
@@ -52,64 +57,18 @@ import { Dropdown, utils } from 'react-fidelity-ui';
 
 const { changeMultiSelect } = utils;
 
-class App extends Component {
-  state = {
-    items: [{
-      url: 'https://google.com', // string
-      name: 'Google', // string
-      isSelected: true // boolean
-    }, {
-      url: 'https://yahoo.com',
-      name: 'Yahoo',
-      isSelected: false
-    }]
-  };
-  render() {
-    const { items } = this.state;
-    return (
-      <div className="app">
-        <Breadcrumbs
-          isToggleableOnMobile={true}
-          isStackedOnMobile={false}
-          items={createItems(5)}
-          onChange={({ url, event }) => {
-            event.preventDefault();
-            console.log(url);
-          }}
-        />
-      </div>
-    );
-  }
-}
-```
-
-##### Defaults
-
-```javascript
-import React, { Component } from 'react';
-import { Breadcrumbs } from 'react-fidelity-ui';
-
-const BreadcrumbsComponent = ({ title, text, items }) => (
-  <Breadcrumbs
-    isToggleableOnMobile={true} // boolean, default = true
-    isStackedOnMobile={false} // boolean, default = true
-    items={createItems(5)} // array of objects
-    onChange={({ url, name, isSelected, event }) => {}} // function
+const DropdownComponent = ({ items, onChangeItems }) => (
+  <Dropdown
+    title="Dropdown" // string, default = hidden, optional
+    text="Text" // string, default = hidden, optional
+    triggerText="Trigger text" // string, default = '', optional
+    items={[{ url: '', name: '', isSelected: false }]} // array of objects, required
+    onChange={(selectedId, isSelected) => {
+      const nextItems = changeMultiSelect(items, selectedId, isSelected);
+      onChangeItems({ items: nextItems });
+    }}
   />
 );
-```
-
-#### Dropdown
-Multi-purpose dropdown component. This component supports single/multi select, items filtering, adding new items. This component works with array of objects with schema:
-
-```javascript
-[{
-  name: 'Item A', // string
-  isSelected: true // boolean
-}, {
-  name: 'Item B',
-  isSelected: false
-}]
 ```
 
 #### Timeline
