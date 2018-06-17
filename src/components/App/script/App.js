@@ -1,12 +1,10 @@
 import React, { Component } from 'react';
 import moment from 'moment';
-import $ from 'jquery';
 import Checkbox from '../../Checkbox/';
 import Timeline from '../../Timeline/';
 import Panel from '../../Panel/';
 import Tag from '../../Tag/';
 import Notification from '../../Notification/';
-import Radio from '../../Radio/';
 import Breadcrumbs from '../../Breadcrumbs/';
 import Dropdown, {
   changeSingleSelect,
@@ -15,7 +13,7 @@ import Dropdown, {
   filterItemsByName,
   syncDropdownMenuOffset
 } from '../../Dropdown/';
-import { randomInclusive } from '../../../utils/ammo';
+import { randomInclusive, select } from '../../../utils/ammo';
 
 const defaultThumbnail = 'https://wallpaperbits.com/wp-content/uploads/2018/01/google-nexus-5-wallpaper-154171-nature-landscape-mountain-nexus-5.jpg';
 
@@ -27,7 +25,7 @@ const createItems = (count = 10) => {
     items.push({
       id: i,
       name: `Item ${i}`,
-      url: '#',
+      url: 'https://google.com',
       isSelected: i === 0,
       thumbnail: defaultThumbnail,
       note: 'some note',
@@ -45,8 +43,7 @@ class App extends Component {
   state = {
     items: defaultItems,
     initialItems: defaultItems,
-    isChecked: false,
-    isRadioChecked: false
+    isChecked: false
   };
 
   /**
@@ -68,8 +65,8 @@ class App extends Component {
     const { items } = this.state;
     const nextItems = changeMultiSelect(items, selectedId, isSelected);
     this.setState({ items: nextItems }, () => {
-      const $component = this.getNode();
-      syncDropdownMenuOffset($component);
+      const component = this.getNode();
+      syncDropdownMenuOffset(component);
       this.setState({ initialItems: nextItems });
     });
   };
@@ -78,23 +75,30 @@ class App extends Component {
    * @description Get node
    * @returns {*|jQuery}
    */
-  getNode = () => $('[data-component="fidelity-ui-test-app"]').find('[data-component="dropdown"]');
+  getNode = () => {
+    const app = select('[data-component="fidelity-ui-test-app"]').get();
+    return select('[data-component="dropdown"]', app).get();
+  };
 
   render() {
-    const { items, initialItems, isChecked, isRadioChecked } = this.state;
+    const { items, initialItems, isChecked } = this.state;
 
     return (
       <div data-component="fidelity-ui-test-app">
         <div className="breadcrumbs">
           <Breadcrumbs
+            isToggleableOnMobile={true}
+            isStackedOnMobile={false}
             items={createItems(5)}
+            onChange={({ url, event }) => {
+              event.preventDefault();
+              console.log(url);
+            }}
           />
         </div>
 
         <div className="notification">
-          <Notification
-            text="Info"
-          />
+          <Notification text="info" />
         </div>
 
         <div className="dropdown">
@@ -119,8 +123,8 @@ class App extends Component {
                     onRemove={() => {
                       const nextItems = deselectItem(items, id);
                       this.setState({ items: nextItems }, () => {
-                        const $component = this.getNode();
-                        syncDropdownMenuOffset($component);
+                        const component = this.getNode();
+                        syncDropdownMenuOffset(component);
                       });
                     }}
                   />
@@ -140,30 +144,10 @@ class App extends Component {
           />
         </div>
 
-        <div className="radio">
-          <Radio
-            id="test-zzz"
-            name="collection"
-            isChecked={isRadioChecked}
-            labelText="Tick to activate"
-            labelTitle="Tick to activate title"
-            onChange={() => this.setState(({ isRadioChecked }) => ({ isRadioChecked: !isRadioChecked }))}
-          />
-          <Radio
-            id="test-xyz"
-            name="collection"
-            isChecked={isRadioChecked}
-            labelText="Tick to activate"
-            labelTitle="Tick to activate title"
-            onChange={() => this.setState(({ isRadioChecked }) => ({ isRadioChecked: !isRadioChecked }))}
-          />
-        </div>
-
         <div className="timeline">
           <Timeline
             title="Timeline"
             targetKey="created_at"
-            theme="horizontal"
             items={items}
             displayItem={({ name, created_at, thumbnail, note }) => (
               <Panel
@@ -172,7 +156,7 @@ class App extends Component {
                   name,
                   thumbnail,
                   note,
-                  date: moment(created_at).format('MMM, DD. YYYY') }}
+                  date: moment(created_at).format('HH:mm') }}
               />
             )}
           />
