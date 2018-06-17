@@ -1,5 +1,5 @@
 import Dropdown from './script/Dropdown';
-import { changeSingleSelect, changeMultiSelect } from './script/Utils';
+import { changeSingleSelect, changeMultiSelect, deselectItem, filterItemsByName, syncDropdownMenuOffset } from './script/Utils';
 
-export { changeSingleSelect, changeMultiSelect };
+export { changeSingleSelect, changeMultiSelect, deselectItem, filterItemsByName, syncDropdownMenuOffset };
 export default Dropdown;

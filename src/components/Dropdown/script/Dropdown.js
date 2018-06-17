@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
 import uid from 'uid';
-import Icon from '../../Icon/';
-import Checkbox from '../../Checkbox/';
-import PropTypes from 'prop-types';
-import { isFunc } from '../../../utils/ammo';
 import $ from 'jquery';
+import Icon from '../../Icon/';
+import Loader from '../../Loader/';
+import Checkbox from '../../Checkbox/';
+import { isFunc } from '../../../utils/ammo';
 
 class Dropdown extends Component {
   state = {
@@ -20,10 +20,6 @@ class Dropdown extends Component {
       menuId: uid()
     });
     this.attachClickMonitor();
-  }
-
-  componentWillReceiveProps({ filterText }) {
-    this.setState({ filterText });
   }
 
   componentWillUnmount() {
@@ -53,7 +49,7 @@ class Dropdown extends Component {
     const isMenuHovered = $(`#${menuId}`).is(':hover');
 
     if (!isMenuHovered && !isMenuTriggerHovered && isMenuOpened) {
-      this.setState({ isMenuOpened: false })
+      this.setState({ isMenuOpened: false });
     }
   };
 
@@ -78,9 +74,18 @@ class Dropdown extends Component {
     });
   }
 
+  /**
+   * @description On filter
+   * @param filterText
+   */
   onFilter = filterText => {
     const { onFilter } = this.props;
-    this.setState({ filterText }, () => onFilter(filterText));
+    this.setState({ filterText }, () => {
+      if (!isFunc(onFilter)) {
+        return false;
+      }
+      onFilter(filterText);
+    });
   };
 
   render() {
@@ -96,7 +101,7 @@ class Dropdown extends Component {
       isFilterable = false,
       isLoading = false,
       isAddable = false,
-      onUpdateItems,
+      onDisplaySelectedItems,
       onChange = () => {},
       onAddItem = () => {}
     } = this.props;
@@ -111,9 +116,9 @@ class Dropdown extends Component {
           className={`trigger toggle-menu ${isMenuOpened ? 'active' : ''}`}
           onClick={() => this.toggleMenu()}
         >
-          {isFunc(onUpdateItems) ? (
+          {isFunc(onDisplaySelectedItems) ? (
             <div className="text">
-              {onUpdateItems(selectedItems)}
+              {onDisplaySelectedItems(selectedItems)}
             </div>
           ) : (
             <span className="text">
@@ -124,11 +129,8 @@ class Dropdown extends Component {
           )}
 
           <div className="icon-box">
-            <div className={`loader-box ${isLoading ? 'active' : ''}`}>
-              <div className="loader">{/* Loader */}</div>
-            </div>
-
-            <Icon name={`select`} className={`${!isLoading ? 'active' : ''}`}/>
+            <Loader isLoading={isLoading} />
+            <Icon name="select" className={`${!isLoading ? 'active' : ''}`} />
           </div>
         </div>
 
@@ -153,22 +155,28 @@ class Dropdown extends Component {
             {isFilterable && (
               <div className="filter">
                 <input
+                  type="text"
                   value={filterText}
                   className={`${isAddable ? 'addable' : ''}`}
                   placeholder={filterPlaceholder}
-                  onKeyPress={event => {
-                    if (event.key === 'Enter') {
+                  onKeyPress={({ key }) => {
+                    if (key === 'Enter') {
                       onAddItem(filterText);
                     }
                   }}
-                  onChange={({ target }) => this.onFilter(target.value)}
+                  onChange={({ target }) => {
+                    const nextFilterText = target.value;
+                    this.onFilter(nextFilterText);
+                  }}
                 />
                 <button
                   className={`trigger add-item ${isAddable ? 'active' : ''}`}
                   title={addItemTitle}
                   onClick={() => onAddItem(filterText)}
                 >
-                  <span className="text">{'Add'}</span>
+                  <span className="text">
+                    {addItemTitle}
+                  </span>
                 </button>
               </div>
             )}
@@ -200,15 +208,5 @@ class Dropdown extends Component {
     );
   }
 }
-
-Dropdown.propTypes = {
-  title: PropTypes.string.isRequired,
-  text: PropTypes.string,
-  items: PropTypes.arrayOf(PropTypes.shape({
-    id: PropTypes.any.isRequired,
-    isSelected: PropTypes.bool.isRequired
-  })),
-  onChange: PropTypes.func
-};
 
 export default Dropdown;
