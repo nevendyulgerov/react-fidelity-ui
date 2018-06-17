@@ -1,0 +1,115 @@
+
+/**
+ * Component: Notification
+ */
+
+[data-component="notification"] {
+  position: relative;
+  padding: 12px;
+  margin: 12px 0;
+  background-color: $soft-red;
+  color: $white;
+  border-radius: 4px;
+  box-shadow: $shadow-depth-0;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  cursor: default;
+  overflow: hidden;
+
+  &.wrapped {
+    margin: 0;
+  }
+
+  .text {
+    margin: 0 0 0 8px;
+    pointer-events: none;
+  }
+
+  &:hover {
+    .trigger.remove-notification {
+      opacity: 1;
+      pointer-events: all;
+      transition: all 0.15s ease-in-out;
+    }
+  }
+
+  .trigger.remove-notification {
+    opacity: 0;
+    pointer-events: none;
+    position: absolute;
+    top: 0;
+    right: 0;
+    padding: 16px 12px;
+    border: none;
+    background-color: transparent;
+    cursor: pointer;
+    transition: all 0.15s ease-in-out;
+
+    * {
+      pointer-events: none;
+    }
+
+    [data-component="icon"] {
+      .icon {
+        fill: $dark-grey;
+        width: 26px;
+        height: 26px;
+        transform: rotate(45deg);
+      }
+    }
+  }
+
+  [data-component="icon"] {
+    .icon {
+      fill: $white;
+      width: 32px;
+      height: 32px;
+    }
+  }
+
+  &[data-notification="info"] {
+    background-color: $light-blue;
+    color: $dark-grey;
+
+    [data-component="icon"] {
+      .icon {
+        fill: $dark-grey;
+      }
+    }
+  }
+
+  &[data-notification="success"] {
+    background-color: $soft-green;
+    color: $dark-grey;
+
+    [data-component="icon"] {
+      .icon {
+        fill: $dark-grey;
+      }
+    }
+  }
+
+  &[data-notification="warning"] {
+    background-color: $soft-yellow;
+    color: $dark-grey;
+
+    [data-component="icon"] {
+      .icon {
+        fill: $dark-grey;
+      }
+    }
+  }
+
+  &[data-notification="error"] {
+    background-color: $soft-red;
+
+    .trigger.remove-notification {
+      [data-component="icon"] {
+        .icon {
+          fill: $white;
+        }
+      }
+    }
+  }
+}
