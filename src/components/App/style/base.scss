@@ -1,0 +1,28 @@
+
+/**
+ * Base styles
+ */
+
+.fidelity-ui-link {
+  text-decoration: none;
+  transition: all 0.15s ease-in-out;
+
+  &:hover {
+    color: $light-red;
+    transition: all 0.15s ease-in-out;
+  }
+}
+
+.fidelity-ui-trigger {
+  border: none;
+  background-color: $light-grey;
+  color: $white;
+  padding: 8px 24px;
+  box-shadow: $shadow-depth-0;
+  transition: all 0.15s ease-in-out;
+
+  &:hover {
+    box-shadow: $shadow-depth-1;
+    transition: all 0.15s ease-in-out;
+  }
+}
