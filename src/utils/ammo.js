@@ -1,13 +1,3 @@
-
-/**
- * Utils: Ammo
- * Version: 1.4.1
- * Standard: ECMAScript 2015
- * Author: Neven Dyulgerov
- *
- * Description: Provides general purpose utility belt for building front-end applications
- */
-
 /**
  * @description Check if value is of type 'object'
  * @param val
@@ -86,7 +76,8 @@ export const hasMethod = (obj, method) => hasProp(obj, method) && isFunc(obj[met
  * @param key
  * @returns {boolean}
  */
-export const hasKey = (obj, key) => getKeys(obj).indexOf(key) > -1;
+export const hasKey = (obj, key) => getKeys(obj)
+  .indexOf(key) > -1;
 
 /**
  * @description Get object keys
@@ -101,7 +92,8 @@ export const getKeys = obj => Object.keys(obj);
  * @param callback
  */
 export const eachKey = (obj, callback) => {
-  Object.keys(obj).forEach((key, index) => callback(key, obj[key], index));
+  Object.keys(obj)
+    .forEach((key, index) => callback(key, obj[key], index));
 };
 
 /**
@@ -136,7 +128,7 @@ export const extend = (baseObject, ...restObjects) => {
  */
 export const recurIter = (handler, complete, index = 0) => {
   handler(canRecur => {
-    if ( ! canRecur ) {
+    if (!canRecur) {
       return complete();
     }
     recurIter(handler, complete, ++index);
@@ -152,7 +144,7 @@ export const recurIter = (handler, complete, index = 0) => {
 export const poll = (handler, complete, interval) => {
   setTimeout(() => {
     handler((canPoll) => {
-      if ( canPoll ) {
+      if (canPoll) {
         return poll(handler, complete, interval);
       }
       complete();
@@ -164,14 +156,14 @@ export const poll = (handler, complete, interval) => {
  * @description Buffer high-frequency events
  * @returns {function(*=, *=, *=)}
  */
-export const buffer = function({ timeout, id }) {
+export const buffer = function ({ timeout, id }) {
   let timers = {};
 
   return callback => {
-    if ( ! id ) {
+    if (!id) {
       timers[id] = '0';
     }
-    if ( timers[id] ) {
+    if (timers[id]) {
       clearTimeout(timers[id]);
     }
     timers[id] = setTimeout(callback, timeout);
@@ -183,70 +175,73 @@ export const buffer = function({ timeout, id }) {
  * @param key
  * @returns {*}
  */
-export const persistentStore = function(key) {
+export const persistentStore = function (key) {
   let storage;
-  if ( ! isStr(key) ) {
-    return new Error("[Storage] Invalid storage key. Provide a key {string}.");
+  if (!isStr(key)) {
+    return new Error('[Storage] Invalid storage key. Provide a key {string}.');
   }
 
   const storageTemplates = {
     localStorage: {
-      getStorage: function() {
+      getStorage: function () {
         return localStorage;
       },
-      setStorageItem: function(key, value) {
-        this.getStorage().setItem(key, value);
+      setStorageItem: function (key, value) {
+        this.getStorage()
+          .setItem(key, value);
       },
-      getStorageItem: function(key) {
-        return this.getStorage().getItem(key);
+      getStorageItem: function (key) {
+        return this.getStorage()
+          .getItem(key);
       },
-      removeStorageItem: function(key) {
-        this.getStorage().removeItem(key);
+      removeStorageItem: function (key) {
+        this.getStorage()
+          .removeItem(key);
       }
     }
   };
   storage = storageTemplates.localStorage;
 
-  const decodeData = function(data) {
+  const decodeData = function (data) {
     return JSON.parse(data);
   };
-  const encodeData = function(data) {
+  const encodeData = function (data) {
     return JSON.stringify(data);
   };
-  const getData = function(key) {
+  const getData = function (key) {
     return decodeData(storage.getStorageItem(key));
   };
-  const setData = function(key, data) {
+  const setData = function (key, data) {
     storage.setStorageItem(key, encodeData(data));
   };
-  const removeData = function(key) {
+  const removeData = function (key) {
     storage.removeStorageItem(key);
   };
 
   return {
-    getData: function() {
+    getData: function () {
       let data = getData(key);
       return data !== null ? getData(key) : undefined;
     },
-    setData: function(newData) {
+    setData: function (newData) {
       setData(key, newData);
       return this;
     },
-    removeData: function() {
+    removeData: function () {
       removeData(key);
       return this;
     },
-    getItem: function(itemKey) {
+    getItem: function (itemKey) {
       let data = this.getData();
       return data[itemKey];
     },
-    setItem: function(itemKey, itemValue) {
+    setItem: function (itemKey, itemValue) {
       let data = this.getData();
       data[itemKey] = itemValue;
       setData(key, data);
       return this;
     },
-    removeItem: function(itemKey) {
+    removeItem: function (itemKey) {
       let data = this.getData();
       data[itemKey] = undefined;
       setData(key, data);
@@ -259,20 +254,20 @@ export const persistentStore = function(key) {
  * @description Create sequential execution for async functions using recursion
  * @returns {{chain: chain, execute: execute}}
  */
-export const sequence = function() {
+export const sequence = function () {
   const chained = [];
   let value;
   let error;
 
-  const chain = function(func) {
-    if ( chained ) {
+  const chain = function (func) {
+    if (chained) {
       chained.push(func);
     }
     return this;
   };
-  const execute = function(index = 0) {
+  const execute = function (index = 0) {
     let callback;
-    if ( ! chained || index >= chained.length ) {
+    if (!chained || index >= chained.length) {
       return true;
     }
 
@@ -316,7 +311,7 @@ export const setStrongTypedObject = config => {
       const type = config[prop].type;
       const typeChecker = determineTypeChecker(type);
 
-      if ( ! typeChecker(value) ) {
+      if (!typeChecker(value)) {
         throw new Error(`[Ammo.StrongType] Invalid type. Expected type for field {${prop}} is {${type}}`);
       }
 
@@ -481,7 +476,8 @@ export function reactiveAjax(options) {
      * @param handler
      * @returns {filter}
      */
-    filter(handler = (item, index) => {}) {
+    filter(handler = (item, index) => {
+    }) {
       options.callback = (err, res) => {
         getRequestEndTime();
         getRequestDuration();
@@ -537,7 +533,8 @@ export function reactiveAjax(options) {
      * @param complete
      * @param interval
      */
-    watch(handler, complete = options => {}, interval = 100) {
+    watch(handler, complete = options => {
+    }, interval = 100) {
       const watcher = poll({
         interval,
         complete: () => complete({ isRequestFulfilled, isRequestAborted, requestTime })
@@ -551,7 +548,7 @@ export function reactiveAjax(options) {
           request.abort();
           requestTime.end = new Date().getTime();
           resolve(false);
-        })
+        });
       });
       return this;
     },
@@ -563,9 +560,8 @@ export function reactiveAjax(options) {
       request = ajax(modifiedOptions);
       return this;
     },
-  }
+  };
 }
-
 
 
 /**
@@ -616,7 +612,9 @@ export const scrollSpy = () => {
 
   const scrollY = () => window.pageYOffset || docElem.scrollTop;
 
-  const bottomReached = () => $(window).scrollTop() + window.innerHeight === $(document).height();
+  const bottomReached = () => $(window)
+    .scrollTop() + window.innerHeight === $(document)
+    .height();
 
   const handleScroll = () => {
     const scrollVerticalOffset = scrollY();
@@ -671,7 +669,7 @@ export const scrollSpy = () => {
       destroyScrollListener();
       return this;
     }
-  }
+  };
 };
 
 /**
@@ -690,7 +688,8 @@ const contx = (context) => {
  * @param context
  * @returns {Node}
  */
-const getEl = (selector, context) => contx(context).querySelector(selector);
+const getEl = (selector, context) => contx(context)
+  .querySelector(selector);
 
 
 /**
@@ -698,7 +697,8 @@ const getEl = (selector, context) => contx(context).querySelector(selector);
  * @param selector
  * @param context
  */
-const getEls = (selector, context) => contx(context).querySelectorAll(selector);
+const getEls = (selector, context) => contx(context)
+  .querySelectorAll(selector);
 
 /**
  * @description Set style property for given node
@@ -885,6 +885,13 @@ export const selectAll = function (selector, context) {
 };
 
 /**
+ * @description Is hovered
+ * @param el
+ * @returns {boolean}
+ */
+export const isHovered = el => el.parentElement.querySelector(':hover') === el;
+
+/**
  * @description Get random integer between two numbers
  * @param min
  * @param max
@@ -980,8 +987,10 @@ export const sortBy = (items, keysText, propType, direction) => {
         ? new Date(aVal) - new Date(bVal)
         : new Date(bVal) - new Date(aVal);
     } else if (propType === 'combo') {
-      aVal = keysText.map(key => extractNestedProp(a, key)).join(' ');
-      bVal = keysText.map(key => extractNestedProp(b, key)).join(' ');
+      aVal = keysText.map(key => extractNestedProp(a, key))
+        .join(' ');
+      bVal = keysText.map(key => extractNestedProp(b, key))
+        .join(' ');
 
       if (isUndef(aVal) || isNull(aVal)) {
         return direction === 'asc' ? -1 : 1;
@@ -1092,4 +1101,6 @@ export const filterByDuplicate = (items, key, duplicateLength = 2) => items.filt
  * @param text
  * @returns {string}
  */
-export const titlize = text => `${text.charAt(0).toUpperCase()}${text.slice(1).toLowerCase()}`;
+export const titlize = text => `${text.charAt(0)
+  .toUpperCase()}${text.slice(1)
+  .toLowerCase()}`;
