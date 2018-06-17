@@ -31,13 +31,13 @@ const Panel = ({ theme = 'default', item }) => {
             <span className="note">
               {isFunc(note) ? note() : note}
             </span>
-            <time className="date" title="Date">
+            <span className="date" title="Date">
               {' at '}
-              <span className="time">
+              <time className="time">
                 {item.date}
-              </span>
+              </time>
               {'.'}
-            </time>
+            </span>
           </div>
         </div>
       )}
