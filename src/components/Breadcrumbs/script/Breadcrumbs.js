@@ -8,19 +8,28 @@ class Breadcrumbs extends Component {
     isMobileViewOpened: false
   };
 
+  /**
+   * @description Toggle mobile view
+   */
+  toggleMobileView = () => this.setState(({ isMobileViewOpened }) => ({ isMobileViewOpened: !isMobileViewOpened }));
+
   render() {
-    const { items, onChange } = this.props;
+    const { items, isToggleableOnMobile = true, isStackedOnMobile = true, onChange } = this.props;
     const { isMobileViewOpened } = this.state;
+
+    const toggleableOnMobile = isToggleableOnMobile ? 'mobile-toggle' : '';
+    const mobileViewOpened = isMobileViewOpened ? 'mobile-active' : '';
+    const stackedOnMobile = isStackedOnMobile ? 'stacked' : '';
 
     return (
       <div
-        className={`component ${isMobileViewOpened ? 'mobile-active' : ''}`}
+        className={`component ${toggleableOnMobile} ${mobileViewOpened} ${stackedOnMobile}`}
         data-component="breadcrumbs"
       >
         <button
           className="trigger toggle-breadcrumbs"
           title="Breadcrumbs"
-          onClick={() => this.setState(({ isMobileViewOpened }) => ({ isMobileViewOpened: !isMobileViewOpened }))}
+          onClick={this.toggleMobileView}
         >
           <Icon name="next" />
         </button>
@@ -30,19 +39,20 @@ class Breadcrumbs extends Component {
               key={uid()}
               className={`component-item ${isSelected ? 'active' : ''}`}
             >
-              {isFunc(onChange) ? (
-                <button className="trigger activate-breadcrumb">
-                  <span className="text">
-                    {name}
-                  </span>
-                </button>
-              ) : (
-                <a href={url} title={name} target={target}>
-                  <span className="text">
-                    {name}
-                  </span>
-                </a>
-              )}
+              <a
+                href={url}
+                title={name}
+                target={target}
+                onClick={event => {
+                  if (isFunc(onChange)) {
+                    onChange({ url, name, isSelected, event });
+                  }
+                }}
+              >
+                <span className="name">
+                  {name}
+                </span>
+              </a>
             </li>
           ))}
         </ol>
