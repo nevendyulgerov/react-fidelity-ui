@@ -71,20 +71,11 @@ body h1, body h2, body h3, body h4, body h5, body h6, body p {
     justify-content: flex-start;
     align-items: center;
     flex-wrap: wrap; }
-    @media (max-width: 992px) {
-      [data-component="breadcrumbs"] .component-items {
-        flex-direction: column;
-        align-items: flex-start; } }
     [data-component="breadcrumbs"] .component-items .component-item {
       position: relative;
       display: inline-block;
       padding: 10px; }
-      @media (max-width: 992px) {
-        [data-component="breadcrumbs"] .component-items .component-item {
-          display: none;
-          padding: 10px 10px 0 15px;
-          border-left: 1px solid #a3aeb7; } }
-      [data-component="breadcrumbs"] .component-items .component-item.active .text {
+      [data-component="breadcrumbs"] .component-items .component-item.active .name {
         font-weight: 600;
         color: #ff7675; }
       @media (max-width: 992px) {
@@ -92,36 +83,17 @@ body h1, body h2, body h3, body h4, body h5, body h6, body p {
           background-color: #ff7675; } }
       [data-component="breadcrumbs"] .component-items .component-item:first-child {
         padding: 10px 10px 10px 0; }
-        @media (max-width: 992px) {
-          [data-component="breadcrumbs"] .component-items .component-item:first-child {
-            padding: 10px 10px 0 15px; } }
-        @media (max-width: 992px) {
-          [data-component="breadcrumbs"] .component-items .component-item:first-child:before {
-            top: 16px; } }
-        @media (max-width: 992px) {
-          [data-component="breadcrumbs"] .component-items .component-item:first-child:after {
-            top: 12px; } }
-      @media (max-width: 992px) {
-        [data-component="breadcrumbs"] .component-items .component-item:last-child {
-          padding: 10px 10px 10px 15px; } }
       [data-component="breadcrumbs"] .component-items .component-item:last-child:after {
         display: none; }
-        @media (max-width: 992px) {
-          [data-component="breadcrumbs"] .component-items .component-item:last-child:after {
-            display: block;
-            top: 13px; } }
-      @media (max-width: 992px) {
-        [data-component="breadcrumbs"] .component-items .component-item:last-child:before {
-          top: 17px; } }
-      [data-component="breadcrumbs"] .component-items .component-item:hover .text {
+      [data-component="breadcrumbs"] .component-items .component-item:hover .name {
         color: #ff7675;
         transition: all 0.15s ease-in-out; }
-      [data-component="breadcrumbs"] .component-items .component-item .text {
+      [data-component="breadcrumbs"] .component-items .component-item .name {
         font-size: 14px;
         color: #000;
         transition: all 0.15s ease-in-out; }
         @media (max-width: 992px) {
-          [data-component="breadcrumbs"] .component-items .component-item .text {
+          [data-component="breadcrumbs"] .component-items .component-item .name {
             font-size: 13px; } }
       [data-component="breadcrumbs"] .component-items .component-item:after {
         content: '';
@@ -132,28 +104,69 @@ body h1, body h2, body h3, body h4, body h5, body h6, body p {
         width: 1px;
         background-color: #67696a;
         transform: rotate(15deg); }
-        @media (max-width: 992px) {
-          [data-component="breadcrumbs"] .component-items .component-item:after {
-            top: 13px;
-            left: -8px;
-            width: 16px;
-            height: 16px;
-            border-radius: 50%;
-            background-color: #fff;
-            transform: rotate(15deg);
-            z-index: 10; } }
-      @media (max-width: 992px) {
-        [data-component="breadcrumbs"] .component-items .component-item:before {
-          content: '';
-          position: absolute;
-          top: 17px;
-          left: -4px;
-          width: 8px;
-          height: 8px;
-          border-radius: 50%;
-          background-color: #000;
-          transform: rotate(15deg);
-          z-index: 20; } }
+  @media (max-width: 992px) {
+    [data-component="breadcrumbs"].mobile-toggle .component-items .component-item {
+      display: none; } }
+  @media (max-width: 992px) {
+    [data-component="breadcrumbs"].mobile-toggle .trigger.toggle-breadcrumbs {
+      display: block; } }
+  @media (max-width: 992px) {
+    [data-component="breadcrumbs"].stacked.mobile-toggle .component-items .component-item {
+      display: none; } }
+  @media (max-width: 992px) {
+    [data-component="breadcrumbs"].stacked .component-items {
+      flex-direction: column;
+      align-items: flex-start; } }
+  [data-component="breadcrumbs"].stacked .component-items .component-item {
+    display: block; }
+    @media (max-width: 992px) {
+      [data-component="breadcrumbs"].stacked .component-items .component-item {
+        padding: 10px 10px 0 15px;
+        border-left: 1px solid #a3aeb7; } }
+    @media (max-width: 992px) {
+      [data-component="breadcrumbs"].stacked .component-items .component-item:after {
+        top: 13px;
+        left: -8px;
+        width: 16px;
+        height: 16px;
+        border-radius: 50%;
+        background-color: #fff;
+        transform: rotate(15deg);
+        z-index: 10; } }
+    @media (max-width: 992px) {
+      [data-component="breadcrumbs"].stacked .component-items .component-item:before {
+        content: '';
+        position: absolute;
+        top: 17px;
+        left: -4px;
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        background-color: #000;
+        transform: rotate(15deg);
+        z-index: 20; } }
+    @media (max-width: 992px) {
+      [data-component="breadcrumbs"].stacked .component-items .component-item.active:before {
+        background-color: #ff7675; } }
+    @media (max-width: 992px) {
+      [data-component="breadcrumbs"].stacked .component-items .component-item:first-child {
+        padding: 10px 10px 0 15px; } }
+    @media (max-width: 992px) {
+      [data-component="breadcrumbs"].stacked .component-items .component-item:first-child:before {
+        top: 16px; } }
+    @media (max-width: 992px) {
+      [data-component="breadcrumbs"].stacked .component-items .component-item:first-child:after {
+        top: 12px; } }
+    @media (max-width: 992px) {
+      [data-component="breadcrumbs"].stacked .component-items .component-item:last-child {
+        padding: 10px 10px 10px 15px; } }
+    @media (max-width: 992px) {
+      [data-component="breadcrumbs"].stacked .component-items .component-item:last-child:after {
+        display: block;
+        top: 13px; } }
+    @media (max-width: 992px) {
+      [data-component="breadcrumbs"].stacked .component-items .component-item:last-child:before {
+        top: 17px; } }
   @media (max-width: 992px) {
     [data-component="breadcrumbs"].mobile-active .component-items {
       z-index: 999;
@@ -167,7 +180,7 @@ body h1, body h2, body h3, body h4, body h5, body h6, body p {
       padding: 0 0 0 15px;
       box-shadow: 0 1px 1px 0 rgba(0, 0, 0, 0.16), 0 1px 1px 0 rgba(239, 239, 239, 0.12); }
       [data-component="breadcrumbs"].mobile-active .component-items .component-item {
-        display: block; } }
+        display: block !important; } }
   @media (max-width: 480px) {
     [data-component="breadcrumbs"].mobile-active .component-items {
       top: 33px; } }
@@ -180,9 +193,6 @@ body h1, body h2, body h3, body h4, body h5, body h6, body p {
   [data-component="breadcrumbs"] .trigger.toggle-breadcrumbs {
     display: none;
     background-color: #a3aeb7; }
-    @media (max-width: 992px) {
-      [data-component="breadcrumbs"] .trigger.toggle-breadcrumbs {
-        display: block; } }
     @media (max-width: 480px) {
       [data-component="breadcrumbs"] .trigger.toggle-breadcrumbs {
         border-radius: 0;
@@ -444,9 +454,6 @@ body h1, body h2, body h3, body h4, body h5, body h6, body p {
       top: 4px; }
 
 /**
- * Styles for component Grid
- */
-/**
  * Component: Icon
  */
 [data-component="icon"] {
@@ -512,28 +519,6 @@ body h1, body h2, body h3, body h4, body h5, body h6, body p {
   [data-component="notification"] .text {
     margin: 0 0 0 8px;
     pointer-events: none; }
-  [data-component="notification"]:hover .trigger.remove-notification {
-    opacity: 1;
-    pointer-events: all;
-    transition: all 0.15s ease-in-out; }
-  [data-component="notification"] .trigger.remove-notification {
-    opacity: 0;
-    pointer-events: none;
-    position: absolute;
-    top: 0;
-    right: 0;
-    padding: 16px 12px;
-    border: none;
-    background-color: transparent;
-    cursor: pointer;
-    transition: all 0.15s ease-in-out; }
-    [data-component="notification"] .trigger.remove-notification * {
-      pointer-events: none; }
-    [data-component="notification"] .trigger.remove-notification [data-component="icon"] .icon {
-      fill: #444;
-      width: 26px;
-      height: 26px;
-      transform: rotate(45deg); }
   [data-component="notification"] [data-component="icon"] .icon {
     fill: #fff;
     width: 32px;
@@ -880,9 +865,12 @@ body h1, body h2, body h3, body h4, body h5, body h6, body p {
           position: relative;
           cursor: pointer; }
           .component[data-component="timeline"] .timeline-items .timeline-item .trigger.toggle-grouped-items.multiple-items .icon-expand {
-            opacity: 1;
+            opacity: 0;
             top: 9px;
             transition: all 0.15s ease-in-out; }
+            .component[data-component="timeline"] .timeline-items .timeline-item .trigger.toggle-grouped-items.multiple-items .icon-expand.active {
+              opacity: 1;
+              transition: all 0.15s ease-in-out; }
           .component[data-component="timeline"] .timeline-items .timeline-item .trigger.toggle-grouped-items.multiple-items .icon-expand,
           .component[data-component="timeline"] .timeline-items .timeline-item .trigger.toggle-grouped-items.multiple-items .icon-collapse {
             position: absolute;
@@ -895,6 +883,9 @@ body h1, body h2, body h3, body h4, body h5, body h6, body p {
             top: 9px;
             transform: rotate(180deg);
             transition: all 0.15s ease-in-out; }
+            .component[data-component="timeline"] .timeline-items .timeline-item .trigger.toggle-grouped-items.multiple-items .icon-collapse.active {
+              opacity: 1;
+              transition: all 0.15s ease-in-out; }
           .component[data-component="timeline"] .timeline-items .timeline-item .trigger.toggle-grouped-items.multiple-items.expanded .icon-expand {
             transform: rotate(180deg);
             transition: all 0.15s ease-in-out; }
