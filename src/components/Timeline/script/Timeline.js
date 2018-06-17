@@ -1,10 +1,8 @@
 import React, { Component } from 'react';
-import $ from 'jquery';
-import moment from 'moment';
 import Icon from '../../Icon/';
 import Dropdown from '../../Dropdown/';
-import groupItemsByDate from './Utils';
-import { extend, shape, sortBy, select, selectAll, isObj } from '../../../utils/ammo';
+import { groupItemsByDate, getDifferenceInDays } from './Utils';
+import { extend, shape, sortBy, selectAll, isObj, isFunc } from '../../../utils/ammo';
 
 class Timeline extends Component {
   state = {
@@ -34,7 +32,6 @@ class Timeline extends Component {
   toggleTimelineItem = ({ target }) => {
     const expandedFlag = 'expanded';
     const collapsedFlag = 'collapsed';
-    const duration = 100;
     const timeline = target.closest('.timeline-item');
     const isExpanded = target.classList.contains(expandedFlag);
     const hasMultipleItems = target.classList.contains('multiple-items');
@@ -43,9 +40,9 @@ class Timeline extends Component {
       return false;
     }
 
-    const $target = $(target);
-    const $iconExpand = $target.find('.icon-expand');
-    const $iconCollapse = $target.find('.icon-collapse');
+    // const $target = $(target);
+    const iconExpand = target.querySelector('.icon-expand');
+    const iconCollapse = target.querySelector('.icon-collapse');
 
     if (!isExpanded) {
       target.classList.add(expandedFlag);
@@ -53,16 +50,16 @@ class Timeline extends Component {
       timeline.classList.add(expandedFlag);
       timeline.classList.remove(collapsedFlag);
       target.setAttribute('title', 'Collapse timeline');
-      $iconExpand.animate({ opacity: 0 }, { duration });
-      $iconCollapse.animate({ opacity: 1 }, { duration });
+      iconExpand.classList.remove('active');
+      iconCollapse.classList.add('active');
     } else {
       target.classList.remove(expandedFlag);
       target.classList.add(collapsedFlag);
       timeline.classList.remove(expandedFlag);
       timeline.classList.add(collapsedFlag);
       target.setAttribute('title', 'Expand timeline');
-      $iconExpand.animate({ opacity: 1 }, { duration });
-      $iconCollapse.animate({ opacity: 0 }, { duration });
+      iconExpand.classList.add('active');
+      iconCollapse.classList.remove('active');
     }
   };
 
@@ -73,9 +70,12 @@ class Timeline extends Component {
    * @param isDesc
    */
   getTimeSpacing = (date, nextDate, isDesc) => {
-    const dateStart = moment(date);
-    const dateEnd = moment(nextDate);
-    const differenceInDays = isDesc ? dateStart.diff(dateEnd, 'days') : dateEnd.diff(dateStart, 'days');
+    const dateStart = new Date(date);
+    const dateEnd = new Date(nextDate);
+    const differenceInDays = isDesc
+      ? getDifferenceInDays(dateEnd, dateStart)
+      : getDifferenceInDays(dateStart, dateEnd);
+
     return differenceInDays <= 30 ? 'small' : (differenceInDays <= 180 ? 'medium' : 'large');
   };
 
@@ -105,12 +105,11 @@ class Timeline extends Component {
    * @description Normalize UI
    */
   normalizeUI = () => {
-    const duration = 100;
     selectAll('.trigger.toggle-grouped-items', this.refComponent).each(trigger => {
-      const $iconExpand = $(select('.icon-expand', trigger).get());
-      const $iconCollapse = $(select('.icon-collapse', trigger).get());
-      $iconExpand.animate({ opacity: 1 }, { duration });
-      $iconCollapse.animate({ opacity: 0 }, { duration });
+      const iconExpand = trigger.querySelector('.icon-expand');
+      const iconCollapse = trigger.querySelector('.icon-collapse');
+      iconExpand.classList.add('active');
+      iconCollapse.classList.remove('active');
       trigger.classList.remove('expanded');
     });
   };
@@ -129,7 +128,7 @@ class Timeline extends Component {
   }, []);
 
   render() {
-    const { title = '', targetKey, theme = '', displayItem = () => {} } = this.props;
+    const { title = '', targetKey, theme = '', displayItem = () => {}, formatDate } = this.props;
     const { groupedItems, sortingOptions } = this.state;
     const { length } = groupedItems;
     const selectedSortingOption = shape(sortingOptions).filterByProp('isSelected', true).fetchIndex(0);
@@ -175,7 +174,11 @@ class Timeline extends Component {
 
                 {items.length > 0 && (
                   <span className="timeline-item-date" title="Timeline date">
-                    {moment(items[0][targetKey]).format('MMM. DD, YYYY')}
+                    {isFunc(formatDate) ? formatDate(items[0][targetKey]) : new Date(items[0][targetKey]).toLocaleString('en-US', {
+                      year: 'numeric',
+                      month: 'short',
+                      day: 'numeric'
+                    })}
                   </span>
                 )}
 
@@ -192,7 +195,7 @@ class Timeline extends Component {
                 >
                   {items.length > 1 ? (
                     <span>
-                      <Icon name="add" className="icon-expand" />
+                      <Icon name="add" className="icon-expand active" />
                       <Icon name="remove" className="icon-collapse" />
                     </span>
                   ) : (
