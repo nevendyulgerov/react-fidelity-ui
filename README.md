@@ -10,7 +10,7 @@
   <a href="https://github.com/nevendyulgerov/react-fidelity-ui">React Fidelity UI</a>
 </h1>
 
-<p>High-fidelity UI pack for <a href="https://reactjs.org/" target="_blank">React</>.</p>
+<p>High-fidelity UI pack for <a href="https://reactjs.org/" target="_blank">React</a>.</p>
 
 
 ## Installation
