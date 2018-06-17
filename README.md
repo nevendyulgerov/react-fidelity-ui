@@ -1,13 +1,13 @@
 <!-- Logo -->
 <p align="center">
-  <a href="https://react.semantic-ui.com">
-    <img height="128" width="128" src="./src/images/logo.png">
+  <a href="https://github.com/nevendyulgerov/react-fidelity-ui">
+    <img height="128" width="128" src="http://lambdabunker.com/public-img/fidelity-ui-logo.png">
   </a>
 </p>
 
 <!-- Name -->
 <h1 align="center">
-  <a href="https://react.semantic-ui.com/">React Fidelity UI</a>
+  <a href="https://github.com/nevendyulgerov/react-fidelity-ui">React Fidelity UI</a>
 </h1>
 <p align="center">High-fidelity UI pack for ReactJS</p>
 
