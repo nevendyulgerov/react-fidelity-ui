@@ -4,22 +4,24 @@ import { extend } from '../../../utils/ammo';
 /**
  * @description Change single select
  * @param items
- * @param selectedId
+ * @param selectedKeyValue
+ * @param key
  */
-export const changeSingleSelect = (items, selectedId) => items.map(item => ({
+export const changeSingleSelect = (items, selectedKeyValue, key = 'id') => items.map(item => ({
   ...item,
-  isSelected: item.id === selectedId
+  isSelected: item[key] === selectedKeyValue
 }));
 
 /**
  * @description Change multi select
  * @param items
- * @param selectedId
+ * @param selectedKeyValue
  * @param isSelected
+ * @param key
  */
-export const changeMultiSelect = (items, selectedId, isSelected) => items.map(item => ({
+export const changeMultiSelect = (items, selectedKeyValue, isSelected, key = 'id') => items.map(item => ({
   ...item,
-  isSelected: (item.id === selectedId && !item.isSelected && isSelected) || (item.id !== selectedId && item.isSelected)
+  isSelected: (item[key] === selectedKeyValue && !item.isSelected && isSelected) || (item[key] !== selectedKeyValue && item.isSelected)
 }));
 
 /**
