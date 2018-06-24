@@ -77,6 +77,7 @@ const createJavaScriptIndexFile = componentName => {
   const componentPath = `./src/components/${componentPascalName}/`;
   const content = `
 import ${componentPascalName} from './script/${componentPascalName}';
+
 export default ${componentPascalName}
 
 `.trim();
@@ -94,7 +95,7 @@ const createStyleFile = componentName => {
   const componentPath = `./src/components/${componentPascalName}/style`;
   const content = `
 /**
- * Styles for component ${componentPascalName}
+ *Component: ${componentPascalName}
  */
 
 [data-component="${componentDashedName}"] {
