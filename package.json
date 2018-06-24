@@ -1,7 +1,7 @@
 {
   "name": "react-fidelity-ui",
   "version": "0.0.7",
-  "description": "High fidelity material UI pack for ReactJS",
+  "description": "High fidelity UI pack for ReactJS",
   "main": "input.js",
   "devDependencies": {
     "babel": "^6.23.0",
