@@ -10,13 +10,13 @@ class Alert extends Component {
   };
 
   componentDidMount() {
-    const { isConfirm, delay = defaultDelay } = this.state;
+    const { isConfirm, delay = defaultDelay } = this.props;
     if (!isConfirm) {
       this.hideAfterDelay(delay);
     }
   }
 
-  componentWillReceiveProps({ isVisible, isConfirm, delay }) {
+  componentWillReceiveProps({ isVisible, isConfirm, delay = defaultDelay }) {
     this.setState({ isAlertVisible: isVisible }, () => {
       if (!isConfirm) {
         this.hideAfterDelay(delay);
@@ -44,6 +44,7 @@ class Alert extends Component {
       closeText = 'Close',
       cancelText = 'Cancel',
       confirmText = 'OK',
+      icon = '',
       isConfirm = false,
       onCancel = () => {},
       onConfirm = () => {}
@@ -59,9 +60,14 @@ class Alert extends Component {
         }}
       >
         <div className="component-header">
-          <span className="title">
-            {title}
-          </span>
+          <div className="title-box">
+            {icon !== '' && (
+              <Icon name={icon} />
+            )}
+            <span className="title">
+              {title}
+            </span>
+          </div>
           <div className="content">
             {content}
           </div>

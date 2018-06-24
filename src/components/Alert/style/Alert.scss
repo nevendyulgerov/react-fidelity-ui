@@ -36,11 +36,9 @@
     color: $white;
 
     .component-header {
-      .trigger.close-alert {
-        [data-component="icon"] {
-          .icon {
-            fill: $white;
-          }
+      [data-component="icon"] {
+        .icon {
+          fill: $white;
         }
       }
     }
@@ -55,22 +53,30 @@
     color: $white;
 
     .component-header {
-      .trigger.close-alert {
-        [data-component="icon"] {
-          .icon {
-            fill: $white;
-          }
+      [data-component="icon"] {
+        .icon {
+          fill: $white;
         }
       }
     }
   }
 
   .component-header {
-    .title {
-      display: block;
-      font-weight: 700;
-      word-break: break-word;
-      cursor: default;
+    .title-box {
+      display: flex;
+      justify-content: flex-start;
+      align-items: center;
+
+      [data-component="icon"] {
+        margin: 0 4px 0 0;
+      }
+
+      .title {
+        display: block;
+        font-weight: 700;
+        word-break: break-word;
+        cursor: default;
+      }
     }
 
     .content {
