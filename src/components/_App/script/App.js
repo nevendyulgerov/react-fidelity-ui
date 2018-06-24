@@ -5,6 +5,8 @@ import Timeline from '../../Timeline/';
 import Panel from '../../Panel/';
 import Tag from '../../Tag/';
 import Notification from '../../Notification/';
+import Icon from '../../Icon/';
+import Loader from '../../Loader';
 import Breadcrumbs from '../../Breadcrumbs/';
 import Dropdown, {
   changeSingleSelect,
@@ -15,18 +17,29 @@ import Dropdown, {
 } from '../../Dropdown/';
 import StackableAlerts from '../../StackableAlerts/';
 import Alert from '../../Alert/';
-import Stat from '../../Stat/';
 import { createItems } from './Utils';
 import { select } from '../../../utils/ammo';
 
-const defaultItems = createItems(30);
+const defaultBreadcrumbs = createItems(5);
+const defaultTags = createItems(40);
+const defaultDropdownItems = createItems(10);
+const defaultTimelineVerticalItems = createItems(5);
+const defaultTimelineHorizontalItems = createItems(30);
 
 class App extends Component {
   state = {
-    items: defaultItems,
-    initialItems: defaultItems,
+    breadcrumbs: defaultBreadcrumbs,
+    tags: defaultTags,
+    dropdownItems: defaultDropdownItems,
+    initialDropdownItems: defaultDropdownItems,
+    timelineVerticalItems: defaultTimelineVerticalItems,
+    timelineHorizontalItems: defaultTimelineHorizontalItems,
+    isLoaderLoading: true,
     isChecked: false,
-    isAlertVisible: true
+    isInfoAlertVisible: false,
+    isSuccessAlertVisible: false,
+    isWarningAlertVisible: false,
+    isErrorAlertVisible: false
   };
 
   /**
@@ -34,9 +47,9 @@ class App extends Component {
    * @param id
    */
   changeSingleSelect = ({ id }) => {
-    const { items } = this.state;
-    const nextItems = changeSingleSelect(items, id);
-    this.setState({ items: nextItems }, () => this.setState({ initialItems: nextItems }));
+    const { dropdownItems } = this.state;
+    const nextDropdownItems = changeSingleSelect(dropdownItems, id);
+    this.setState({ dropdownItems: nextDropdownItems }, () => this.setState({ initialDropdownItems: nextDropdownItems }));
   };
 
   /**
@@ -45,12 +58,12 @@ class App extends Component {
    * @param isSelected
    */
   changeMultiSelect = ({ id }, isSelected) => {
-    const { items } = this.state;
-    const nextItems = changeMultiSelect(items, id, isSelected);
-    this.setState({ items: nextItems }, () => {
+    const { dropdownItems } = this.state;
+    const nextDropdownItems = changeMultiSelect(dropdownItems, id, isSelected);
+    this.setState({ dropdownItems: nextDropdownItems }, () => {
       const component = this.getNode();
       syncDropdownMenuOffset(component);
-      this.setState({ initialItems: nextItems });
+      this.setState({ initialDropdownItems: nextDropdownItems });
     });
   };
 
@@ -64,156 +77,291 @@ class App extends Component {
   };
 
   render() {
-    const { items, initialItems, isChecked, isAlertVisible } = this.state;
+    const {
+      tags,
+      breadcrumbs,
+      dropdownItems,
+      initialDropdownItems,
+      timelineVerticalItems,
+      timelineHorizontalItems,
+      isChecked,
+      isLoaderLoading,
+      isInfoAlertVisible,
+      isSuccessAlertVisible,
+      isWarningAlertVisible,
+      isErrorAlertVisible
+    } = this.state;
 
     return (
       <div data-component="fidelity-ui-test-app">
-        <div className="breadcrumbs">
-          <Breadcrumbs
-            isToggleableOnMobile={true}
-            isStackedOnMobile={false}
-            items={createItems(5)}
-            onChange={({ url, event }) => {
-              event.preventDefault();
-              console.log(url);
-            }}
-          />
-        </div>
 
-        <div className="alert">
+        <div className="demo-box" data-demo="alert">
+          <span className="title">
+            {'Alert'}
+          </span>
+          <div className="actions">
+            <button
+              className="trigger toggle-info-alert"
+              disabled={isInfoAlertVisible}
+              onClick={() => this.setState({
+                isInfoAlertVisible: true
+              })}
+            >
+              {'Info alert'}
+            </button>
+            <button
+              className="trigger toggle-success-alert"
+              disabled={isSuccessAlertVisible}
+              onClick={() => this.setState({
+                isSuccessAlertVisible: true
+              })}
+            >
+              {'Success alert'}
+            </button>
+            <button
+              className="trigger toggle-warning-alert"
+              disabled={isWarningAlertVisible}
+              onClick={() => this.setState({
+                isWarningAlertVisible: true
+              })}
+            >
+              {'Warning alert'}
+            </button>
+            <button
+              className="trigger toggle-error-alert"
+              disabled={isErrorAlertVisible}
+              onClick={() => this.setState({
+                isErrorAlertVisible: true
+              })}
+            >
+              {'Error alert'}
+            </button>
+          </div>
+
           <StackableAlerts>
             <Alert
               type="info"
               title="Alert"
-              content="Lorem ipsum dolor sit amet"
-              isVisible={true}
+              content="Info alert with 'settings' icon"
+              isVisible={isInfoAlertVisible}
               icon="settings"
-              delay={2500}
               onCancel={() => {
-                console.log('on cancel alert!');
-                this.setState({ isAlertVisible: false });
-              }}
-              onConfirm={() => {
-                console.log('on confirm alert');
+                this.setState({ isInfoAlertVisible: false });
               }}
             />
             <Alert
               type="success"
               title="Success"
-              content="Lorem ipsum dolor sit amet"
-              isVisible={true}
-              icon="upvote"
-              delay={3500}
+              content="Default success alert"
+              isVisible={isSuccessAlertVisible}
               onCancel={() => {
-                console.log('on cancel alert!');
-                this.setState({ isAlertVisible: false });
-              }}
-              onConfirm={() => {
-                console.log('on confirm alert');
+                this.setState({ isSuccessAlertVisible: false });
               }}
             />
             <Alert
               type="warning"
               title="Warning"
-              content="Lorem ipsum dolor sit amet"
-              isVisible={true}
-              icon="downvote"
-              delay={4500}
+              content="Default warning alert"
+              isVisible={isWarningAlertVisible}
               onCancel={() => {
-                console.log('on cancel alert!');
-                this.setState({ isAlertVisible: false });
-              }}
-              onConfirm={() => {
-                console.log('on confirm alert');
+                this.setState({ isWarningAlertVisible: false });
               }}
             />
             <Alert
               type="error"
               title="Error"
-              content="Lorem ipsum dolor sit amet"
-              isVisible={true}
-              delay={5500}
+              content="Default error alert"
+              isVisible={isErrorAlertVisible}
               onCancel={() => {
-                console.log('on cancel alert!');
-                this.setState({ isAlertVisible: false });
-              }}
-              onConfirm={() => {
-                console.log('on confirm alert');
+                this.setState({ isErrorAlertVisible: false });
               }}
             />
           </StackableAlerts>
         </div>
 
-        <div className="stat">
-          <Stat
-            icon="stats"
-            count={5}
-          />
+        <div className="demo-box" data-demo="breadcrumbs">
+          <span className="title">
+            {'Breadcrumbs'}
+          </span>
+          <div className="demo">
+            <Breadcrumbs
+              isToggleableOnMobile={true}
+              isStackedOnMobile={false}
+              items={breadcrumbs}
+              onChange={({ url, event }) => {
+                event.preventDefault();
+                console.log(url);
+              }}
+            />
+          </div>
         </div>
 
-        <div className="notification">
-          <Notification text="info" />
+        <div className="demo-box" data-demo="checkbox">
+          <span className="title">
+            {'Checkbox'}
+          </span>
+          <div className="demo">
+            <Checkbox
+              id="test-abc"
+              isChecked={isChecked}
+              labelText="Tick to activate"
+              labelTitle="Tick to activate title"
+              onChange={() => this.setState(({ isChecked }) => ({ isChecked: !isChecked }))}
+            />
+          </div>
         </div>
 
-        <div className="dropdown">
-          <Dropdown
-            title="Dropdown"
-            text="Text"
-            triggerText="Trigger text"
-            addItemTitle="Add"
-            isFilterable={true}
-            items={items}
-            onChange={this.changeMultiSelect}
-            onFilter={filterText => {
-              const nextItems = filterItemsByName(initialItems, filterText);
-              this.setState({ items: nextItems });
-            }}
-            onDisplaySelectedItems={selectedItems => (
-              <div className={`inline-tags ${selectedItems.length > 0 ? 'has-tags' : ''}`}>
-                {selectedItems.length === 0 ? 'Select tags' : selectedItems.map(({ id, name }) => (
-                  <Tag
-                    key={id}
-                    name={name}
-                    onRemove={() => {
-                      const nextItems = deselectItem(items, id);
-                      this.setState({ items: nextItems }, () => {
-                        const component = this.getNode();
-                        syncDropdownMenuOffset(component);
-                      });
-                    }}
-                  />
-                ))}
-              </div>
-            )}
-          />
+        <div className="demo-box" data-demo="dropdown">
+          <span className="title">
+            {'Dropdown'}
+          </span>
+          <div className="demo">
+            <Dropdown
+              title="Dropdown"
+              text="Text"
+              triggerText="Trigger text"
+              addItemTitle="Add"
+              isFilterable={true}
+              items={dropdownItems}
+              onChange={this.changeMultiSelect}
+              onFilter={filterText => {
+                const nextDropdownItems = filterItemsByName(initialDropdownItems, filterText);
+                this.setState({ dropdownItems: nextDropdownItems });
+              }}
+              onDisplaySelectedItems={nextDropdownItems => (
+                <div className={`inline-tags ${nextDropdownItems.length > 0 ? 'has-tags' : ''}`}>
+                  {nextDropdownItems.length === 0 ? 'Select tags' : nextDropdownItems.map(({ id, name }) => (
+                    <Tag
+                      key={id}
+                      name={name}
+                      onRemove={() => {
+                        const nextDropdownItems = deselectItem(dropdownItems, id);
+                        this.setState({ dropdownItems: nextDropdownItems }, () => {
+                          const component = this.getNode();
+                          syncDropdownMenuOffset(component);
+                        });
+                      }}
+                    />
+                  ))}
+                </div>
+              )}
+            />
+          </div>
         </div>
 
-        <div className="checkbox">
-          <Checkbox
-            id="test-abc"
-            isChecked={isChecked}
-            labelText="Tick to activate"
-            labelTitle="Tick to activate title"
-            onChange={() => this.setState(({ isChecked }) => ({ isChecked: !isChecked }))}
-          />
+        <div className="demo-box" data-demo="icon">
+          <span className="title">
+            {'Icon'}
+          </span>
+          <div className="demo">
+            <Icon name="add" title="add" />
+            <Icon name="comment" title="comment" />
+            <Icon name="downvote" title="downvote" />
+            <Icon name="edit" title="edit" />
+            <Icon name="filter" title="filter" />
+            <Icon name="more" title="more" />
+            <Icon name="next" title="next" />
+            <Icon name="notification" title="notification" />
+            <Icon name="previous" title="previous" />
+            <Icon name="remove" title="remove" />
+            <Icon name="search" title="search" />
+            <Icon name="select" title="select" />
+            <Icon name="settings" title="settings" />
+            <Icon name="stats" title="stats" />
+            <Icon name="tick" title="tick" />
+            <Icon name="upvote" title="upvote" />
+          </div>
         </div>
 
-        <div className="timeline">
-          <Timeline
-            title="Timeline"
-            targetKey="created_at"
-            items={items}
-            displayItem={({ name, created_at, thumbnail, note }) => (
-              <Panel
-                theme="card"
-                item={{
-                  name,
-                  thumbnail,
-                  note,
-                  date: moment(created_at).format('HH:mm') }}
+        <div className="demo-box" data-demo="loader">
+          <span className="title">
+            {'Loader'}
+          </span>
+          <div className="demo">
+            <Loader isLoading={isLoaderLoading} />
+          </div>
+        </div>
+
+        <div className="demo-box" data-demo="notification">
+          <span className="title">
+            {'Notification'}
+          </span>
+          <div className="demo">
+            <Notification type="info" text="Info" />
+            <Notification type="success" text="Success" icon="upvote" />
+            <Notification type="warning" text="Warning" icon="edit" />
+            <Notification type="error" text="Error" icon="more" />
+          </div>
+        </div>
+
+        <div className="demo-box" data-demo="stat">
+          <span className="title">
+            {'Panel'}
+          </span>
+          <div className="demo">
+            <Panel theme="stat" item={{ icon: 'stats', count: 2 }} />
+            <Panel theme="stat" item={{ icon: 'edit', count: 3 }} />
+            <Panel theme="stat" item={{ icon: 'comment', count: 10 }} />
+            <Panel theme="stat" item={{ icon: 'upvote', count: 4 }} />
+          </div>
+        </div>
+
+        <div className="demo-box" data-demo="tag">
+          <span className="title">
+            {'Tag'}
+          </span>
+          <div className="demo">
+            {tags.map(tag => (
+              <Tag
+                key={tag.id}
+                name={tag.name}
+                onRemove={() => {
+                  const nextTags = tags.filter(nextTag => nextTag.id !== tag.id);
+                  this.setState({ tags: nextTags });
+                }}
               />
-            )}
-          />
+            ))}
+          </div>
+        </div>
+
+        <div className="demo-box" data-demo="timeline">
+          <span className="title">
+            {'Timeline'}
+          </span>
+          <div className="demo">
+            <Timeline
+              title="Timeline"
+              targetKey="created_at"
+              items={timelineVerticalItems}
+              displayItem={({ name, created_at, thumbnail, note }) => (
+                <Panel
+                  item={{
+                    name,
+                    thumbnail,
+                    note,
+                    date: moment(created_at).format('HH:mm')
+                  }}
+                />
+              )}
+            />
+            <Timeline
+              title="Timeline"
+              direction="horizontal"
+              targetKey="created_at"
+              items={timelineHorizontalItems}
+              displayItem={({ name, created_at, thumbnail, note }) => (
+                <Panel
+                  theme="card"
+                  item={{
+                    name,
+                    thumbnail,
+                    note,
+                    date: moment(created_at).format('HH:mm')
+                  }}
+                />
+              )}
+            />
+          </div>
         </div>
       </div>
     );
