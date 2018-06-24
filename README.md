@@ -234,9 +234,12 @@ const HorizontalTimeline = ({ items }) => (
     direction="horizontal" // string, default = 'vertical'
     targetKey="created_at" // string, the key containing date information in your items array of objects, [dateField], required
     items={items} // array of objects, with schema [{ [dateField]: string }], required
-    displayItem={({ name, created_at, thumbnail, note }) => (
-      <Tag name={name} />
-    )}
+    displayItem={item => (
+      <span>{JSON.stringify(item, null, 4)}</span>
+    )} // function, default = () => {}
+    formatDate={itemDate => (
+      <span>{itemDate.substr(0, 3)}</span>
+    )} // function, default = undefined
   />
 );
 ```
