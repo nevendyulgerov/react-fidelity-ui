@@ -33,7 +33,7 @@ Alerts component. This component offers 4 distinct alert types - info (default),
 ##### Example
 
 ```javascript
-import React, { Component } from 'react';
+import React from 'react';
 import { Breadcrumbs } from 'react-fidelity-ui';
 
 const InfoAlert = ({ isAlertVisible, onHideAlert = () => {} }) => (
@@ -54,14 +54,14 @@ Breadcrumbs component. This component offers a number of UI configurations via i
 ##### Example
 
 ```javascript
-import React, { Component } from 'react';
+import React from 'react';
 import { Breadcrumbs } from 'react-fidelity-ui';
 
 const BreadcrumbsComponent = () => (
   <Breadcrumbs
     isToggleableOnMobile={true} // boolean, default = true
     isStackedOnMobile={false} // boolean, default = true
-    items={[{ url: '', name: '', isSelected: false }]} // array of objects, required
+    items={[{ url: '', name: '' }]} // array of objects, required
     onChange={({ url, name, isSelected, event }) => {}} // function, default = () => {}
   />
 );
@@ -73,7 +73,7 @@ Checkbox component. This component exposes checkbox behavior.
 ##### Example
 
 ```javascript
-import React, { Component } from 'react';
+import React from 'react';
 import { Breadcrumbs } from 'react-fidelity-ui';
 
 const Checkbox = ({ isChecked, onToggle = () => {} ) => (
@@ -87,21 +87,13 @@ const Checkbox = ({ isChecked, onToggle = () => {} ) => (
 );
 ```
 
-
-
-
-
-
-
-
-
 #### Dropdown
 Multi-purpose dropdown component. This component supports single/multi select, items filtering, adding new items, integration for tagging. This component can also take advantage of several helper methods from the `utils` space.
 
 ##### Example
 
 ```javascript
-import React, { Component } from 'react';
+import React from 'react';
 import { Dropdown, utils } from 'react-fidelity-ui';
 
 const { changeMultiSelect } = utils;
@@ -120,26 +112,131 @@ const DropdownComponent = ({ items, onChangeItems }) => (
 );
 ```
 
-#### Timeline
-Timeline component. This component supports horizontal/vertical display, asc/desc sorting. This component works with any array of objects, containing a date field.
+#### Icon
+Icon component exposing svg icons.
 
-#### Notification
-Notifications component. This component displays static messages to the DOM.
+##### Example
 
-#### Alert
-Alerts component. This component displays alert messages (info/success/warning/error) to the DOM.
+```javascript
+import React from 'react';
+import { Icon } from 'react-fidelity-ui';
 
-#### Panel
-General-purpose panel component. It comes with a number of built-in themes. This component can be utilized within other components like `Dropdown` and `Timeline`.
-
-#### Tag
-Tag component. It can be utilized within other components like `Dropdown` and `Timeline`.
+const UpvoteIcon = () => (
+  <Icon
+    name="upvote" // string, default = ''
+    title="Upvote icon" // string, default = ''
+  />
+);
+```
 
 #### Loader
-Loader component. This component displays a loading spinner.
+Loader component displaying a spinner.
 
-#### Icon
-Icon component. It displays svg icons from the `fidelity-ui` icons pack.
+##### Example
 
-#### Stat
-Stat component. It displays an icon and a counter.
+```javascript
+import React from 'react';
+import { Loader } from 'react-fidelity-ui';
+
+const LoadingSpinner = ({ isLoading }) => (
+  <Loader
+    isLoading={isLoading} // boolean, default = false
+  />
+);
+```
+
+#### Notification
+Notification component displaying static notifications.
+
+##### Example
+
+```javascript
+import React from 'react';
+import { Notification } from 'react-fidelity-ui';
+
+const SuccessNotification = ({ isLoading }) => (
+  <Notification
+    type="success" // string, default = 'info'
+    text="Success" // string, default = ''
+    title="Success title" // string, default = ''
+    icon="upvote" // string, default = 'notification'
+  />
+);
+```
+
+#### Panel
+General purpose panel component. This component supports a number of themes via the `theme` option.
+
+##### Example
+
+```javascript
+import React from 'react';
+import { Panel } from 'react-fidelity-ui';
+
+const Panels = ({ isLoading }) => (
+  <div data-component="panels">
+    <Panel
+      theme="card" // string, default = 'default'
+      item={{
+        name: 'Default panel', // string, required
+        date: '2018-06-24' // string, required
+      }}
+    />
+    <Panel
+      item={{
+        name: 'Default panel', // string, required
+        date: '2018-06-24', // string, required
+        thumbnail: 'stats', // string, required
+        node: 'Some note' // string/function, required
+      }}
+    />
+    <Panel
+      theme="stat"
+      item={{
+        icon: 'stats', // string, required
+        count: 2 // string/number, required
+      }}
+    />
+  </div>
+);
+```
+
+#### Tag
+Tag component displaying a label and a close 'x' button.
+
+##### Example
+
+```javascript
+import React from 'react';
+import { Tag } from 'react-fidelity-ui';
+
+const FilterTag = ({ id, name, onRemove = () => {} }) => (
+  <Tag
+    name={tag.name} // string, required
+    onRemove={() => onRemove(tag.id)} // function, default = undefined
+  />
+);
+```
+
+#### Timeline
+Timeline component. This component can be customized via the `direction` option - 'horizontal' or 'vertical'. This component comes with a built-in sorting dropdown supporting asc/desc sorting.
+
+##### Example
+
+```javascript
+import React from 'react';
+import { Timeline, Tag } from 'react-fidelity-ui';
+
+const HorizontalTimeline = ({ items }) => (
+  <Timeline
+    title="Timeline"
+    direction="horizontal"
+    targetKey="created_at"
+    items={items}
+    displayItem={({ name, created_at, thumbnail, note }) => (
+      <Tag name={name} />
+    )}
+  />
+);
+```
+
