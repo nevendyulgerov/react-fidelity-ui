@@ -202,6 +202,40 @@ const Panels = ({ isLoading }) => (
 );
 ```
 
+#### StackableAlerts
+Wrapper components, designed to work with component `Alert`. It enables stacking of alerts, when multiple alerts are displayed.
+
+##### Example
+
+```javascript
+import React from 'react';
+import { StackableAlerts, Alert } from 'react-fidelity-ui';
+
+const FilterTag = () => (
+  <StackableAlerts>
+    <Alert
+      title="Info alert"
+      isVisible={true}
+    />
+    <Alert
+      type="success"
+      title="Success"
+      isVisible={true}
+    />
+    <Alert
+      type="warning"
+      title="Warning"
+      isVisible={true}
+    />
+    <Alert
+      type="error"
+      title="Error"
+      isVisible={true}
+    />
+  </StackableAlerts>
+);
+```
+
 #### Tag
 Tag component displaying a label and a remove button.
 
