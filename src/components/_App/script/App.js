@@ -144,9 +144,13 @@ class App extends Component {
               title="Alert"
               content="Info alert with 'settings' icon"
               isVisible={isInfoAlertVisible}
+              isConfirm={true}
               icon="settings"
               onCancel={() => {
                 this.setState({ isInfoAlertVisible: false });
+              }}
+              onConfirm={() => {
+                console.log('on confirm!');
               }}
             />
             <Alert
