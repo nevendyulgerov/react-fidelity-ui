@@ -60,7 +60,7 @@
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 140);
+/******/ 	return __webpack_require__(__webpack_require__.s = 141);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -1902,7 +1902,7 @@
             try {
                 oldLocale = globalLocale._abbr;
                 var aliasedRequire = require;
-                __webpack_require__(157)("./" + name);
+                __webpack_require__(158)("./" + name);
                 getSetGlobalLocale(oldLocale);
             } catch (e) {}
         }
@@ -4574,7 +4574,7 @@
 
 })));
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(156)(module)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(157)(module)))
 
 /***/ }),
 /* 1 */
@@ -4584,205 +4584,15 @@
 /* WEBPACK VAR INJECTION */(function(process) {
 
 if (process.env.NODE_ENV === 'production') {
-  module.exports = __webpack_require__(142);
-} else {
   module.exports = __webpack_require__(143);
+} else {
+  module.exports = __webpack_require__(144);
 }
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(2)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(3)))
 
 /***/ }),
 /* 2 */
-/***/ (function(module, exports) {
-
-// shim for using process in browser
-var process = module.exports = {};
-
-// cached from whatever global is present so that test runners that stub it
-// don't break things.  But we need to wrap it in a try catch in case it is
-// wrapped in strict mode code which doesn't define any globals.  It's inside a
-// function because try/catches deoptimize in certain engines.
-
-var cachedSetTimeout;
-var cachedClearTimeout;
-
-function defaultSetTimout() {
-    throw new Error('setTimeout has not been defined');
-}
-function defaultClearTimeout () {
-    throw new Error('clearTimeout has not been defined');
-}
-(function () {
-    try {
-        if (typeof setTimeout === 'function') {
-            cachedSetTimeout = setTimeout;
-        } else {
-            cachedSetTimeout = defaultSetTimout;
-        }
-    } catch (e) {
-        cachedSetTimeout = defaultSetTimout;
-    }
-    try {
-        if (typeof clearTimeout === 'function') {
-            cachedClearTimeout = clearTimeout;
-        } else {
-            cachedClearTimeout = defaultClearTimeout;
-        }
-    } catch (e) {
-        cachedClearTimeout = defaultClearTimeout;
-    }
-} ())
-function runTimeout(fun) {
-    if (cachedSetTimeout === setTimeout) {
-        //normal enviroments in sane situations
-        return setTimeout(fun, 0);
-    }
-    // if setTimeout wasn't available but was latter defined
-    if ((cachedSetTimeout === defaultSetTimout || !cachedSetTimeout) && setTimeout) {
-        cachedSetTimeout = setTimeout;
-        return setTimeout(fun, 0);
-    }
-    try {
-        // when when somebody has screwed with setTimeout but no I.E. maddness
-        return cachedSetTimeout(fun, 0);
-    } catch(e){
-        try {
-            // When we are in I.E. but the script has been evaled so I.E. doesn't trust the global object when called normally
-            return cachedSetTimeout.call(null, fun, 0);
-        } catch(e){
-            // same as above but when it's a version of I.E. that must have the global object for 'this', hopfully our context correct otherwise it will throw a global error
-            return cachedSetTimeout.call(this, fun, 0);
-        }
-    }
-
-
-}
-function runClearTimeout(marker) {
-    if (cachedClearTimeout === clearTimeout) {
-        //normal enviroments in sane situations
-        return clearTimeout(marker);
-    }
-    // if clearTimeout wasn't available but was latter defined
-    if ((cachedClearTimeout === defaultClearTimeout || !cachedClearTimeout) && clearTimeout) {
-        cachedClearTimeout = clearTimeout;
-        return clearTimeout(marker);
-    }
-    try {
-        // when when somebody has screwed with setTimeout but no I.E. maddness
-        return cachedClearTimeout(marker);
-    } catch (e){
-        try {
-            // When we are in I.E. but the script has been evaled so I.E. doesn't  trust the global object when called normally
-            return cachedClearTimeout.call(null, marker);
-        } catch (e){
-            // same as above but when it's a version of I.E. that must have the global object for 'this', hopfully our context correct otherwise it will throw a global error.
-            // Some versions of I.E. have different rules for clearTimeout vs setTimeout
-            return cachedClearTimeout.call(this, marker);
-        }
-    }
-
-
-
-}
-var queue = [];
-var draining = false;
-var currentQueue;
-var queueIndex = -1;
-
-function cleanUpNextTick() {
-    if (!draining || !currentQueue) {
-        return;
-    }
-    draining = false;
-    if (currentQueue.length) {
-        queue = currentQueue.concat(queue);
-    } else {
-        queueIndex = -1;
-    }
-    if (queue.length) {
-        drainQueue();
-    }
-}
-
-function drainQueue() {
-    if (draining) {
-        return;
-    }
-    var timeout = runTimeout(cleanUpNextTick);
-    draining = true;
-
-    var len = queue.length;
-    while(len) {
-        currentQueue = queue;
-        queue = [];
-        while (++queueIndex < len) {
-            if (currentQueue) {
-                currentQueue[queueIndex].run();
-            }
-        }
-        queueIndex = -1;
-        len = queue.length;
-    }
-    currentQueue = null;
-    draining = false;
-    runClearTimeout(timeout);
-}
-
-process.nextTick = function (fun) {
-    var args = new Array(arguments.length - 1);
-    if (arguments.length > 1) {
-        for (var i = 1; i < arguments.length; i++) {
-            args[i - 1] = arguments[i];
-        }
-    }
-    queue.push(new Item(fun, args));
-    if (queue.length === 1 && !draining) {
-        runTimeout(drainQueue);
-    }
-};
-
-// v8 likes predictible objects
-function Item(fun, array) {
-    this.fun = fun;
-    this.array = array;
-}
-Item.prototype.run = function () {
-    this.fun.apply(null, this.array);
-};
-process.title = 'browser';
-process.browser = true;
-process.env = {};
-process.argv = [];
-process.version = ''; // empty string to avoid regexp issues
-process.versions = {};
-
-function noop() {}
-
-process.on = noop;
-process.addListener = noop;
-process.once = noop;
-process.off = noop;
-process.removeListener = noop;
-process.removeAllListeners = noop;
-process.emit = noop;
-process.prependListener = noop;
-process.prependOnceListener = noop;
-
-process.listeners = function (name) { return [] }
-
-process.binding = function (name) {
-    throw new Error('process.binding is not supported');
-};
-
-process.cwd = function () { return '/' };
-process.chdir = function (dir) {
-    throw new Error('process.chdir is not supported');
-};
-process.umask = function() { return 0; };
-
-
-/***/ }),
-/* 3 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -6009,8 +5819,229 @@ var titlize = exports.titlize = function titlize(text) {
   return '' + text.charAt(0).toUpperCase() + text.slice(1).toLowerCase();
 };
 
+/**
+ * @description Uid
+ * @returns {string}
+ */
+var uid = exports.uid = function uid() {
+  var firstPart = Math.random() * 46656 | 0;
+  var secondPart = Math.random() * 46656 | 0;
+  firstPart = ('000' + firstPart.toString(36)).slice(-3);
+  secondPart = ('000' + secondPart.toString(36)).slice(-3);
+  return firstPart + secondPart;
+};
+
+/***/ }),
+/* 3 */
+/***/ (function(module, exports) {
+
+// shim for using process in browser
+var process = module.exports = {};
+
+// cached from whatever global is present so that test runners that stub it
+// don't break things.  But we need to wrap it in a try catch in case it is
+// wrapped in strict mode code which doesn't define any globals.  It's inside a
+// function because try/catches deoptimize in certain engines.
+
+var cachedSetTimeout;
+var cachedClearTimeout;
+
+function defaultSetTimout() {
+    throw new Error('setTimeout has not been defined');
+}
+function defaultClearTimeout () {
+    throw new Error('clearTimeout has not been defined');
+}
+(function () {
+    try {
+        if (typeof setTimeout === 'function') {
+            cachedSetTimeout = setTimeout;
+        } else {
+            cachedSetTimeout = defaultSetTimout;
+        }
+    } catch (e) {
+        cachedSetTimeout = defaultSetTimout;
+    }
+    try {
+        if (typeof clearTimeout === 'function') {
+            cachedClearTimeout = clearTimeout;
+        } else {
+            cachedClearTimeout = defaultClearTimeout;
+        }
+    } catch (e) {
+        cachedClearTimeout = defaultClearTimeout;
+    }
+} ())
+function runTimeout(fun) {
+    if (cachedSetTimeout === setTimeout) {
+        //normal enviroments in sane situations
+        return setTimeout(fun, 0);
+    }
+    // if setTimeout wasn't available but was latter defined
+    if ((cachedSetTimeout === defaultSetTimout || !cachedSetTimeout) && setTimeout) {
+        cachedSetTimeout = setTimeout;
+        return setTimeout(fun, 0);
+    }
+    try {
+        // when when somebody has screwed with setTimeout but no I.E. maddness
+        return cachedSetTimeout(fun, 0);
+    } catch(e){
+        try {
+            // When we are in I.E. but the script has been evaled so I.E. doesn't trust the global object when called normally
+            return cachedSetTimeout.call(null, fun, 0);
+        } catch(e){
+            // same as above but when it's a version of I.E. that must have the global object for 'this', hopfully our context correct otherwise it will throw a global error
+            return cachedSetTimeout.call(this, fun, 0);
+        }
+    }
+
+
+}
+function runClearTimeout(marker) {
+    if (cachedClearTimeout === clearTimeout) {
+        //normal enviroments in sane situations
+        return clearTimeout(marker);
+    }
+    // if clearTimeout wasn't available but was latter defined
+    if ((cachedClearTimeout === defaultClearTimeout || !cachedClearTimeout) && clearTimeout) {
+        cachedClearTimeout = clearTimeout;
+        return clearTimeout(marker);
+    }
+    try {
+        // when when somebody has screwed with setTimeout but no I.E. maddness
+        return cachedClearTimeout(marker);
+    } catch (e){
+        try {
+            // When we are in I.E. but the script has been evaled so I.E. doesn't  trust the global object when called normally
+            return cachedClearTimeout.call(null, marker);
+        } catch (e){
+            // same as above but when it's a version of I.E. that must have the global object for 'this', hopfully our context correct otherwise it will throw a global error.
+            // Some versions of I.E. have different rules for clearTimeout vs setTimeout
+            return cachedClearTimeout.call(this, marker);
+        }
+    }
+
+
+
+}
+var queue = [];
+var draining = false;
+var currentQueue;
+var queueIndex = -1;
+
+function cleanUpNextTick() {
+    if (!draining || !currentQueue) {
+        return;
+    }
+    draining = false;
+    if (currentQueue.length) {
+        queue = currentQueue.concat(queue);
+    } else {
+        queueIndex = -1;
+    }
+    if (queue.length) {
+        drainQueue();
+    }
+}
+
+function drainQueue() {
+    if (draining) {
+        return;
+    }
+    var timeout = runTimeout(cleanUpNextTick);
+    draining = true;
+
+    var len = queue.length;
+    while(len) {
+        currentQueue = queue;
+        queue = [];
+        while (++queueIndex < len) {
+            if (currentQueue) {
+                currentQueue[queueIndex].run();
+            }
+        }
+        queueIndex = -1;
+        len = queue.length;
+    }
+    currentQueue = null;
+    draining = false;
+    runClearTimeout(timeout);
+}
+
+process.nextTick = function (fun) {
+    var args = new Array(arguments.length - 1);
+    if (arguments.length > 1) {
+        for (var i = 1; i < arguments.length; i++) {
+            args[i - 1] = arguments[i];
+        }
+    }
+    queue.push(new Item(fun, args));
+    if (queue.length === 1 && !draining) {
+        runTimeout(drainQueue);
+    }
+};
+
+// v8 likes predictible objects
+function Item(fun, array) {
+    this.fun = fun;
+    this.array = array;
+}
+Item.prototype.run = function () {
+    this.fun.apply(null, this.array);
+};
+process.title = 'browser';
+process.browser = true;
+process.env = {};
+process.argv = [];
+process.version = ''; // empty string to avoid regexp issues
+process.versions = {};
+
+function noop() {}
+
+process.on = noop;
+process.addListener = noop;
+process.once = noop;
+process.off = noop;
+process.removeListener = noop;
+process.removeAllListeners = noop;
+process.emit = noop;
+process.prependListener = noop;
+process.prependOnceListener = noop;
+
+process.listeners = function (name) { return [] }
+
+process.binding = function (name) {
+    throw new Error('process.binding is not supported');
+};
+
+process.cwd = function () { return '/' };
+process.chdir = function (dir) {
+    throw new Error('process.chdir is not supported');
+};
+process.umask = function() { return 0; };
+
+
 /***/ }),
 /* 4 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _Icon = __webpack_require__(162);
+
+var _Icon2 = _interopRequireDefault(_Icon);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+exports.default = _Icon2.default;
+
+/***/ }),
+/* 5 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -6067,10 +6098,10 @@ function invariant(condition, format, a, b, c, d, e, f) {
 }
 
 module.exports = invariant;
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(2)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(3)))
 
 /***/ }),
-/* 5 */
+/* 6 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -6110,25 +6141,6 @@ emptyFunction.thatReturnsArgument = function (arg) {
 };
 
 module.exports = emptyFunction;
-
-/***/ }),
-/* 6 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _Icon = __webpack_require__(161);
-
-var _Icon2 = _interopRequireDefault(_Icon);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-exports.default = _Icon2.default;
 
 /***/ }),
 /* 7 */
@@ -6249,7 +6261,7 @@ if (process.env.NODE_ENV !== 'production') {
 }
 
 module.exports = emptyObject;
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(2)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(3)))
 
 /***/ }),
 /* 9 */
@@ -6266,7 +6278,7 @@ module.exports = emptyObject;
 
 
 
-var emptyFunction = __webpack_require__(5);
+var emptyFunction = __webpack_require__(6);
 
 /**
  * Similar to invariant but only logs a warning if the condition is not met.
@@ -6318,7 +6330,7 @@ if (process.env.NODE_ENV !== 'production') {
 }
 
 module.exports = warning;
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(2)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(3)))
 
 /***/ }),
 /* 10 */
@@ -6335,9 +6347,9 @@ module.exports = warning;
 
 
 if (process.env.NODE_ENV !== 'production') {
-  var invariant = __webpack_require__(4);
+  var invariant = __webpack_require__(5);
   var warning = __webpack_require__(9);
-  var ReactPropTypesSecret = __webpack_require__(144);
+  var ReactPropTypesSecret = __webpack_require__(145);
   var loggedTypeFailures = {};
 }
 
@@ -6385,7 +6397,7 @@ function checkPropTypes(typeSpecs, values, location, componentName, getStack) {
 
 module.exports = checkPropTypes;
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(2)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(3)))
 
 /***/ }),
 /* 11 */
@@ -6555,7 +6567,7 @@ module.exports = shallowEqual;
  * 
  */
 
-var isTextNode = __webpack_require__(147);
+var isTextNode = __webpack_require__(148);
 
 /*eslint-disable no-bitwise */
 
@@ -18438,7 +18450,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _Checkbox = __webpack_require__(158);
+var _Checkbox = __webpack_require__(159);
 
 var _Checkbox2 = _interopRequireDefault(_Checkbox);
 
@@ -18458,11 +18470,11 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.syncDropdownMenuOffset = exports.filterItemsByName = exports.deselectItem = exports.changeMultiSelect = exports.changeSingleSelect = undefined;
 
-var _Dropdown = __webpack_require__(162);
+var _Dropdown = __webpack_require__(163);
 
 var _Dropdown2 = _interopRequireDefault(_Dropdown);
 
-var _Utils = __webpack_require__(165);
+var _Utils = __webpack_require__(166);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -18477,12 +18489,111 @@ exports.default = _Dropdown2.default;
 /* 140 */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(141);
-module.exports = __webpack_require__(176);
+"use strict";
 
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.isSameDate = exports.getDateYMD = exports.getDifferenceInDays = exports.groupItemsByDate = undefined;
+
+var _ammo = __webpack_require__(2);
+
+/**
+ * @description Group items by date
+ * @param items
+ * @param targetKey
+ * @returns {*}
+ */
+var groupItemsByDate = exports.groupItemsByDate = function groupItemsByDate(items, targetKey) {
+  // group items by date
+  var groupedItems = items.reduce(function (accumulator, item, index) {
+    var nextItem = (0, _ammo.extend)({}, item);
+    var nextItemDate = new Date(nextItem[targetKey]);
+    var nextItemDateObj = getDateYMD(nextItemDate);
+    var alreadyAddedItems = (0, _ammo.shape)(accumulator).reduceTo('items').fetch();
+    var isAlreadyAdded = alreadyAddedItems.filter(function (item) {
+      return item.id === nextItem.id;
+    }).length > 0;
+
+    if (isAlreadyAdded) {
+      return accumulator;
+    }
+
+    var itemsMatchingByDay = items.filter(function (filterItem) {
+      var filterItemDate = new Date(filterItem[targetKey]);
+      var filterItemDateObj = getDateYMD(filterItemDate);
+      return isSameDate(nextItemDateObj, filterItemDateObj);
+    });
+
+    var groupedItems = {
+      id: index,
+      date: nextItemDate.toString(),
+      items: itemsMatchingByDay
+    };
+
+    accumulator.push(groupedItems);
+    return accumulator;
+  }, []);
+
+  // filter grouped items by unique date
+  return groupedItems.reduce(function (accumulator, groupedItem) {
+    var uniqueItems = (0, _ammo.shape)(groupedItem.items).filterByUnique(targetKey).fetch();
+    var nextGroupedItem = (0, _ammo.extend)({}, groupedItem, { items: uniqueItems });
+    accumulator.push(nextGroupedItem);
+    return accumulator;
+  }, []);
+};
+
+/**
+ * @description Get difference in days
+ * @param dateA
+ * @param dateB
+ * @returns {number}
+ */
+var getDifferenceInDays = exports.getDifferenceInDays = function getDifferenceInDays(dateA, dateB) {
+  var millisecondsInDay = 1000 * 60 * 60 * 24;
+  var dateObjA = getDateYMD(dateA);
+  var dateObjB = getDateYMD(dateB);
+  var utcDateA = Date.UTC(dateObjA.year, dateObjA.month, dateObjA.day);
+  var utcDateB = Date.UTC(dateObjB.year, dateObjB.month, dateObjB.day);
+
+  return Math.floor((utcDateB - utcDateA) / millisecondsInDay);
+};
+
+/**
+ * @description Get date year - month - day
+ * @param date
+ * @returns {{year: number, month: number, day: number}}
+ */
+var getDateYMD = exports.getDateYMD = function getDateYMD(date) {
+  return {
+    year: date.getFullYear(),
+    month: date.getMonth(),
+    day: date.getDate()
+  };
+};
+
+/**
+ * @description Is same date
+ * @param dateA
+ * @param dateB
+ * @returns {boolean}
+ */
+var isSameDate = exports.isSameDate = function isSameDate(dateA, dateB) {
+  return dateA.year === dateB.year && dateA.month === dateB.month && dateA.day === dateB.day;
+};
 
 /***/ }),
 /* 141 */
+/***/ (function(module, exports, __webpack_require__) {
+
+__webpack_require__(142);
+module.exports = __webpack_require__(182);
+
+
+/***/ }),
+/* 142 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -18492,11 +18603,11 @@ var _react = __webpack_require__(1);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _reactDom = __webpack_require__(145);
+var _reactDom = __webpack_require__(146);
 
 var _reactDom2 = _interopRequireDefault(_reactDom);
 
-var _App = __webpack_require__(154);
+var _App = __webpack_require__(155);
 
 var _App2 = _interopRequireDefault(_App);
 
@@ -18505,7 +18616,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 _reactDom2.default.render(_react2.default.createElement(_App2.default, null), document.getElementById('app'));
 
 /***/ }),
-/* 142 */
+/* 143 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -18518,7 +18629,7 @@ _reactDom2.default.render(_react2.default.createElement(_App2.default, null), do
  * LICENSE file in the root directory of this source tree.
  */
 
-var k=__webpack_require__(7),n=__webpack_require__(4),p=__webpack_require__(8),q=__webpack_require__(5),r="function"===typeof Symbol&&Symbol.for,t=r?Symbol.for("react.element"):60103,u=r?Symbol.for("react.portal"):60106,v=r?Symbol.for("react.fragment"):60107,w=r?Symbol.for("react.strict_mode"):60108,x=r?Symbol.for("react.profiler"):60114,y=r?Symbol.for("react.provider"):60109,z=r?Symbol.for("react.context"):60110,A=r?Symbol.for("react.async_mode"):60111,B=
+var k=__webpack_require__(7),n=__webpack_require__(5),p=__webpack_require__(8),q=__webpack_require__(6),r="function"===typeof Symbol&&Symbol.for,t=r?Symbol.for("react.element"):60103,u=r?Symbol.for("react.portal"):60106,v=r?Symbol.for("react.fragment"):60107,w=r?Symbol.for("react.strict_mode"):60108,x=r?Symbol.for("react.profiler"):60114,y=r?Symbol.for("react.provider"):60109,z=r?Symbol.for("react.context"):60110,A=r?Symbol.for("react.async_mode"):60111,B=
 r?Symbol.for("react.forward_ref"):60112;r&&Symbol.for("react.timeout");var C="function"===typeof Symbol&&Symbol.iterator;function D(a){for(var b=arguments.length-1,e="https://reactjs.org/docs/error-decoder.html?invariant="+a,c=0;c<b;c++)e+="&args[]="+encodeURIComponent(arguments[c+1]);n(!1,"Minified React error #"+a+"; visit %s for the full message or use the non-minified dev environment for full errors and additional helpful warnings. ",e)}
 var E={isMounted:function(){return!1},enqueueForceUpdate:function(){},enqueueReplaceState:function(){},enqueueSetState:function(){}};function F(a,b,e){this.props=a;this.context=b;this.refs=p;this.updater=e||E}F.prototype.isReactComponent={};F.prototype.setState=function(a,b){"object"!==typeof a&&"function"!==typeof a&&null!=a?D("85"):void 0;this.updater.enqueueSetState(this,a,b,"setState")};F.prototype.forceUpdate=function(a){this.updater.enqueueForceUpdate(this,a,"forceUpdate")};function G(){}
 G.prototype=F.prototype;function H(a,b,e){this.props=a;this.context=b;this.refs=p;this.updater=e||E}var I=H.prototype=new G;I.constructor=H;k(I,F.prototype);I.isPureReactComponent=!0;var J={current:null},K=Object.prototype.hasOwnProperty,L={key:!0,ref:!0,__self:!0,__source:!0};
@@ -18534,7 +18645,7 @@ assign:k}},Y={default:X},Z=Y&&X||Y;module.exports=Z.default?Z.default:Z;
 
 
 /***/ }),
-/* 143 */
+/* 144 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -18556,10 +18667,10 @@ if (process.env.NODE_ENV !== "production") {
 'use strict';
 
 var _assign = __webpack_require__(7);
-var invariant = __webpack_require__(4);
+var invariant = __webpack_require__(5);
 var emptyObject = __webpack_require__(8);
 var warning = __webpack_require__(9);
-var emptyFunction = __webpack_require__(5);
+var emptyFunction = __webpack_require__(6);
 var checkPropTypes = __webpack_require__(10);
 
 // TODO: this is special because it gets imported during build.
@@ -20025,10 +20136,10 @@ module.exports = react;
   })();
 }
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(2)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(3)))
 
 /***/ }),
-/* 144 */
+/* 145 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -20047,7 +20158,7 @@ module.exports = ReactPropTypesSecret;
 
 
 /***/ }),
-/* 145 */
+/* 146 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -20085,15 +20196,15 @@ if (process.env.NODE_ENV === 'production') {
   // DCE check should happen before ReactDOM bundle executes so that
   // DevTools can report bad minification during injection.
   checkDCE();
-  module.exports = __webpack_require__(146);
+  module.exports = __webpack_require__(147);
 } else {
-  module.exports = __webpack_require__(149);
+  module.exports = __webpack_require__(150);
 }
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(2)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(3)))
 
 /***/ }),
-/* 146 */
+/* 147 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -20109,7 +20220,7 @@ if (process.env.NODE_ENV === 'production') {
 /*
  Modernizr 3.0.0pre (Custom Build) | MIT
 */
-var aa=__webpack_require__(4),ba=__webpack_require__(1),m=__webpack_require__(11),p=__webpack_require__(7),v=__webpack_require__(5),da=__webpack_require__(12),ea=__webpack_require__(13),fa=__webpack_require__(14),ha=__webpack_require__(8);
+var aa=__webpack_require__(5),ba=__webpack_require__(1),m=__webpack_require__(11),p=__webpack_require__(7),v=__webpack_require__(6),da=__webpack_require__(12),ea=__webpack_require__(13),fa=__webpack_require__(14),ha=__webpack_require__(8);
 function A(a){for(var b=arguments.length-1,c="https://reactjs.org/docs/error-decoder.html?invariant="+a,d=0;d<b;d++)c+="&args[]="+encodeURIComponent(arguments[d+1]);aa(!1,"Minified React error #"+a+"; visit %s for the full message or use the non-minified dev environment for full errors and additional helpful warnings. ",c)}ba?void 0:A("227");
 function ia(a,b,c,d,e,f,g,h,k){this._hasCaughtError=!1;this._caughtError=null;var n=Array.prototype.slice.call(arguments,3);try{b.apply(c,n)}catch(r){this._caughtError=r,this._hasCaughtError=!0}}
 var B={_caughtError:null,_hasCaughtError:!1,_rethrowError:null,_hasRethrowError:!1,invokeGuardedCallback:function(a,b,c,d,e,f,g,h,k){ia.apply(B,arguments)},invokeGuardedCallbackAndCatchFirstError:function(a,b,c,d,e,f,g,h,k){B.invokeGuardedCallback.apply(this,arguments);if(B.hasCaughtError()){var n=B.clearCaughtError();B._hasRethrowError||(B._hasRethrowError=!0,B._rethrowError=n)}},rethrowCaughtError:function(){return ka.apply(B,arguments)},hasCaughtError:function(){return B._hasCaughtError},clearCaughtError:function(){if(B._hasCaughtError){var a=
@@ -20340,7 +20451,7 @@ var Ai={default:vi},Bi=Ai&&vi||Ai;module.exports=Bi.default?Bi.default:Bi;
 
 
 /***/ }),
-/* 147 */
+/* 148 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -20355,7 +20466,7 @@ var Ai={default:vi},Bi=Ai&&vi||Ai;module.exports=Bi.default?Bi.default:Bi;
  * @typechecks
  */
 
-var isNode = __webpack_require__(148);
+var isNode = __webpack_require__(149);
 
 /**
  * @param {*} object The object to check.
@@ -20368,7 +20479,7 @@ function isTextNode(object) {
 module.exports = isTextNode;
 
 /***/ }),
-/* 148 */
+/* 149 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -20396,7 +20507,7 @@ function isNode(object) {
 module.exports = isNode;
 
 /***/ }),
-/* 149 */
+/* 150 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -20417,19 +20528,19 @@ if (process.env.NODE_ENV !== "production") {
   (function() {
 'use strict';
 
-var invariant = __webpack_require__(4);
+var invariant = __webpack_require__(5);
 var React = __webpack_require__(1);
 var warning = __webpack_require__(9);
 var ExecutionEnvironment = __webpack_require__(11);
 var _assign = __webpack_require__(7);
-var emptyFunction = __webpack_require__(5);
+var emptyFunction = __webpack_require__(6);
 var checkPropTypes = __webpack_require__(10);
 var getActiveElement = __webpack_require__(12);
 var shallowEqual = __webpack_require__(13);
 var containsNode = __webpack_require__(14);
 var emptyObject = __webpack_require__(8);
-var hyphenateStyleName = __webpack_require__(150);
-var camelizeStyleName = __webpack_require__(152);
+var hyphenateStyleName = __webpack_require__(151);
+var camelizeStyleName = __webpack_require__(153);
 
 // Relying on the `invariant()` implementation lets us
 // have preserve the format and params in the www builds.
@@ -37831,10 +37942,10 @@ module.exports = reactDom;
   })();
 }
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(2)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(3)))
 
 /***/ }),
-/* 150 */
+/* 151 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -37849,7 +37960,7 @@ module.exports = reactDom;
 
 
 
-var hyphenate = __webpack_require__(151);
+var hyphenate = __webpack_require__(152);
 
 var msPattern = /^ms-/;
 
@@ -37876,7 +37987,7 @@ function hyphenateStyleName(string) {
 module.exports = hyphenateStyleName;
 
 /***/ }),
-/* 151 */
+/* 152 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -37912,7 +38023,7 @@ function hyphenate(string) {
 module.exports = hyphenate;
 
 /***/ }),
-/* 152 */
+/* 153 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -37927,7 +38038,7 @@ module.exports = hyphenate;
 
 
 
-var camelize = __webpack_require__(153);
+var camelize = __webpack_require__(154);
 
 var msPattern = /^-ms-/;
 
@@ -37955,7 +38066,7 @@ function camelizeStyleName(string) {
 module.exports = camelizeStyleName;
 
 /***/ }),
-/* 153 */
+/* 154 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -37990,7 +38101,7 @@ function camelize(string) {
 module.exports = camelize;
 
 /***/ }),
-/* 154 */
+/* 155 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -38000,7 +38111,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _App = __webpack_require__(155);
+var _App = __webpack_require__(156);
 
 var _App2 = _interopRequireDefault(_App);
 
@@ -38009,7 +38120,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 exports.default = _App2.default;
 
 /***/ }),
-/* 155 */
+/* 156 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -38033,7 +38144,7 @@ var _Checkbox = __webpack_require__(138);
 
 var _Checkbox2 = _interopRequireDefault(_Checkbox);
 
-var _Timeline = __webpack_require__(159);
+var _Timeline = __webpack_require__(160);
 
 var _Timeline2 = _interopRequireDefault(_Timeline);
 
@@ -38057,7 +38168,21 @@ var _Dropdown = __webpack_require__(139);
 
 var _Dropdown2 = _interopRequireDefault(_Dropdown);
 
-var _ammo = __webpack_require__(3);
+var _StackableAlerts = __webpack_require__(175);
+
+var _StackableAlerts2 = _interopRequireDefault(_StackableAlerts);
+
+var _Alert = __webpack_require__(177);
+
+var _Alert2 = _interopRequireDefault(_Alert);
+
+var _Stat = __webpack_require__(179);
+
+var _Stat2 = _interopRequireDefault(_Stat);
+
+var _Utils = __webpack_require__(181);
+
+var _ammo = __webpack_require__(2);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -38067,29 +38192,7 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-var defaultThumbnail = 'https://wallpaperbits.com/wp-content/uploads/2018/01/google-nexus-5-wallpaper-154171-nature-landscape-mountain-nexus-5.jpg';
-
-var createItems = function createItems() {
-  var count = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 10;
-
-  var items = [];
-  for (var i = 0; i < count; i++) {
-    var isNewDate = (0, _ammo.randomInclusive)(0, 10) > 6;
-    var subTrackedDays = (0, _ammo.randomInclusive)(0, 365);
-    items.push({
-      id: i,
-      name: 'Item ' + i,
-      url: 'https://google.com',
-      isSelected: i === 0,
-      thumbnail: defaultThumbnail,
-      note: 'some note',
-      created_at: isNewDate ? (0, _moment2.default)(new Date()).subtract(subTrackedDays, 'days') : (0, _moment2.default)(i > 0 ? items[i - 1].created_at : new Date())
-    });
-  }
-  return items;
-};
-
-var defaultItems = createItems(30);
+var defaultItems = (0, _Utils.createItems)(30);
 
 var App = function (_Component) {
   _inherits(App, _Component);
@@ -38108,18 +38211,21 @@ var App = function (_Component) {
     return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_ref = App.__proto__ || Object.getPrototypeOf(App)).call.apply(_ref, [this].concat(args))), _this), _this.state = {
       items: defaultItems,
       initialItems: defaultItems,
-      isChecked: false
-    }, _this.changeSingleSelect = function (selectedId) {
+      isChecked: false,
+      isAlertVisible: true
+    }, _this.changeSingleSelect = function (_ref2) {
+      var id = _ref2.id;
       var items = _this.state.items;
 
-      var nextItems = (0, _Dropdown.changeSingleSelect)(items, selectedId);
+      var nextItems = (0, _Dropdown.changeSingleSelect)(items, id);
       _this.setState({ items: nextItems }, function () {
         return _this.setState({ initialItems: nextItems });
       });
-    }, _this.changeMultiSelect = function (selectedId, isSelected) {
+    }, _this.changeMultiSelect = function (_ref3, isSelected) {
+      var id = _ref3.id;
       var items = _this.state.items;
 
-      var nextItems = (0, _Dropdown.changeMultiSelect)(items, selectedId, isSelected);
+      var nextItems = (0, _Dropdown.changeMultiSelect)(items, id, isSelected);
       _this.setState({ items: nextItems }, function () {
         var component = _this.getNode();
         (0, _Dropdown.syncDropdownMenuOffset)(component);
@@ -38133,13 +38239,13 @@ var App = function (_Component) {
 
   /**
    * @description Change single select
-   * @param selectedId
+   * @param id
    */
 
 
   /**
    * @description Change multi select
-   * @param selectedId
+   * @param id
    * @param isSelected
    */
 
@@ -38158,7 +38264,8 @@ var App = function (_Component) {
       var _state = this.state,
           items = _state.items,
           initialItems = _state.initialItems,
-          isChecked = _state.isChecked;
+          isChecked = _state.isChecked,
+          isAlertVisible = _state.isAlertVisible;
 
 
       return _react2.default.createElement(
@@ -38170,14 +38277,56 @@ var App = function (_Component) {
           _react2.default.createElement(_Breadcrumbs2.default, {
             isToggleableOnMobile: true,
             isStackedOnMobile: false,
-            items: createItems(5),
-            onChange: function onChange(_ref2) {
-              var url = _ref2.url,
-                  event = _ref2.event;
+            items: (0, _Utils.createItems)(5),
+            onChange: function onChange(_ref4) {
+              var url = _ref4.url,
+                  event = _ref4.event;
 
               event.preventDefault();
               console.log(url);
             }
+          })
+        ),
+        _react2.default.createElement(
+          'div',
+          { className: 'alert' },
+          _react2.default.createElement(
+            _StackableAlerts2.default,
+            null,
+            _react2.default.createElement(_Alert2.default, {
+              type: 'info',
+              title: 'Alert',
+              content: 'Lorem ipsum dolor sit amet',
+              isVisible: isAlertVisible,
+              onCancel: function onCancel() {
+                console.log('on cancel alert!');
+                _this2.setState({ isAlertVisible: false });
+              },
+              onConfirm: function onConfirm() {
+                console.log('on confirm alert');
+              }
+            }),
+            _react2.default.createElement(_Alert2.default, {
+              type: 'warning',
+              title: 'Alert',
+              content: 'Lorem ipsum dolor sit amet',
+              isVisible: isAlertVisible,
+              onCancel: function onCancel() {
+                console.log('on cancel alert!');
+                _this2.setState({ isAlertVisible: false });
+              },
+              onConfirm: function onConfirm() {
+                console.log('on confirm alert');
+              }
+            })
+          )
+        ),
+        _react2.default.createElement(
+          'div',
+          { className: 'stat' },
+          _react2.default.createElement(_Stat2.default, {
+            iconName: 'stats',
+            count: 5
           })
         ),
         _react2.default.createElement(
@@ -38204,9 +38353,9 @@ var App = function (_Component) {
               return _react2.default.createElement(
                 'div',
                 { className: 'inline-tags ' + (selectedItems.length > 0 ? 'has-tags' : '') },
-                selectedItems.length === 0 ? 'Select tags' : selectedItems.map(function (_ref3) {
-                  var id = _ref3.id,
-                      name = _ref3.name;
+                selectedItems.length === 0 ? 'Select tags' : selectedItems.map(function (_ref5) {
+                  var id = _ref5.id,
+                      name = _ref5.name;
                   return _react2.default.createElement(_Tag2.default, {
                     key: id,
                     name: name,
@@ -38232,8 +38381,8 @@ var App = function (_Component) {
             labelText: 'Tick to activate',
             labelTitle: 'Tick to activate title',
             onChange: function onChange() {
-              return _this2.setState(function (_ref4) {
-                var isChecked = _ref4.isChecked;
+              return _this2.setState(function (_ref6) {
+                var isChecked = _ref6.isChecked;
                 return { isChecked: !isChecked };
               });
             }
@@ -38246,11 +38395,11 @@ var App = function (_Component) {
             title: 'Timeline',
             targetKey: 'created_at',
             items: items,
-            displayItem: function displayItem(_ref5) {
-              var name = _ref5.name,
-                  created_at = _ref5.created_at,
-                  thumbnail = _ref5.thumbnail,
-                  note = _ref5.note;
+            displayItem: function displayItem(_ref7) {
+              var name = _ref7.name,
+                  created_at = _ref7.created_at,
+                  thumbnail = _ref7.thumbnail,
+                  note = _ref7.note;
               return _react2.default.createElement(_Panel2.default, {
                 theme: 'card',
                 item: {
@@ -38272,7 +38421,7 @@ var App = function (_Component) {
 exports.default = App;
 
 /***/ }),
-/* 156 */
+/* 157 */
 /***/ (function(module, exports) {
 
 module.exports = function(module) {
@@ -38300,7 +38449,7 @@ module.exports = function(module) {
 
 
 /***/ }),
-/* 157 */
+/* 158 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var map = {
@@ -38565,10 +38714,10 @@ webpackContext.keys = function webpackContextKeys() {
 };
 webpackContext.resolve = webpackContextResolve;
 module.exports = webpackContext;
-webpackContext.id = 157;
+webpackContext.id = 158;
 
 /***/ }),
-/* 158 */
+/* 159 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -38618,7 +38767,7 @@ var Checkbox = function Checkbox(_ref) {
 exports.default = Checkbox;
 
 /***/ }),
-/* 159 */
+/* 160 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -38627,17 +38776,24 @@ exports.default = Checkbox;
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+exports.isSameDate = exports.getDateYMD = exports.getDifferenceInDays = exports.groupItemsByDate = undefined;
 
-var _Timeline = __webpack_require__(160);
+var _Timeline = __webpack_require__(161);
 
 var _Timeline2 = _interopRequireDefault(_Timeline);
 
+var _Utils = __webpack_require__(140);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+exports.groupItemsByDate = _Utils.groupItemsByDate;
+exports.getDifferenceInDays = _Utils.getDifferenceInDays;
+exports.getDateYMD = _Utils.getDateYMD;
+exports.isSameDate = _Utils.isSameDate;
 exports.default = _Timeline2.default;
 
 /***/ }),
-/* 160 */
+/* 161 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -38655,7 +38811,7 @@ var _react = __webpack_require__(1);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _Icon = __webpack_require__(6);
+var _Icon = __webpack_require__(4);
 
 var _Icon2 = _interopRequireDefault(_Icon);
 
@@ -38663,9 +38819,9 @@ var _Dropdown = __webpack_require__(139);
 
 var _Dropdown2 = _interopRequireDefault(_Dropdown);
 
-var _Utils = __webpack_require__(166);
+var _Utils = __webpack_require__(140);
 
-var _ammo = __webpack_require__(3);
+var _ammo = __webpack_require__(2);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -38740,7 +38896,8 @@ var Timeline = function (_Component) {
       var differenceInDays = isDesc ? (0, _Utils.getDifferenceInDays)(dateEnd, dateStart) : (0, _Utils.getDifferenceInDays)(dateStart, dateEnd);
 
       return differenceInDays <= 30 ? 'small' : differenceInDays <= 180 ? 'medium' : 'large';
-    }, _this.onChangeSorting = function (nextSortingOptionId) {
+    }, _this.onChangeSorting = function (_ref3) {
+      var id = _ref3.id;
       var _this$state = _this.state,
           groupedItems = _this$state.groupedItems,
           sortingOptions = _this$state.sortingOptions;
@@ -38748,24 +38905,28 @@ var Timeline = function (_Component) {
       var selectedSortingOption = (0, _ammo.shape)(sortingOptions).filterByProp('isSelected', true).fetchIndex(0);
       var nextSortingOptions = sortingOptions.map(function (sortingOption) {
         return _extends({}, sortingOption, {
-          isSelected: sortingOption.id === nextSortingOptionId
+          isSelected: sortingOption.id === id
         });
       });
 
       _this.setState({ sortingOptions: nextSortingOptions }, function () {
-        if (selectedSortingOption.id === nextSortingOptionId) {
+        if (selectedSortingOption.id === id) {
           return false;
         }
 
-        var nextSortedGroupedItems = _this.sortTimeline(groupedItems, nextSortingOptionId);
+        var nextSortedGroupedItems = _this.sortTimeline(groupedItems, id);
         _this.setState({ groupedItems: nextSortedGroupedItems }, _this.normalizeUI);
       });
     }, _this.normalizeUI = function () {
       (0, _ammo.selectAll)('.trigger.toggle-grouped-items', _this.refComponent).each(function (trigger) {
         var iconExpand = trigger.querySelector('.icon-expand');
         var iconCollapse = trigger.querySelector('.icon-collapse');
-        iconExpand.classList.add('active');
-        iconCollapse.classList.remove('active');
+        if ((0, _ammo.isObj)(iconExpand)) {
+          iconExpand.classList.add('active');
+        }
+        if ((0, _ammo.isObj)(iconCollapse)) {
+          iconCollapse.classList.remove('active');
+        }
         trigger.classList.remove('expanded');
       });
     }, _this.sortTimeline = function (groupedItems, direction) {
@@ -38781,9 +38942,9 @@ var Timeline = function (_Component) {
 
   _createClass(Timeline, [{
     key: 'componentWillReceiveProps',
-    value: function componentWillReceiveProps(_ref3) {
-      var items = _ref3.items,
-          targetKey = _ref3.targetKey;
+    value: function componentWillReceiveProps(_ref4) {
+      var items = _ref4.items,
+          targetKey = _ref4.targetKey;
 
       var groupedItemsByDate = (0, _Utils.groupItemsByDate)(items, targetKey);
       this.setState({ groupedItems: groupedItemsByDate });
@@ -38875,9 +39036,9 @@ var Timeline = function (_Component) {
           _react2.default.createElement(
             'ul',
             { className: 'timeline-items' },
-            groupedItems.map(function (_ref4, index) {
-              var id = _ref4.id,
-                  items = _ref4.items;
+            groupedItems.map(function (_ref5, index) {
+              var id = _ref5.id,
+                  items = _ref5.items;
               return _react2.default.createElement(
                 'li',
                 {
@@ -38928,7 +39089,7 @@ var Timeline = function (_Component) {
                   items.map(function (item, groupedItemIndex) {
                     return _react2.default.createElement(
                       'li',
-                      { key: item.id, className: 'grouped-item' },
+                      { key: item.id || (0, _ammo.uid)(), className: 'grouped-item' },
                       displayItem(item, isDesc ? index === length - 1 && groupedItemIndex === items.length - 1 : index === 0 && groupedItemIndex === 0)
                     );
                   })
@@ -38947,7 +39108,7 @@ var Timeline = function (_Component) {
 exports.default = Timeline;
 
 /***/ }),
-/* 161 */
+/* 162 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -38985,7 +39146,7 @@ var Icon = function Icon(_ref) {
 exports.default = Icon;
 
 /***/ }),
-/* 162 */
+/* 163 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -39001,11 +39162,11 @@ var _react = __webpack_require__(1);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _Icon = __webpack_require__(6);
+var _Icon = __webpack_require__(4);
 
 var _Icon2 = _interopRequireDefault(_Icon);
 
-var _Loader = __webpack_require__(163);
+var _Loader = __webpack_require__(164);
 
 var _Loader2 = _interopRequireDefault(_Loader);
 
@@ -39013,7 +39174,7 @@ var _Checkbox = __webpack_require__(138);
 
 var _Checkbox2 = _interopRequireDefault(_Checkbox);
 
-var _ammo = __webpack_require__(3);
+var _ammo = __webpack_require__(2);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -39275,18 +39436,22 @@ var Dropdown = function (_Component) {
             _react2.default.createElement(
               'ul',
               { className: 'menu-items ' + (itemsLength === 0 ? 'no-items' : '') },
-              items.map(function (item, index) {
+              items.map(function (item) {
+                var itemId = item.id || (0, _ammo.uid)();
+
                 return _react2.default.createElement(
                   'li',
-                  { key: item.id || index, className: 'menu-item' },
+                  { key: itemId, className: 'menu-item' },
                   _react2.default.createElement(_Checkbox2.default, {
-                    id: item.id,
+                    id: itemId,
                     isChecked: item.isSelected,
                     isDisabled: isLoading,
                     labelText: item.name,
                     labelTitle: 'Select ' + item.name,
-                    onChange: function onChange(event) {
-                      _onChange(item.id, event.target.checked);
+                    onChange: function onChange(_ref4) {
+                      var target = _ref4.target;
+
+                      _onChange(item, target.checked);
 
                       if (isCloseOnSelect) {
                         _this3.setState({ isMenuOpened: false });
@@ -39308,7 +39473,7 @@ var Dropdown = function (_Component) {
 exports.default = Dropdown;
 
 /***/ }),
-/* 163 */
+/* 164 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -39318,7 +39483,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _Loader = __webpack_require__(164);
+var _Loader = __webpack_require__(165);
 
 var _Loader2 = _interopRequireDefault(_Loader);
 
@@ -39327,7 +39492,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 exports.default = _Loader2.default;
 
 /***/ }),
-/* 164 */
+/* 165 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -39359,7 +39524,7 @@ var Loader = function Loader(_ref) {
 exports.default = Loader;
 
 /***/ }),
-/* 165 */
+/* 166 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -39372,17 +39537,19 @@ exports.syncDropdownMenuOffset = exports.filterItemsByName = exports.deselectIte
 
 var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 
-var _ammo = __webpack_require__(3);
+var _ammo = __webpack_require__(2);
 
 /**
  * @description Change single select
  * @param items
- * @param selectedId
+ * @param selectedKeyValue
+ * @param key
  */
-var changeSingleSelect = exports.changeSingleSelect = function changeSingleSelect(items, selectedId) {
+var changeSingleSelect = exports.changeSingleSelect = function changeSingleSelect(items, selectedKeyValue) {
+  var key = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 'id';
   return items.map(function (item) {
     return _extends({}, item, {
-      isSelected: item.id === selectedId
+      isSelected: item[key] === selectedKeyValue
     });
   });
 };
@@ -39390,13 +39557,15 @@ var changeSingleSelect = exports.changeSingleSelect = function changeSingleSelec
 /**
  * @description Change multi select
  * @param items
- * @param selectedId
+ * @param selectedKeyValue
  * @param isSelected
+ * @param key
  */
-var changeMultiSelect = exports.changeMultiSelect = function changeMultiSelect(items, selectedId, isSelected) {
+var changeMultiSelect = exports.changeMultiSelect = function changeMultiSelect(items, selectedKeyValue, isSelected) {
+  var key = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : 'id';
   return items.map(function (item) {
     return _extends({}, item, {
-      isSelected: item.id === selectedId && !item.isSelected && isSelected || item.id !== selectedId && item.isSelected
+      isSelected: item[key] === selectedKeyValue && !item.isSelected && isSelected || item[key] !== selectedKeyValue && item.isSelected
     });
   });
 };
@@ -39445,105 +39614,6 @@ var syncDropdownMenuOffset = exports.syncDropdownMenuOffset = function syncDropd
 };
 
 /***/ }),
-/* 166 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.getDifferenceInDays = exports.groupItemsByDate = undefined;
-
-var _ammo = __webpack_require__(3);
-
-/**
- * @description Group items by date
- * @param items
- * @param targetKey
- * @returns {*}
- */
-var groupItemsByDate = exports.groupItemsByDate = function groupItemsByDate(items, targetKey) {
-  // group items by date
-  var groupedItems = items.reduce(function (accumulator, item, index) {
-    var nextItem = (0, _ammo.extend)({}, item);
-    var nextItemDate = new Date(nextItem[targetKey]);
-    var nextItemDateObj = getDateYMD(nextItemDate);
-    var alreadyAddedItems = (0, _ammo.shape)(accumulator).reduceTo('items').fetch();
-    var isAlreadyAdded = alreadyAddedItems.filter(function (item) {
-      return item.id === nextItem.id;
-    }).length > 0;
-
-    if (isAlreadyAdded) {
-      return accumulator;
-    }
-
-    var itemsMatchingByDay = items.filter(function (filterItem) {
-      var filterItemDate = new Date(filterItem[targetKey]);
-      var filterItemDateObj = getDateYMD(filterItemDate);
-      return isSameDate(nextItemDateObj, filterItemDateObj);
-    });
-
-    var groupedItems = {
-      id: index,
-      date: nextItemDate.toString(),
-      items: itemsMatchingByDay
-    };
-
-    accumulator.push(groupedItems);
-    return accumulator;
-  }, []);
-
-  // filter grouped items by unique date
-  return groupedItems.reduce(function (accumulator, groupedItem) {
-    var uniqueItems = (0, _ammo.shape)(groupedItem.items).filterByUnique(targetKey).fetch();
-    var nextGroupedItem = (0, _ammo.extend)({}, groupedItem, { items: uniqueItems });
-    accumulator.push(nextGroupedItem);
-    return accumulator;
-  }, []);
-};
-
-/**
- * @description Get difference in days
- * @param dateA
- * @param dateB
- * @returns {number}
- */
-var getDifferenceInDays = exports.getDifferenceInDays = function getDifferenceInDays(dateA, dateB) {
-  var millisecondsInDay = 1000 * 60 * 60 * 24;
-  var dateObjA = getDateYMD(dateA);
-  var dateObjB = getDateYMD(dateB);
-  var utcDateA = Date.UTC(dateObjA.year, dateObjA.month, dateObjA.day);
-  var utcDateB = Date.UTC(dateObjB.year, dateObjB.month, dateObjB.day);
-
-  return Math.floor((utcDateB - utcDateA) / millisecondsInDay);
-};
-
-/**
- * @description Get date year - month - day
- * @param date
- * @returns {{year: number, month: number, day: number}}
- */
-var getDateYMD = function getDateYMD(date) {
-  return {
-    year: date.getFullYear(),
-    month: date.getMonth(),
-    day: date.getDate()
-  };
-};
-
-/**
- * @description Is same date
- * @param dateA
- * @param dateB
- * @returns {boolean}
- */
-var isSameDate = function isSameDate(dateA, dateB) {
-  return dateA.year === dateB.year && dateA.month === dateB.month && dateA.day === dateB.day;
-};
-
-/***/ }),
 /* 167 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -39577,7 +39647,7 @@ var _react = __webpack_require__(1);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _ammo = __webpack_require__(3);
+var _ammo = __webpack_require__(2);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -39693,11 +39763,11 @@ var _react = __webpack_require__(1);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _Icon = __webpack_require__(6);
+var _Icon = __webpack_require__(4);
 
 var _Icon2 = _interopRequireDefault(_Icon);
 
-var _ammo = __webpack_require__(3);
+var _ammo = __webpack_require__(2);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -39764,7 +39834,7 @@ var _react = __webpack_require__(1);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _Icon = __webpack_require__(6);
+var _Icon = __webpack_require__(4);
 
 var _Icon2 = _interopRequireDefault(_Icon);
 
@@ -39831,15 +39901,11 @@ var _react = __webpack_require__(1);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _uid = __webpack_require__(175);
-
-var _uid2 = _interopRequireDefault(_uid);
-
-var _Icon = __webpack_require__(6);
+var _Icon = __webpack_require__(4);
 
 var _Icon2 = _interopRequireDefault(_Icon);
 
-var _ammo = __webpack_require__(3);
+var _ammo = __webpack_require__(2);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -39922,7 +39988,7 @@ var Breadcrumbs = function (_Component) {
             return _react2.default.createElement(
               'li',
               {
-                key: (0, _uid2.default)(),
+                key: (0, _ammo.uid)(),
                 className: 'component-item ' + (isSelected ? 'active' : '')
               },
               _react2.default.createElement(
@@ -39957,29 +40023,350 @@ exports.default = Breadcrumbs;
 
 /***/ }),
 /* 175 */
-/***/ (function(module, exports) {
+/***/ (function(module, exports, __webpack_require__) {
 
-/**
- * Export `uid`
- */
+"use strict";
 
-module.exports = uid;
 
-/**
- * Create a `uid`
- *
- * @param {String} len
- * @return {String} uid
- */
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
 
-function uid(len) {
-  len = len || 7;
-  return Math.random().toString(35).substr(2, len);
-}
+var _StackableAlerts = __webpack_require__(176);
 
+var _StackableAlerts2 = _interopRequireDefault(_StackableAlerts);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+exports.default = _StackableAlerts2.default;
 
 /***/ }),
 /* 176 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _react = __webpack_require__(1);
+
+var _react2 = _interopRequireDefault(_react);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var StackableAlerts = function StackableAlerts(_ref) {
+  var children = _ref.children;
+  return _react2.default.createElement(
+    "div",
+    { "data-component": "stackable-alerts" },
+    children
+  );
+};
+
+exports.default = StackableAlerts;
+
+/***/ }),
+/* 177 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _Alert = __webpack_require__(178);
+
+var _Alert2 = _interopRequireDefault(_Alert);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+exports.default = _Alert2.default;
+
+/***/ }),
+/* 178 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _react = __webpack_require__(1);
+
+var _react2 = _interopRequireDefault(_react);
+
+var _Icon = __webpack_require__(4);
+
+var _Icon2 = _interopRequireDefault(_Icon);
+
+var _ammo = __webpack_require__(2);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var defaultDelay = 5000;
+
+var Alert = function (_Component) {
+  _inherits(Alert, _Component);
+
+  function Alert() {
+    var _ref;
+
+    var _temp, _this, _ret;
+
+    _classCallCheck(this, Alert);
+
+    for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
+      args[_key] = arguments[_key];
+    }
+
+    return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_ref = Alert.__proto__ || Object.getPrototypeOf(Alert)).call.apply(_ref, [this].concat(args))), _this), _this.state = {
+      isAlertVisible: _this.props.isVisible
+    }, _this.hideAfterDelay = function (delay) {
+      setTimeout(function () {
+        var isAlertHovered = (0, _ammo.isHovered)(_this.refComponent);
+        if (isAlertHovered) {
+          return _this.hideAfterDelay(delay);
+        }
+        _this.setState({ isAlertVisible: false });
+      }, delay);
+    }, _temp), _possibleConstructorReturn(_this, _ret);
+  }
+
+  _createClass(Alert, [{
+    key: 'componentDidMount',
+    value: function componentDidMount() {
+      var _state = this.state,
+          isConfirm = _state.isConfirm,
+          _state$delay = _state.delay,
+          delay = _state$delay === undefined ? defaultDelay : _state$delay;
+
+      if (!isConfirm) {
+        this.hideAfterDelay(delay);
+      }
+    }
+  }, {
+    key: 'componentWillReceiveProps',
+    value: function componentWillReceiveProps(_ref2) {
+      var _this2 = this;
+
+      var isVisible = _ref2.isVisible,
+          isConfirm = _ref2.isConfirm,
+          delay = _ref2.delay;
+
+      this.setState({ isAlertVisible: isVisible }, function () {
+        if (!isConfirm) {
+          _this2.hideAfterDelay(delay);
+        }
+      });
+    }
+  }, {
+    key: 'render',
+    value: function render() {
+      var _this3 = this;
+
+      var _props = this.props,
+          _props$type = _props.type,
+          type = _props$type === undefined ? 'info' : _props$type,
+          _props$title = _props.title,
+          title = _props$title === undefined ? '' : _props$title,
+          _props$content = _props.content,
+          content = _props$content === undefined ? '' : _props$content,
+          _props$closeText = _props.closeText,
+          closeText = _props$closeText === undefined ? 'Close' : _props$closeText,
+          _props$cancelText = _props.cancelText,
+          cancelText = _props$cancelText === undefined ? 'Cancel' : _props$cancelText,
+          _props$confirmText = _props.confirmText,
+          confirmText = _props$confirmText === undefined ? 'OK' : _props$confirmText,
+          _props$isConfirm = _props.isConfirm,
+          isConfirm = _props$isConfirm === undefined ? false : _props$isConfirm,
+          _props$onCancel = _props.onCancel,
+          onCancel = _props$onCancel === undefined ? function () {} : _props$onCancel,
+          _props$onConfirm = _props.onConfirm,
+          onConfirm = _props$onConfirm === undefined ? function () {} : _props$onConfirm;
+      var isAlertVisible = this.state.isAlertVisible;
+
+
+      return isAlertVisible && _react2.default.createElement(
+        'div',
+        {
+          'data-component': 'alert',
+          'data-alert-type': type,
+          ref: function ref(node) {
+            _this3.refComponent = node;
+          }
+        },
+        _react2.default.createElement(
+          'div',
+          { className: 'component-header' },
+          _react2.default.createElement(
+            'span',
+            { className: 'title' },
+            title
+          ),
+          _react2.default.createElement(
+            'div',
+            { className: 'content' },
+            content
+          ),
+          _react2.default.createElement(
+            'button',
+            {
+              className: 'trigger close-alert',
+              title: closeText,
+              onClick: onCancel
+            },
+            _react2.default.createElement(_Icon2.default, { name: 'add' })
+          )
+        ),
+        isConfirm && _react2.default.createElement(
+          'div',
+          { className: 'component-body' },
+          _react2.default.createElement(
+            'button',
+            {
+              className: 'trigger cancel-alert',
+              title: cancelText,
+              onClick: onCancel
+            },
+            cancelText
+          ),
+          _react2.default.createElement(
+            'button',
+            {
+              className: 'trigger confirm-alert',
+              title: confirmText,
+              onClick: onConfirm
+            },
+            confirmText
+          )
+        )
+      );
+    }
+  }]);
+
+  return Alert;
+}(_react.Component);
+
+exports.default = Alert;
+
+/***/ }),
+/* 179 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _Stat = __webpack_require__(180);
+
+var _Stat2 = _interopRequireDefault(_Stat);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+exports.default = _Stat2.default;
+
+/***/ }),
+/* 180 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _react = __webpack_require__(1);
+
+var _react2 = _interopRequireDefault(_react);
+
+var _Icon = __webpack_require__(4);
+
+var _Icon2 = _interopRequireDefault(_Icon);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var Stat = function Stat(_ref) {
+  var _ref$iconName = _ref.iconName,
+      iconName = _ref$iconName === undefined ? 'comment' : _ref$iconName,
+      _ref$count = _ref.count,
+      count = _ref$count === undefined ? 0 : _ref$count;
+  return _react2.default.createElement(
+    'div',
+    { 'data-component': 'stat' },
+    _react2.default.createElement(_Icon2.default, { name: iconName }),
+    _react2.default.createElement(
+      'span',
+      { className: 'count' },
+      count
+    )
+  );
+};
+
+exports.default = Stat;
+
+/***/ }),
+/* 181 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.createItems = undefined;
+
+var _moment = __webpack_require__(0);
+
+var _moment2 = _interopRequireDefault(_moment);
+
+var _ammo = __webpack_require__(2);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var defaultThumbnail = 'https://wallpaperbits.com/wp-content/uploads/2018/01/google-nexus-5-wallpaper-154171-nature-landscape-mountain-nexus-5.jpg';
+
+var createItems = exports.createItems = function createItems() {
+  var count = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 10;
+
+  var items = [];
+  for (var i = 0; i < count; i++) {
+    var isNewDate = (0, _ammo.randomInclusive)(0, 10) > 6;
+    var subTrackedDays = (0, _ammo.randomInclusive)(0, 365);
+    items.push({
+      id: i,
+      name: 'Item ' + i,
+      url: 'https://google.com',
+      isSelected: i === 0,
+      thumbnail: defaultThumbnail,
+      note: 'some note',
+      created_at: isNewDate ? (0, _moment2.default)(new Date()).subtract(subTrackedDays, 'days') : (0, _moment2.default)(i > 0 ? items[i - 1].created_at : new Date())
+    });
+  }
+  return items;
+};
+
+/***/ }),
+/* 182 */
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin
