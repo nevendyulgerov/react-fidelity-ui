@@ -44,7 +44,6 @@ class Dropdown extends Component {
     const isMenuTriggerHovered = isHovered(toggleMenu);
     const isMenuHovered = isHovered(menu);
 
-
     if (!isMenuHovered && !isMenuTriggerHovered && isMenuOpened) {
       this.setState({ isMenuOpened: false });
     }
