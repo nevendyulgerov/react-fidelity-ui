@@ -66,7 +66,7 @@ export const getDifferenceInDays = (dateA, dateB) => {
  * @param date
  * @returns {{year: number, month: number, day: number}}
  */
-const getDateYMD = date => ({
+export const getDateYMD = date => ({
   year: date.getFullYear(),
   month: date.getMonth(),
   day: date.getDate()
@@ -78,4 +78,4 @@ const getDateYMD = date => ({
  * @param dateB
  * @returns {boolean}
  */
-const isSameDate = (dateA, dateB) => dateA.year === dateB.year && dateA.month === dateB.month && dateA.day === dateB.day;
+export const isSameDate = (dateA, dateB) => dateA.year === dateB.year && dateA.month === dateB.month && dateA.day === dateB.day;
