@@ -1,6 +1,7 @@
 import React from 'react';
+import { uid } from '../../../utils/ammo';
 
-const Checkbox = ({ id = '', labelText = '', labelTitle = '', isChecked = false, isDisabled = false, onChange = () => {} }) => (
+const Checkbox = ({ id = uid(), labelText = '', labelTitle = '', isChecked = false, isDisabled = false, onChange = () => {} }) => (
   <div data-component="checkbox">
     <input
       id={id}
