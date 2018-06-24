@@ -1,3 +1,4 @@
+import Alert from './src/components/Alert/';
 import Breadcrumbs from './src/components/Breadcrumbs/';
 import Checkbox from './src/components/Checkbox';
 import Dropdown, {
@@ -33,6 +34,7 @@ const utils = {
 };
 
 export {
+  Alert,
   Breadcrumbs,
   Checkbox,
   Dropdown,
