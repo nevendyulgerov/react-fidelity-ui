@@ -19,8 +19,77 @@ body {
 [data-component="fidelity-ui-test-app"] {
   padding: 20px;
 
-  .breadcrumbs {
-    padding: 0 0 20px 0;
+  .demo-box {
+    margin: 0 0 40px 0;
+
+    .title {
+      display: block;
+      font-size: 22px;
+    }
+
+    .demo {
+      padding: 10px 0 0 0;
+    }
+
+    .actions {
+      padding: 10px 0 0 0;
+
+      .trigger {
+        @extend .fidelity-ui-trigger;
+        @extend .fidelity-ui-material-to-flat;
+        margin: 0 10px 0 0;
+
+        &.toggle-info-alert {
+          @extend .fidelity-ui-info;
+        }
+        &.toggle-success-alert {
+          @extend .fidelity-ui-success;
+        }
+        &.toggle-warning-alert {
+          @extend .fidelity-ui-warning;
+        }
+        &.toggle-error-alert {
+          @extend .fidelity-ui-error;
+        }
+      }
+    }
+
+    &[data-demo="breadcrumbs"] {
+      margin: 0 0 30px 0;
+
+      .demo {
+        padding: 0;
+      }
+    }
+
+    &[data-demo="dropdown"] {
+      width: 520px;
+    }
+
+    &[data-demo="icon"] {
+      margin: 0 0 30px 0;
+
+      .demo {
+        display: flex;
+        justify-content: flex-start;
+        align-items: center;
+        flex-wrap: wrap;
+
+        [data-component="icon"] {
+          background-color: $white;
+          padding: 10px 20px;
+          margin: 0 20px 20px 0;
+          border-radius: 4px;
+          box-shadow: $shadow-depth-0;
+        }
+      }
+    }
+
+    &[data-demo="notification"] {
+      .demo {
+        padding: 0;
+      }
+    }
   }
 
   .notification {
