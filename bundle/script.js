@@ -38400,9 +38400,13 @@ var App = function (_Component) {
               title: 'Alert',
               content: 'Info alert with \'settings\' icon',
               isVisible: isInfoAlertVisible,
+              isConfirm: true,
               icon: 'settings',
               onCancel: function onCancel() {
                 _this2.setState({ isInfoAlertVisible: false });
+              },
+              onConfirm: function onConfirm() {
+                console.log('on confirm!');
               }
             }),
             _react2.default.createElement(_Alert2.default, {
@@ -39006,11 +39010,13 @@ var _react = __webpack_require__(1);
 
 var _react2 = _interopRequireDefault(_react);
 
+var _ammo = __webpack_require__(2);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var Checkbox = function Checkbox(_ref) {
   var _ref$id = _ref.id,
-      id = _ref$id === undefined ? '' : _ref$id,
+      id = _ref$id === undefined ? (0, _ammo.uid)() : _ref$id,
       _ref$labelText = _ref.labelText,
       labelText = _ref$labelText === undefined ? '' : _ref$labelText,
       _ref$labelTitle = _ref.labelTitle,
