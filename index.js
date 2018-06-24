@@ -12,7 +12,12 @@ import Loader from './src/components/Loader';
 import Notification from './src/components/Notification';
 import Panel from './src/components/Panel';
 import Tag from './src/components/Tag';
-import Timeline from './src/components/Timeline';
+import Timeline, {
+  groupItemsByDate,
+  getDifferenceInDays,
+  getDateYMD,
+  isSameDate
+} from './src/components/Timeline';
 import './dist/style.min.css';
 
 const utils = {
@@ -20,7 +25,11 @@ const utils = {
   changeMultiSelect,
   deselectItem,
   filterItemsByName,
-  syncDropdownMenuOffset
+  syncDropdownMenuOffset,
+  groupItemsByDate,
+  getDifferenceInDays,
+  getDateYMD,
+  isSameDate
 };
 
 export {

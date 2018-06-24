@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
-import uid from 'uid';
 import Icon from '../../Icon';
-import { isFunc } from '../../../utils/ammo';
+import { isFunc, uid } from '../../../utils/ammo';
 
 class Breadcrumbs extends Component {
   state = {
