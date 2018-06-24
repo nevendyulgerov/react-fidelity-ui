@@ -13,7 +13,7 @@ class Breadcrumbs extends Component {
   toggleMobileView = () => this.setState(({ isMobileViewOpened }) => ({ isMobileViewOpened: !isMobileViewOpened }));
 
   render() {
-    const { items, isToggleableOnMobile = true, isStackedOnMobile = true, onChange } = this.props;
+    const { items, isLastActive = true, isToggleableOnMobile = true, isStackedOnMobile = true, onChange } = this.props;
     const { isMobileViewOpened } = this.state;
 
     const toggleableOnMobile = isToggleableOnMobile ? 'mobile-toggle' : '';
@@ -33,10 +33,10 @@ class Breadcrumbs extends Component {
           <Icon name="next" />
         </button>
         <ol className="component-items">
-          {items.map(({ url, name, isSelected, target = '_self' }) => (
+          {items.map(({ url, name, isSelected = false, target = '_self' }, index) => (
             <li
               key={uid()}
-              className={`component-item ${isSelected ? 'active' : ''}`}
+              className={`component-item ${(isSelected && !isLastActive) || (isLastActive && index === items.length - 1) ? 'active' : ''}`}
             >
               <a
                 href={url}
@@ -44,7 +44,8 @@ class Breadcrumbs extends Component {
                 target={target}
                 onClick={event => {
                   if (isFunc(onChange)) {
-                    onChange({ url, name, isSelected, event });
+                    const isItemSelected = (isSelected && !isLastActive) || (isLastActive && index === items.length - 1);
+                    onChange({ url, name, isSelected: isItemSelected, event });
                   }
                 }}
               >
