@@ -18495,9 +18495,42 @@ exports.default = _Dropdown2.default;
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.isSameDate = exports.getDateYMD = exports.getDifferenceInDays = exports.groupItemsByDate = undefined;
+exports.isSameDate = exports.getDateYMD = exports.getDifferenceInDays = exports.groupItemsByDate = exports.getTimeSpacing = exports.sortTimeline = undefined;
 
 var _ammo = __webpack_require__(2);
+
+/**
+ * @description Sort timeline
+ * @param groupedItems
+ * @param direction
+ * @param targetKey
+ */
+var sortTimeline = exports.sortTimeline = function sortTimeline(groupedItems, direction, targetKey) {
+  return (0, _ammo.sortBy)(groupedItems, 'date', 'date', direction).reduce(function (accumulator, groupedItem) {
+    var nextGroupedItem = (0, _ammo.extend)({}, groupedItem, {
+      items: (0, _ammo.sortBy)(groupedItem.items, targetKey, 'date', direction)
+    });
+    accumulator.push(nextGroupedItem);
+    return accumulator;
+  }, []);
+};
+
+/**
+ * @description Get time spacing
+ * @param date
+ * @param nextDate
+ * @param isDesc
+ */
+var getTimeSpacing = exports.getTimeSpacing = function getTimeSpacing(date, nextDate, isDesc) {
+  var dateStart = new Date(date);
+  var dateEnd = new Date(nextDate);
+  var differentInDaysBetweenStartEnd = getDifferenceInDays(dateStart, dateEnd);
+  var differentInDaysBetweenEndStart = getDifferenceInDays(dateEnd, dateStart);
+
+  var differenceInDays = isDesc ? differentInDaysBetweenStartEnd >= 0 ? differentInDaysBetweenStartEnd : differentInDaysBetweenEndStart : differentInDaysBetweenEndStart >= 0 ? differentInDaysBetweenEndStart : differentInDaysBetweenStartEnd;
+
+  return differenceInDays <= 30 ? 'small' : differenceInDays <= 180 ? 'medium' : 'large';
+};
 
 /**
  * @description Group items by date
@@ -38160,6 +38193,14 @@ var _Notification = __webpack_require__(171);
 
 var _Notification2 = _interopRequireDefault(_Notification);
 
+var _Icon = __webpack_require__(4);
+
+var _Icon2 = _interopRequireDefault(_Icon);
+
+var _Loader = __webpack_require__(164);
+
+var _Loader2 = _interopRequireDefault(_Loader);
+
 var _Breadcrumbs = __webpack_require__(173);
 
 var _Breadcrumbs2 = _interopRequireDefault(_Breadcrumbs);
@@ -38176,10 +38217,6 @@ var _Alert = __webpack_require__(177);
 
 var _Alert2 = _interopRequireDefault(_Alert);
 
-var _Stat = __webpack_require__(179);
-
-var _Stat2 = _interopRequireDefault(_Stat);
-
 var _Utils = __webpack_require__(181);
 
 var _ammo = __webpack_require__(2);
@@ -38192,7 +38229,11 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-var defaultItems = (0, _Utils.createItems)(30);
+var defaultBreadcrumbs = (0, _Utils.createItems)(5);
+var defaultTags = (0, _Utils.createItems)(40);
+var defaultDropdownItems = (0, _Utils.createItems)(10);
+var defaultTimelineVerticalItems = (0, _Utils.createItems)(5);
+var defaultTimelineHorizontalItems = (0, _Utils.createItems)(30);
 
 var App = function (_Component) {
   _inherits(App, _Component);
@@ -38209,27 +38250,35 @@ var App = function (_Component) {
     }
 
     return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_ref = App.__proto__ || Object.getPrototypeOf(App)).call.apply(_ref, [this].concat(args))), _this), _this.state = {
-      items: defaultItems,
-      initialItems: defaultItems,
+      breadcrumbs: defaultBreadcrumbs,
+      tags: defaultTags,
+      dropdownItems: defaultDropdownItems,
+      initialDropdownItems: defaultDropdownItems,
+      timelineVerticalItems: defaultTimelineVerticalItems,
+      timelineHorizontalItems: defaultTimelineHorizontalItems,
+      isLoaderLoading: true,
       isChecked: false,
-      isAlertVisible: true
+      isInfoAlertVisible: false,
+      isSuccessAlertVisible: false,
+      isWarningAlertVisible: false,
+      isErrorAlertVisible: false
     }, _this.changeSingleSelect = function (_ref2) {
       var id = _ref2.id;
-      var items = _this.state.items;
+      var dropdownItems = _this.state.dropdownItems;
 
-      var nextItems = (0, _Dropdown.changeSingleSelect)(items, id);
-      _this.setState({ items: nextItems }, function () {
-        return _this.setState({ initialItems: nextItems });
+      var nextDropdownItems = (0, _Dropdown.changeSingleSelect)(dropdownItems, id);
+      _this.setState({ dropdownItems: nextDropdownItems }, function () {
+        return _this.setState({ initialDropdownItems: nextDropdownItems });
       });
     }, _this.changeMultiSelect = function (_ref3, isSelected) {
       var id = _ref3.id;
-      var items = _this.state.items;
+      var dropdownItems = _this.state.dropdownItems;
 
-      var nextItems = (0, _Dropdown.changeMultiSelect)(items, id, isSelected);
-      _this.setState({ items: nextItems }, function () {
+      var nextDropdownItems = (0, _Dropdown.changeMultiSelect)(dropdownItems, id, isSelected);
+      _this.setState({ dropdownItems: nextDropdownItems }, function () {
         var component = _this.getNode();
         (0, _Dropdown.syncDropdownMenuOffset)(component);
-        _this.setState({ initialItems: nextItems });
+        _this.setState({ initialDropdownItems: nextDropdownItems });
       });
     }, _this.getNode = function () {
       var app = (0, _ammo.select)('[data-component="fidelity-ui-test-app"]').get();
@@ -38262,10 +38311,18 @@ var App = function (_Component) {
       var _this2 = this;
 
       var _state = this.state,
-          items = _state.items,
-          initialItems = _state.initialItems,
+          tags = _state.tags,
+          breadcrumbs = _state.breadcrumbs,
+          dropdownItems = _state.dropdownItems,
+          initialDropdownItems = _state.initialDropdownItems,
+          timelineVerticalItems = _state.timelineVerticalItems,
+          timelineHorizontalItems = _state.timelineHorizontalItems,
           isChecked = _state.isChecked,
-          isAlertVisible = _state.isAlertVisible;
+          isLoaderLoading = _state.isLoaderLoading,
+          isInfoAlertVisible = _state.isInfoAlertVisible,
+          isSuccessAlertVisible = _state.isSuccessAlertVisible,
+          isWarningAlertVisible = _state.isWarningAlertVisible,
+          isErrorAlertVisible = _state.isErrorAlertVisible;
 
 
       return _react2.default.createElement(
@@ -38273,176 +38330,361 @@ var App = function (_Component) {
         { 'data-component': 'fidelity-ui-test-app' },
         _react2.default.createElement(
           'div',
-          { className: 'breadcrumbs' },
-          _react2.default.createElement(_Breadcrumbs2.default, {
-            isToggleableOnMobile: true,
-            isStackedOnMobile: false,
-            items: (0, _Utils.createItems)(5),
-            onChange: function onChange(_ref4) {
-              var url = _ref4.url,
-                  event = _ref4.event;
-
-              event.preventDefault();
-              console.log(url);
-            }
-          })
-        ),
-        _react2.default.createElement(
-          'div',
-          { className: 'alert' },
+          { className: 'demo-box', 'data-demo': 'alert' },
+          _react2.default.createElement(
+            'span',
+            { className: 'title' },
+            'Alert'
+          ),
+          _react2.default.createElement(
+            'div',
+            { className: 'actions' },
+            _react2.default.createElement(
+              'button',
+              {
+                className: 'trigger toggle-info-alert',
+                disabled: isInfoAlertVisible,
+                onClick: function onClick() {
+                  return _this2.setState({
+                    isInfoAlertVisible: true
+                  });
+                }
+              },
+              'Info alert'
+            ),
+            _react2.default.createElement(
+              'button',
+              {
+                className: 'trigger toggle-success-alert',
+                disabled: isSuccessAlertVisible,
+                onClick: function onClick() {
+                  return _this2.setState({
+                    isSuccessAlertVisible: true
+                  });
+                }
+              },
+              'Success alert'
+            ),
+            _react2.default.createElement(
+              'button',
+              {
+                className: 'trigger toggle-warning-alert',
+                disabled: isWarningAlertVisible,
+                onClick: function onClick() {
+                  return _this2.setState({
+                    isWarningAlertVisible: true
+                  });
+                }
+              },
+              'Warning alert'
+            ),
+            _react2.default.createElement(
+              'button',
+              {
+                className: 'trigger toggle-error-alert',
+                disabled: isErrorAlertVisible,
+                onClick: function onClick() {
+                  return _this2.setState({
+                    isErrorAlertVisible: true
+                  });
+                }
+              },
+              'Error alert'
+            )
+          ),
           _react2.default.createElement(
             _StackableAlerts2.default,
             null,
             _react2.default.createElement(_Alert2.default, {
               type: 'info',
               title: 'Alert',
-              content: 'Lorem ipsum dolor sit amet',
-              isVisible: true,
+              content: 'Info alert with \'settings\' icon',
+              isVisible: isInfoAlertVisible,
               icon: 'settings',
-              delay: 2500,
               onCancel: function onCancel() {
-                console.log('on cancel alert!');
-                _this2.setState({ isAlertVisible: false });
-              },
-              onConfirm: function onConfirm() {
-                console.log('on confirm alert');
+                _this2.setState({ isInfoAlertVisible: false });
               }
             }),
             _react2.default.createElement(_Alert2.default, {
               type: 'success',
               title: 'Success',
-              content: 'Lorem ipsum dolor sit amet',
-              isVisible: true,
-              icon: 'upvote',
-              delay: 3500,
+              content: 'Default success alert',
+              isVisible: isSuccessAlertVisible,
               onCancel: function onCancel() {
-                console.log('on cancel alert!');
-                _this2.setState({ isAlertVisible: false });
-              },
-              onConfirm: function onConfirm() {
-                console.log('on confirm alert');
+                _this2.setState({ isSuccessAlertVisible: false });
               }
             }),
             _react2.default.createElement(_Alert2.default, {
               type: 'warning',
               title: 'Warning',
-              content: 'Lorem ipsum dolor sit amet',
-              isVisible: true,
-              icon: 'downvote',
-              delay: 4500,
+              content: 'Default warning alert',
+              isVisible: isWarningAlertVisible,
               onCancel: function onCancel() {
-                console.log('on cancel alert!');
-                _this2.setState({ isAlertVisible: false });
-              },
-              onConfirm: function onConfirm() {
-                console.log('on confirm alert');
+                _this2.setState({ isWarningAlertVisible: false });
               }
             }),
             _react2.default.createElement(_Alert2.default, {
               type: 'error',
               title: 'Error',
-              content: 'Lorem ipsum dolor sit amet',
-              isVisible: true,
-              delay: 5500,
+              content: 'Default error alert',
+              isVisible: isErrorAlertVisible,
               onCancel: function onCancel() {
-                console.log('on cancel alert!');
-                _this2.setState({ isAlertVisible: false });
-              },
-              onConfirm: function onConfirm() {
-                console.log('on confirm alert');
+                _this2.setState({ isErrorAlertVisible: false });
               }
             })
           )
         ),
         _react2.default.createElement(
           'div',
-          { className: 'stat' },
-          _react2.default.createElement(_Stat2.default, {
-            icon: 'stats',
-            count: 5
-          })
+          { className: 'demo-box', 'data-demo': 'breadcrumbs' },
+          _react2.default.createElement(
+            'span',
+            { className: 'title' },
+            'Breadcrumbs'
+          ),
+          _react2.default.createElement(
+            'div',
+            { className: 'demo' },
+            _react2.default.createElement(_Breadcrumbs2.default, {
+              isToggleableOnMobile: true,
+              isStackedOnMobile: false,
+              items: breadcrumbs,
+              onChange: function onChange(_ref4) {
+                var url = _ref4.url,
+                    event = _ref4.event;
+
+                event.preventDefault();
+                console.log(url);
+              }
+            })
+          )
         ),
         _react2.default.createElement(
           'div',
-          { className: 'notification' },
-          _react2.default.createElement(_Notification2.default, { text: 'info' })
+          { className: 'demo-box', 'data-demo': 'checkbox' },
+          _react2.default.createElement(
+            'span',
+            { className: 'title' },
+            'Checkbox'
+          ),
+          _react2.default.createElement(
+            'div',
+            { className: 'demo' },
+            _react2.default.createElement(_Checkbox2.default, {
+              id: 'test-abc',
+              isChecked: isChecked,
+              labelText: 'Tick to activate',
+              labelTitle: 'Tick to activate title',
+              onChange: function onChange() {
+                return _this2.setState(function (_ref5) {
+                  var isChecked = _ref5.isChecked;
+                  return { isChecked: !isChecked };
+                });
+              }
+            })
+          )
         ),
         _react2.default.createElement(
           'div',
-          { className: 'dropdown' },
-          _react2.default.createElement(_Dropdown2.default, {
-            title: 'Dropdown',
-            text: 'Text',
-            triggerText: 'Trigger text',
-            addItemTitle: 'Add',
-            isFilterable: true,
-            items: items,
-            onChange: this.changeMultiSelect,
-            onFilter: function onFilter(filterText) {
-              var nextItems = (0, _Dropdown.filterItemsByName)(initialItems, filterText);
-              _this2.setState({ items: nextItems });
-            },
-            onDisplaySelectedItems: function onDisplaySelectedItems(selectedItems) {
-              return _react2.default.createElement(
-                'div',
-                { className: 'inline-tags ' + (selectedItems.length > 0 ? 'has-tags' : '') },
-                selectedItems.length === 0 ? 'Select tags' : selectedItems.map(function (_ref5) {
-                  var id = _ref5.id,
-                      name = _ref5.name;
-                  return _react2.default.createElement(_Tag2.default, {
-                    key: id,
-                    name: name,
-                    onRemove: function onRemove() {
-                      var nextItems = (0, _Dropdown.deselectItem)(items, id);
-                      _this2.setState({ items: nextItems }, function () {
-                        var component = _this2.getNode();
-                        (0, _Dropdown.syncDropdownMenuOffset)(component);
-                      });
-                    }
+          { className: 'demo-box', 'data-demo': 'dropdown' },
+          _react2.default.createElement(
+            'span',
+            { className: 'title' },
+            'Dropdown'
+          ),
+          _react2.default.createElement(
+            'div',
+            { className: 'demo' },
+            _react2.default.createElement(_Dropdown2.default, {
+              title: 'Dropdown',
+              text: 'Text',
+              triggerText: 'Trigger text',
+              addItemTitle: 'Add',
+              isFilterable: true,
+              items: dropdownItems,
+              onChange: this.changeMultiSelect,
+              onFilter: function onFilter(filterText) {
+                var nextDropdownItems = (0, _Dropdown.filterItemsByName)(initialDropdownItems, filterText);
+                _this2.setState({ dropdownItems: nextDropdownItems });
+              },
+              onDisplaySelectedItems: function onDisplaySelectedItems(nextDropdownItems) {
+                return _react2.default.createElement(
+                  'div',
+                  { className: 'inline-tags ' + (nextDropdownItems.length > 0 ? 'has-tags' : '') },
+                  nextDropdownItems.length === 0 ? 'Select tags' : nextDropdownItems.map(function (_ref6) {
+                    var id = _ref6.id,
+                        name = _ref6.name;
+                    return _react2.default.createElement(_Tag2.default, {
+                      key: id,
+                      name: name,
+                      onRemove: function onRemove() {
+                        var nextDropdownItems = (0, _Dropdown.deselectItem)(dropdownItems, id);
+                        _this2.setState({ dropdownItems: nextDropdownItems }, function () {
+                          var component = _this2.getNode();
+                          (0, _Dropdown.syncDropdownMenuOffset)(component);
+                        });
+                      }
+                    });
+                  })
+                );
+              }
+            })
+          )
+        ),
+        _react2.default.createElement(
+          'div',
+          { className: 'demo-box', 'data-demo': 'icon' },
+          _react2.default.createElement(
+            'span',
+            { className: 'title' },
+            'Icon'
+          ),
+          _react2.default.createElement(
+            'div',
+            { className: 'demo' },
+            _react2.default.createElement(_Icon2.default, { name: 'add', title: 'add' }),
+            _react2.default.createElement(_Icon2.default, { name: 'comment', title: 'comment' }),
+            _react2.default.createElement(_Icon2.default, { name: 'downvote', title: 'downvote' }),
+            _react2.default.createElement(_Icon2.default, { name: 'edit', title: 'edit' }),
+            _react2.default.createElement(_Icon2.default, { name: 'filter', title: 'filter' }),
+            _react2.default.createElement(_Icon2.default, { name: 'more', title: 'more' }),
+            _react2.default.createElement(_Icon2.default, { name: 'next', title: 'next' }),
+            _react2.default.createElement(_Icon2.default, { name: 'notification', title: 'notification' }),
+            _react2.default.createElement(_Icon2.default, { name: 'previous', title: 'previous' }),
+            _react2.default.createElement(_Icon2.default, { name: 'remove', title: 'remove' }),
+            _react2.default.createElement(_Icon2.default, { name: 'search', title: 'search' }),
+            _react2.default.createElement(_Icon2.default, { name: 'select', title: 'select' }),
+            _react2.default.createElement(_Icon2.default, { name: 'settings', title: 'settings' }),
+            _react2.default.createElement(_Icon2.default, { name: 'stats', title: 'stats' }),
+            _react2.default.createElement(_Icon2.default, { name: 'tick', title: 'tick' }),
+            _react2.default.createElement(_Icon2.default, { name: 'upvote', title: 'upvote' })
+          )
+        ),
+        _react2.default.createElement(
+          'div',
+          { className: 'demo-box', 'data-demo': 'loader' },
+          _react2.default.createElement(
+            'span',
+            { className: 'title' },
+            'Loader'
+          ),
+          _react2.default.createElement(
+            'div',
+            { className: 'demo' },
+            _react2.default.createElement(_Loader2.default, { isLoading: isLoaderLoading })
+          )
+        ),
+        _react2.default.createElement(
+          'div',
+          { className: 'demo-box', 'data-demo': 'notification' },
+          _react2.default.createElement(
+            'span',
+            { className: 'title' },
+            'Notification'
+          ),
+          _react2.default.createElement(
+            'div',
+            { className: 'demo' },
+            _react2.default.createElement(_Notification2.default, { type: 'info', text: 'Info' }),
+            _react2.default.createElement(_Notification2.default, { type: 'success', text: 'Success', icon: 'upvote' }),
+            _react2.default.createElement(_Notification2.default, { type: 'warning', text: 'Warning', icon: 'edit' }),
+            _react2.default.createElement(_Notification2.default, { type: 'error', text: 'Error', icon: 'more' })
+          )
+        ),
+        _react2.default.createElement(
+          'div',
+          { className: 'demo-box', 'data-demo': 'stat' },
+          _react2.default.createElement(
+            'span',
+            { className: 'title' },
+            'Panel'
+          ),
+          _react2.default.createElement(
+            'div',
+            { className: 'demo' },
+            _react2.default.createElement(_Panel2.default, { theme: 'stat', item: { icon: 'stats', count: 2 } }),
+            _react2.default.createElement(_Panel2.default, { theme: 'stat', item: { icon: 'edit', count: 3 } }),
+            _react2.default.createElement(_Panel2.default, { theme: 'stat', item: { icon: 'comment', count: 10 } }),
+            _react2.default.createElement(_Panel2.default, { theme: 'stat', item: { icon: 'upvote', count: 4 } })
+          )
+        ),
+        _react2.default.createElement(
+          'div',
+          { className: 'demo-box', 'data-demo': 'tag' },
+          _react2.default.createElement(
+            'span',
+            { className: 'title' },
+            'Tag'
+          ),
+          _react2.default.createElement(
+            'div',
+            { className: 'demo' },
+            tags.map(function (tag) {
+              return _react2.default.createElement(_Tag2.default, {
+                key: tag.id,
+                name: tag.name,
+                onRemove: function onRemove() {
+                  var nextTags = tags.filter(function (nextTag) {
+                    return nextTag.id !== tag.id;
                   });
-                })
-              );
-            }
-          })
+                  _this2.setState({ tags: nextTags });
+                }
+              });
+            })
+          )
         ),
         _react2.default.createElement(
           'div',
-          { className: 'checkbox' },
-          _react2.default.createElement(_Checkbox2.default, {
-            id: 'test-abc',
-            isChecked: isChecked,
-            labelText: 'Tick to activate',
-            labelTitle: 'Tick to activate title',
-            onChange: function onChange() {
-              return _this2.setState(function (_ref6) {
-                var isChecked = _ref6.isChecked;
-                return { isChecked: !isChecked };
-              });
-            }
-          })
-        ),
-        _react2.default.createElement(
-          'div',
-          { className: 'timeline' },
-          _react2.default.createElement(_Timeline2.default, {
-            title: 'Timeline',
-            targetKey: 'created_at',
-            items: items,
-            displayItem: function displayItem(_ref7) {
-              var name = _ref7.name,
-                  created_at = _ref7.created_at,
-                  thumbnail = _ref7.thumbnail,
-                  note = _ref7.note;
-              return _react2.default.createElement(_Panel2.default, {
-                theme: 'card',
-                item: {
-                  name: name,
-                  thumbnail: thumbnail,
-                  note: note,
-                  date: (0, _moment2.default)(created_at).format('HH:mm') }
-              });
-            }
-          })
+          { className: 'demo-box', 'data-demo': 'timeline' },
+          _react2.default.createElement(
+            'span',
+            { className: 'title' },
+            'Timeline'
+          ),
+          _react2.default.createElement(
+            'div',
+            { className: 'demo' },
+            _react2.default.createElement(_Timeline2.default, {
+              title: 'Timeline',
+              targetKey: 'created_at',
+              items: timelineVerticalItems,
+              displayItem: function displayItem(_ref7) {
+                var name = _ref7.name,
+                    created_at = _ref7.created_at,
+                    thumbnail = _ref7.thumbnail,
+                    note = _ref7.note;
+                return _react2.default.createElement(_Panel2.default, {
+                  item: {
+                    name: name,
+                    thumbnail: thumbnail,
+                    note: note,
+                    date: (0, _moment2.default)(created_at).format('HH:mm')
+                  }
+                });
+              }
+            }),
+            _react2.default.createElement(_Timeline2.default, {
+              title: 'Timeline',
+              direction: 'horizontal',
+              targetKey: 'created_at',
+              items: timelineHorizontalItems,
+              displayItem: function displayItem(_ref8) {
+                var name = _ref8.name,
+                    created_at = _ref8.created_at,
+                    thumbnail = _ref8.thumbnail,
+                    note = _ref8.note;
+                return _react2.default.createElement(_Panel2.default, {
+                  theme: 'card',
+                  item: {
+                    name: name,
+                    thumbnail: thumbnail,
+                    note: note,
+                    date: (0, _moment2.default)(created_at).format('HH:mm')
+                  }
+                });
+              }
+            })
+          )
         )
       );
     }
@@ -38879,13 +39121,13 @@ var Timeline = function (_Component) {
     }
 
     return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_ref = Timeline.__proto__ || Object.getPrototypeOf(Timeline)).call.apply(_ref, [this].concat(args))), _this), _this.state = {
-      groupedItems: (0, _Utils.groupItemsByDate)(_this.props.items, _this.props.targetKey),
+      groupedItems: (0, _Utils.sortTimeline)((0, _Utils.groupItemsByDate)(_this.props.items, _this.props.targetKey), 'desc', _this.props.targetKey),
       sortingOptions: [{
-        id: 'asc',
+        direction: 'asc',
         name: 'Ascending order',
         isSelected: false
       }, {
-        id: 'desc',
+        direction: 'desc',
         name: 'Descending order',
         isSelected: true
       }]
@@ -38902,7 +39144,6 @@ var Timeline = function (_Component) {
         return false;
       }
 
-      // const $target = $(target);
       var iconExpand = target.querySelector('.icon-expand');
       var iconCollapse = target.querySelector('.icon-collapse');
 
@@ -38923,14 +39164,9 @@ var Timeline = function (_Component) {
         iconExpand.classList.add('active');
         iconCollapse.classList.remove('active');
       }
-    }, _this.getTimeSpacing = function (date, nextDate, isDesc) {
-      var dateStart = new Date(date);
-      var dateEnd = new Date(nextDate);
-      var differenceInDays = isDesc ? (0, _Utils.getDifferenceInDays)(dateEnd, dateStart) : (0, _Utils.getDifferenceInDays)(dateStart, dateEnd);
-
-      return differenceInDays <= 30 ? 'small' : differenceInDays <= 180 ? 'medium' : 'large';
     }, _this.onChangeSorting = function (_ref3) {
-      var id = _ref3.id;
+      var direction = _ref3.direction;
+      var targetKey = _this.props.targetKey;
       var _this$state = _this.state,
           groupedItems = _this$state.groupedItems,
           sortingOptions = _this$state.sortingOptions;
@@ -38938,16 +39174,16 @@ var Timeline = function (_Component) {
       var selectedSortingOption = (0, _ammo.shape)(sortingOptions).filterByProp('isSelected', true).fetchIndex(0);
       var nextSortingOptions = sortingOptions.map(function (sortingOption) {
         return _extends({}, sortingOption, {
-          isSelected: sortingOption.id === id
+          isSelected: sortingOption.direction === direction
         });
       });
 
       _this.setState({ sortingOptions: nextSortingOptions }, function () {
-        if (selectedSortingOption.id === id) {
+        if (selectedSortingOption.direction === direction) {
           return false;
         }
 
-        var nextSortedGroupedItems = _this.sortTimeline(groupedItems, id);
+        var nextSortedGroupedItems = (0, _Utils.sortTimeline)(groupedItems, direction, targetKey);
         _this.setState({ groupedItems: nextSortedGroupedItems }, _this.normalizeUI);
       });
     }, _this.normalizeUI = function () {
@@ -38962,14 +39198,6 @@ var Timeline = function (_Component) {
         }
         trigger.classList.remove('expanded');
       });
-    }, _this.sortTimeline = function (groupedItems, direction) {
-      return (0, _ammo.sortBy)(groupedItems, 'date', 'date', direction).reduce(function (accumulator, groupedItem) {
-        var nextGroupedItem = (0, _ammo.extend)({}, groupedItem, {
-          items: (0, _ammo.sortBy)(groupedItem.items, _this.props.targetKey, 'date', direction)
-        });
-        accumulator.push(nextGroupedItem);
-        return accumulator;
-      }, []);
     }, _temp), _possibleConstructorReturn(_this, _ret);
   }
 
@@ -38990,14 +39218,6 @@ var Timeline = function (_Component) {
 
 
     /**
-     * @description Get time spacing
-     * @param date
-     * @param nextDate
-     * @param isDesc
-     */
-
-
-    /**
      * @description On change sorting
      * @param nextSortingOptionId
      */
@@ -39005,13 +39225,6 @@ var Timeline = function (_Component) {
 
     /**
      * @description Normalize UI
-     */
-
-
-    /**
-     * @description Sort timeline
-     * @param groupedItems
-     * @param direction
      */
 
   }, {
@@ -39023,8 +39236,8 @@ var Timeline = function (_Component) {
           _props$title = _props.title,
           title = _props$title === undefined ? '' : _props$title,
           targetKey = _props.targetKey,
-          _props$theme = _props.theme,
-          theme = _props$theme === undefined ? '' : _props$theme,
+          _props$direction = _props.direction,
+          direction = _props$direction === undefined ? 'vertical' : _props$direction,
           _props$displayItem = _props.displayItem,
           displayItem = _props$displayItem === undefined ? function () {} : _props$displayItem,
           formatDate = _props.formatDate;
@@ -39041,15 +39254,15 @@ var Timeline = function (_Component) {
         {
           className: 'component',
           'data-component': 'timeline',
-          'data-theme': theme,
+          'data-direction': direction,
           ref: function ref(node) {
             _this2.refComponent = node;
           }
         },
-        title !== '' && _react2.default.createElement(
+        _react2.default.createElement(
           'div',
           { className: 'component-header' },
-          _react2.default.createElement(
+          title !== '' && _react2.default.createElement(
             'span',
             { className: 'title' },
             title
@@ -39076,7 +39289,7 @@ var Timeline = function (_Component) {
                 'li',
                 {
                   key: id,
-                  className: 'timeline-item collapsed ' + ((index < length - 1 || length === 2) && (0, _ammo.isObj)(groupedItems[index + 1]) ? 'time-spacing-' + _this2.getTimeSpacing(items[0][targetKey], groupedItems[index + 1].items[0][targetKey], isDesc) : '')
+                  className: 'timeline-item collapsed ' + ((index < length - 1 || length === 2) && (0, _ammo.isObj)(groupedItems[index + 1]) ? 'time-spacing-' + (0, _Utils.getTimeSpacing)(items[0][targetKey], groupedItems[index + 1].items[0][targetKey], isDesc) : '')
                 },
                 items.length > 0 && _react2.default.createElement(
                   'span',
@@ -39105,7 +39318,7 @@ var Timeline = function (_Component) {
                   },
                   items.length > 1 ? _react2.default.createElement(
                     'span',
-                    null,
+                    { className: 'icons-box' },
                     _react2.default.createElement(_Icon2.default, { name: 'add', className: 'icon-expand active' }),
                     _react2.default.createElement(_Icon2.default, { name: 'remove', className: 'icon-collapse' })
                   ) : _react2.default.createElement(
@@ -39122,7 +39335,7 @@ var Timeline = function (_Component) {
                   items.map(function (item, groupedItemIndex) {
                     return _react2.default.createElement(
                       'li',
-                      { key: item.id || (0, _ammo.uid)(), className: 'grouped-item' },
+                      { key: (0, _ammo.uid)(), className: 'grouped-item' },
                       displayItem(item, isDesc ? index === length - 1 && groupedItemIndex === items.length - 1 : index === 0 && groupedItemIndex === 0)
                     );
                   })
@@ -39162,12 +39375,14 @@ var icons = ['add', 'comment', 'dropdown', 'filter', 'grid', 'more', 'next', 'no
 var Icon = function Icon(_ref) {
   var name = _ref.name,
       _ref$className = _ref.className,
-      className = _ref$className === undefined ? '' : _ref$className;
+      className = _ref$className === undefined ? '' : _ref$className,
+      _ref$title = _ref.title,
+      title = _ref$title === undefined ? '' : _ref$title;
 
 
   return _react2.default.createElement(
     'div',
-    { className: 'component ' + className, 'data-component': 'icon' },
+    { className: 'component ' + className, 'data-component': 'icon', title: title },
     _react2.default.createElement(
       'svg',
       { className: 'icon component-icon' },
@@ -39680,6 +39895,10 @@ var _react = __webpack_require__(1);
 
 var _react2 = _interopRequireDefault(_react);
 
+var _Icon = __webpack_require__(4);
+
+var _Icon2 = _interopRequireDefault(_Icon);
+
 var _ammo = __webpack_require__(2);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
@@ -39688,10 +39907,6 @@ var Panel = function Panel(_ref) {
   var _ref$theme = _ref.theme,
       theme = _ref$theme === undefined ? 'default' : _ref$theme,
       item = _ref.item;
-  var name = item.name,
-      date = item.date,
-      thumbnail = item.thumbnail,
-      note = item.note;
 
 
   return _react2.default.createElement(
@@ -39699,11 +39914,11 @@ var Panel = function Panel(_ref) {
     { 'data-component': 'panel', 'data-theme': theme },
     theme === 'default' && _react2.default.createElement(
       'div',
-      { className: 'meta' },
+      { className: 'component-body' },
       _react2.default.createElement(
         'span',
         { className: 'name' },
-        name
+        item.name
       ),
       _react2.default.createElement(
         'span',
@@ -39712,18 +39927,18 @@ var Panel = function Panel(_ref) {
         _react2.default.createElement(
           'time',
           null,
-          date
+          item.date
         )
       )
     ),
     theme === 'card' && _react2.default.createElement(
       'div',
-      { className: 'card' },
+      { className: 'component-body' },
       _react2.default.createElement(
         'figure',
         { className: 'avatar', title: 'Avatar' },
         _react2.default.createElement('img', {
-          src: thumbnail,
+          src: item.thumbnail,
           alt: 'avatar',
           onLoad: function onLoad(_ref2) {
             var target = _ref2.target;
@@ -39737,12 +39952,12 @@ var Panel = function Panel(_ref) {
         _react2.default.createElement(
           'span',
           { className: 'author', title: 'Name' },
-          name
+          item.name
         ),
         _react2.default.createElement(
           'span',
           { className: 'note' },
-          (0, _ammo.isFunc)(note) ? note() : note
+          (0, _ammo.isFunc)(item.note) ? item.note() : item.note
         ),
         _react2.default.createElement(
           'span',
@@ -39755,6 +39970,16 @@ var Panel = function Panel(_ref) {
           ),
           '.'
         )
+      )
+    ),
+    theme === 'stat' && _react2.default.createElement(
+      'div',
+      { className: 'component-body' },
+      _react2.default.createElement(_Icon2.default, { name: item.icon }),
+      _react2.default.createElement(
+        'span',
+        { className: 'count' },
+        item.count
       )
     )
   );
@@ -39811,22 +40036,26 @@ var Tag = function Tag(_ref) {
     'div',
     { 'data-component': 'tag', title: 'Tag \'' + name + '\'' },
     _react2.default.createElement(
-      'span',
-      { className: 'tag-name' },
-      name
-    ),
-    (0, _ammo.isFunc)(onRemove) && _react2.default.createElement(
-      'button',
-      {
-        className: 'trigger remove-tag',
-        title: 'Remove tag \'' + name + '\'',
-        onClick: function onClick(event) {
-          event.preventDefault();
-          event.stopPropagation();
-          onRemove();
-        }
-      },
-      _react2.default.createElement(_Icon2.default, { name: 'add' })
+      'div',
+      { className: 'component-body' },
+      _react2.default.createElement(
+        'span',
+        { className: 'tag-name' },
+        name
+      ),
+      (0, _ammo.isFunc)(onRemove) && _react2.default.createElement(
+        'button',
+        {
+          className: 'trigger remove-tag',
+          title: 'Remove tag \'' + name + '\'',
+          onClick: function onClick(event) {
+            event.preventDefault();
+            event.stopPropagation();
+            onRemove();
+          }
+        },
+        _react2.default.createElement(_Icon2.default, { name: 'add' })
+      )
     )
   );
 };
@@ -39984,6 +40213,8 @@ var Breadcrumbs = function (_Component) {
     value: function render() {
       var _props = this.props,
           items = _props.items,
+          _props$isLastActive = _props.isLastActive,
+          isLastActive = _props$isLastActive === undefined ? true : _props$isLastActive,
           _props$isToggleableOn = _props.isToggleableOnMobile,
           isToggleableOnMobile = _props$isToggleableOn === undefined ? true : _props$isToggleableOn,
           _props$isStackedOnMob = _props.isStackedOnMobile,
@@ -40014,17 +40245,18 @@ var Breadcrumbs = function (_Component) {
         _react2.default.createElement(
           'ol',
           { className: 'component-items' },
-          items.map(function (_ref3) {
+          items.map(function (_ref3, index) {
             var url = _ref3.url,
                 name = _ref3.name,
-                isSelected = _ref3.isSelected,
+                _ref3$isSelected = _ref3.isSelected,
+                isSelected = _ref3$isSelected === undefined ? false : _ref3$isSelected,
                 _ref3$target = _ref3.target,
                 target = _ref3$target === undefined ? '_self' : _ref3$target;
             return _react2.default.createElement(
               'li',
               {
                 key: (0, _ammo.uid)(),
-                className: 'component-item ' + (isSelected ? 'active' : '')
+                className: 'component-item ' + (isSelected && !isLastActive || isLastActive && index === items.length - 1 ? 'active' : '')
               },
               _react2.default.createElement(
                 'a',
@@ -40034,7 +40266,8 @@ var Breadcrumbs = function (_Component) {
                   target: target,
                   onClick: function onClick(event) {
                     if ((0, _ammo.isFunc)(onChange)) {
-                      onChange({ url: url, name: name, isSelected: isSelected, event: event });
+                      var isItemSelected = isSelected && !isLastActive || isLastActive && index === items.length - 1;
+                      onChange({ url: url, name: name, isSelected: isItemSelected, event: event });
                     }
                   }
                 },
@@ -40170,31 +40403,39 @@ var Alert = function (_Component) {
     }
 
     return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_ref = Alert.__proto__ || Object.getPrototypeOf(Alert)).call.apply(_ref, [this].concat(args))), _this), _this.state = {
-      isAlertVisible: _this.props.isVisible
+      isAlertVisible: _this.props.isVisible,
+      isHideAfterUnderway: false
     }, _this.hideAfterDelay = function (delay) {
+      var _this$props$onCancel = _this.props.onCancel,
+          onCancel = _this$props$onCancel === undefined ? function () {} : _this$props$onCancel;
+
+
+      _this.setState({ isHideAfterUnderway: true });
+
       setTimeout(function () {
+        if (!(0, _ammo.isObj)(_this.refComponent)) {
+          return false;
+        }
+        var isAlertVisible = _this.state.isAlertVisible;
+
+        if (!isAlertVisible) {
+          return false;
+        }
         var isAlertHovered = (0, _ammo.isHovered)(_this.refComponent);
         if (isAlertHovered) {
           return _this.hideAfterDelay(delay);
         }
-        _this.setState({ isAlertVisible: false });
+        _this.setState({
+          isAlertVisible: false,
+          isHideAfterUnderway: false
+        }, function () {
+          return onCancel();
+        });
       }, delay);
     }, _temp), _possibleConstructorReturn(_this, _ret);
   }
 
   _createClass(Alert, [{
-    key: 'componentDidMount',
-    value: function componentDidMount() {
-      var _props = this.props,
-          isConfirm = _props.isConfirm,
-          _props$delay = _props.delay,
-          delay = _props$delay === undefined ? defaultDelay : _props$delay;
-
-      if (!isConfirm) {
-        this.hideAfterDelay(delay);
-      }
-    }
-  }, {
     key: 'componentWillReceiveProps',
     value: function componentWillReceiveProps(_ref2) {
       var _this2 = this;
@@ -40203,9 +40444,10 @@ var Alert = function (_Component) {
           isConfirm = _ref2.isConfirm,
           _ref2$delay = _ref2.delay,
           delay = _ref2$delay === undefined ? defaultDelay : _ref2$delay;
+      var isHideAfterUnderway = this.state.isHideAfterUnderway;
 
       this.setState({ isAlertVisible: isVisible }, function () {
-        if (!isConfirm) {
+        if (isVisible && !isConfirm && !isHideAfterUnderway) {
           _this2.hideAfterDelay(delay);
         }
       });
@@ -40215,27 +40457,27 @@ var Alert = function (_Component) {
     value: function render() {
       var _this3 = this;
 
-      var _props2 = this.props,
-          _props2$type = _props2.type,
-          type = _props2$type === undefined ? 'info' : _props2$type,
-          _props2$title = _props2.title,
-          title = _props2$title === undefined ? '' : _props2$title,
-          _props2$content = _props2.content,
-          content = _props2$content === undefined ? '' : _props2$content,
-          _props2$closeText = _props2.closeText,
-          closeText = _props2$closeText === undefined ? 'Close' : _props2$closeText,
-          _props2$cancelText = _props2.cancelText,
-          cancelText = _props2$cancelText === undefined ? 'Cancel' : _props2$cancelText,
-          _props2$confirmText = _props2.confirmText,
-          confirmText = _props2$confirmText === undefined ? 'OK' : _props2$confirmText,
-          _props2$icon = _props2.icon,
-          icon = _props2$icon === undefined ? '' : _props2$icon,
-          _props2$isConfirm = _props2.isConfirm,
-          isConfirm = _props2$isConfirm === undefined ? false : _props2$isConfirm,
-          _props2$onCancel = _props2.onCancel,
-          onCancel = _props2$onCancel === undefined ? function () {} : _props2$onCancel,
-          _props2$onConfirm = _props2.onConfirm,
-          onConfirm = _props2$onConfirm === undefined ? function () {} : _props2$onConfirm;
+      var _props = this.props,
+          _props$type = _props.type,
+          type = _props$type === undefined ? 'info' : _props$type,
+          _props$title = _props.title,
+          title = _props$title === undefined ? '' : _props$title,
+          _props$content = _props.content,
+          content = _props$content === undefined ? '' : _props$content,
+          _props$closeText = _props.closeText,
+          closeText = _props$closeText === undefined ? 'Close' : _props$closeText,
+          _props$cancelText = _props.cancelText,
+          cancelText = _props$cancelText === undefined ? 'Cancel' : _props$cancelText,
+          _props$confirmText = _props.confirmText,
+          confirmText = _props$confirmText === undefined ? 'OK' : _props$confirmText,
+          _props$icon = _props.icon,
+          icon = _props$icon === undefined ? '' : _props$icon,
+          _props$isConfirm = _props.isConfirm,
+          isConfirm = _props$isConfirm === undefined ? false : _props$isConfirm,
+          _props$onCancel = _props.onCancel,
+          onCancel = _props$onCancel === undefined ? function () {} : _props$onCancel,
+          _props$onConfirm = _props.onConfirm,
+          onConfirm = _props$onConfirm === undefined ? function () {} : _props$onConfirm;
       var isAlertVisible = this.state.isAlertVisible;
 
 
@@ -40308,65 +40550,8 @@ var Alert = function (_Component) {
 exports.default = Alert;
 
 /***/ }),
-/* 179 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _Stat = __webpack_require__(180);
-
-var _Stat2 = _interopRequireDefault(_Stat);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-exports.default = _Stat2.default;
-
-/***/ }),
-/* 180 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _react = __webpack_require__(1);
-
-var _react2 = _interopRequireDefault(_react);
-
-var _Icon = __webpack_require__(4);
-
-var _Icon2 = _interopRequireDefault(_Icon);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-var Stat = function Stat(_ref) {
-  var _ref$iconName = _ref.iconName,
-      iconName = _ref$iconName === undefined ? 'comment' : _ref$iconName,
-      _ref$count = _ref.count,
-      count = _ref$count === undefined ? 0 : _ref$count;
-  return _react2.default.createElement(
-    'div',
-    { 'data-component': 'stat' },
-    _react2.default.createElement(_Icon2.default, { name: iconName }),
-    _react2.default.createElement(
-      'span',
-      { className: 'count' },
-      count
-    )
-  );
-};
-
-exports.default = Stat;
-
-/***/ }),
+/* 179 */,
+/* 180 */,
 /* 181 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -40395,11 +40580,12 @@ var createItems = exports.createItems = function createItems() {
   for (var i = 0; i < count; i++) {
     var isNewDate = (0, _ammo.randomInclusive)(0, 10) > 6;
     var subTrackedDays = (0, _ammo.randomInclusive)(0, 365);
+    var isSelected = (0, _ammo.randomInclusive)(0, 10) > 9;
     items.push({
       id: i,
-      name: 'Item ' + i,
+      name: 'Item ' + (i + 1),
       url: 'https://google.com',
-      isSelected: i === 0,
+      isSelected: isSelected,
       thumbnail: defaultThumbnail,
       note: 'some note',
       created_at: isNewDate ? (0, _moment2.default)(new Date()).subtract(subTrackedDays, 'days') : (0, _moment2.default)(i > 0 ? items[i - 1].created_at : new Date())
