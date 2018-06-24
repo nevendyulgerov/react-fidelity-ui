@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import Icon from '../../Icon/';
 import Loader from '../../Loader/';
 import Checkbox from '../../Checkbox/';
-import { isFunc, isHovered } from '../../../utils/ammo';
+import { isFunc, isHovered, uid } from '../../../utils/ammo';
 
 class Dropdown extends Component {
   state = {
@@ -184,26 +184,30 @@ class Dropdown extends Component {
               </div>
             )}
             <ul className={`menu-items ${itemsLength === 0 ? 'no-items' : ''}`}>
-              {items.map((item, index) => (
-                <li key={item.id || index} className="menu-item">
+              {items.map(item => {
+                const itemId = item.id || uid();
 
-                  <Checkbox
-                    id={item.id}
-                    isChecked={item.isSelected}
-                    isDisabled={isLoading}
-                    labelText={item.name}
-                    labelTitle={`Select ${item.name}`}
-                    onChange={event => {
-                      onChange(item.id, event.target.checked);
+                return (
+                  <li key={itemId} className="menu-item">
 
-                      if (isCloseOnSelect) {
-                        this.setState({ isMenuOpened: false });
-                      }
-                    }}
-                  />
+                    <Checkbox
+                      id={itemId}
+                      isChecked={item.isSelected}
+                      isDisabled={isLoading}
+                      labelText={item.name}
+                      labelTitle={`Select ${item.name}`}
+                      onChange={({ target }) => {
+                        onChange(item, target.checked);
 
-                </li>
-              ))}
+                        if (isCloseOnSelect) {
+                          this.setState({ isMenuOpened: false });
+                        }
+                      }}
+                    />
+
+                  </li>
+                );
+              })}
             </ul>
           </div>
         </div>
