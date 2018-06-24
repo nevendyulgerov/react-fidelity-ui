@@ -1,18 +1,18 @@
 import React, { Component } from 'react';
 import Icon from '../../Icon/';
 import Dropdown from '../../Dropdown/';
-import { groupItemsByDate, getDifferenceInDays } from './Utils';
-import { extend, shape, sortBy, selectAll, isObj, isFunc, uid } from '../../../utils/ammo';
+import { groupItemsByDate, getTimeSpacing, sortTimeline } from './Utils';
+import { shape, selectAll, isObj, isFunc, uid } from '../../../utils/ammo';
 
 class Timeline extends Component {
   state = {
-    groupedItems: groupItemsByDate(this.props.items, this.props.targetKey),
+    groupedItems: sortTimeline(groupItemsByDate(this.props.items, this.props.targetKey), 'desc', this.props.targetKey),
     sortingOptions: [{
-      id: 'asc',
+      direction: 'asc',
       name: 'Ascending order',
       isSelected: false
     }, {
-      id: 'desc',
+      direction: 'desc',
       name: 'Descending order',
       isSelected: true
     }]
@@ -40,7 +40,6 @@ class Timeline extends Component {
       return false;
     }
 
-    // const $target = $(target);
     const iconExpand = target.querySelector('.icon-expand');
     const iconCollapse = target.querySelector('.icon-collapse');
 
@@ -64,39 +63,24 @@ class Timeline extends Component {
   };
 
   /**
-   * @description Get time spacing
-   * @param date
-   * @param nextDate
-   * @param isDesc
-   */
-  getTimeSpacing = (date, nextDate, isDesc) => {
-    const dateStart = new Date(date);
-    const dateEnd = new Date(nextDate);
-    const differenceInDays = isDesc
-      ? getDifferenceInDays(dateEnd, dateStart)
-      : getDifferenceInDays(dateStart, dateEnd);
-
-    return differenceInDays <= 30 ? 'small' : (differenceInDays <= 180 ? 'medium' : 'large');
-  };
-
-  /**
    * @description On change sorting
    * @param nextSortingOptionId
    */
-  onChangeSorting = ({ id }) => {
+  onChangeSorting = ({ direction }) => {
+    const { targetKey } = this.props;
     const { groupedItems, sortingOptions } = this.state;
     const selectedSortingOption = shape(sortingOptions).filterByProp('isSelected', true).fetchIndex(0);
     const nextSortingOptions = sortingOptions.map(sortingOption => ({
       ...sortingOption,
-      isSelected: sortingOption.id === id
+      isSelected: sortingOption.direction === direction
     }));
 
     this.setState({ sortingOptions: nextSortingOptions }, () => {
-      if (selectedSortingOption.id === id) {
+      if (selectedSortingOption.direction === direction) {
         return false;
       }
 
-      const nextSortedGroupedItems = this.sortTimeline(groupedItems, id);
+      const nextSortedGroupedItems = sortTimeline(groupedItems, direction, targetKey);
       this.setState({ groupedItems: nextSortedGroupedItems }, this.normalizeUI);
     });
   };
@@ -118,21 +102,8 @@ class Timeline extends Component {
     });
   };
 
-  /**
-   * @description Sort timeline
-   * @param groupedItems
-   * @param direction
-   */
-  sortTimeline = (groupedItems, direction) => sortBy(groupedItems, 'date', 'date', direction).reduce((accumulator, groupedItem) => {
-    const nextGroupedItem = extend({}, groupedItem, {
-      items: sortBy(groupedItem.items, this.props.targetKey, 'date', direction)
-    });
-    accumulator.push(nextGroupedItem);
-    return accumulator;
-  }, []);
-
   render() {
-    const { title = '', targetKey, theme = '', displayItem = () => {}, formatDate } = this.props;
+    const { title = '', targetKey, direction = 'vertical', displayItem = () => {}, formatDate } = this.props;
     const { groupedItems, sortingOptions } = this.state;
     const { length } = groupedItems;
     const selectedSortingOption = shape(sortingOptions).filterByProp('isSelected', true).fetchIndex(0);
@@ -142,24 +113,24 @@ class Timeline extends Component {
       <div
         className="component"
         data-component="timeline"
-        data-theme={theme}
+        data-direction={direction}
         ref={node => {
           this.refComponent = node;
         }}
       >
-        {title !== '' && (
-          <div className="component-header">
+        <div className="component-header">
+          {title !== '' && (
             <span className="title">{title}</span>
-            <Dropdown
-              title="Sort"
-              text="Sort timeline"
-              triggerText="Sort timeline"
-              isCloseOnSelect={true}
-              items={sortingOptions}
-              onChange={this.onChangeSorting}
-            />
-          </div>
-        )}
+          )}
+          <Dropdown
+            title="Sort"
+            text="Sort timeline"
+            triggerText="Sort timeline"
+            isCloseOnSelect={true}
+            items={sortingOptions}
+            onChange={this.onChangeSorting}
+          />
+        </div>
 
         <div className="component-body">
           <ul className="timeline-items">
@@ -168,7 +139,7 @@ class Timeline extends Component {
               <li
                 key={id}
                 className={`timeline-item collapsed ${(index < length - 1 || length === 2) && isObj(groupedItems[index + 1])
-                  ? `time-spacing-${this.getTimeSpacing(
+                  ? `time-spacing-${getTimeSpacing(
                     items[0][targetKey],
                     groupedItems[index + 1].items[0][targetKey],
                     isDesc
@@ -198,7 +169,7 @@ class Timeline extends Component {
                   onClick={this.toggleTimelineItem}
                 >
                   {items.length > 1 ? (
-                    <span>
+                    <span className="icons-box">
                       <Icon name="add" className="icon-expand active" />
                       <Icon name="remove" className="icon-collapse" />
                     </span>
@@ -221,7 +192,7 @@ class Timeline extends Component {
                   <ul className="grouped-items">
 
                     {items.map((item, groupedItemIndex) => (
-                      <li key={item.id || uid()} className="grouped-item">
+                      <li key={uid()} className="grouped-item">
                         {displayItem(
                           item,
                           isDesc
