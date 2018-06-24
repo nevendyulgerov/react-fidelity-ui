@@ -39376,16 +39376,13 @@ var _react2 = _interopRequireDefault(_react);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var icons = ['add', 'comment', 'dropdown', 'filter', 'grid', 'more', 'next', 'notification', 'previous', 'remove', 'search', 'settings', 'stats', 'summary', 'thumbs-down', 'thumbs-up', 'tick'];
-
 var Icon = function Icon(_ref) {
-  var name = _ref.name,
+  var _ref$name = _ref.name,
+      name = _ref$name === undefined ? 'comment' : _ref$name,
       _ref$className = _ref.className,
       className = _ref$className === undefined ? '' : _ref$className,
       _ref$title = _ref.title,
       title = _ref$title === undefined ? '' : _ref$title;
-
-
   return _react2.default.createElement(
     'div',
     { className: 'component ' + className, 'data-component': 'icon', title: title },
