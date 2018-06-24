@@ -88,20 +88,26 @@ body h1, body h2, body h3, body h4, body h5, body h6, body p {
   [data-component="alert"][data-alert-type="success"] {
     background-color: #94ce96;
     color: #fff; }
-    [data-component="alert"][data-alert-type="success"] .component-header .trigger.close-alert [data-component="icon"] .icon {
+    [data-component="alert"][data-alert-type="success"] .component-header [data-component="icon"] .icon {
       fill: #fff; }
   [data-component="alert"][data-alert-type="warning"] {
     background-color: #fff8e2; }
   [data-component="alert"][data-alert-type="error"] {
     background-color: #ff7675;
     color: #fff; }
-    [data-component="alert"][data-alert-type="error"] .component-header .trigger.close-alert [data-component="icon"] .icon {
+    [data-component="alert"][data-alert-type="error"] .component-header [data-component="icon"] .icon {
       fill: #fff; }
-  [data-component="alert"] .component-header .title {
-    display: block;
-    font-weight: 700;
-    word-break: break-word;
-    cursor: default; }
+  [data-component="alert"] .component-header .title-box {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center; }
+    [data-component="alert"] .component-header .title-box [data-component="icon"] {
+      margin: 0 4px 0 0; }
+    [data-component="alert"] .component-header .title-box .title {
+      display: block;
+      font-weight: 700;
+      word-break: break-word;
+      cursor: default; }
   [data-component="alert"] .component-header .content {
     word-break: break-word;
     cursor: default; }

@@ -38297,7 +38297,24 @@ var App = function (_Component) {
               type: 'info',
               title: 'Alert',
               content: 'Lorem ipsum dolor sit amet',
-              isVisible: isAlertVisible,
+              isVisible: true,
+              icon: 'settings',
+              delay: 2500,
+              onCancel: function onCancel() {
+                console.log('on cancel alert!');
+                _this2.setState({ isAlertVisible: false });
+              },
+              onConfirm: function onConfirm() {
+                console.log('on confirm alert');
+              }
+            }),
+            _react2.default.createElement(_Alert2.default, {
+              type: 'success',
+              title: 'Success',
+              content: 'Lorem ipsum dolor sit amet',
+              isVisible: true,
+              icon: 'upvote',
+              delay: 3500,
               onCancel: function onCancel() {
                 console.log('on cancel alert!');
                 _this2.setState({ isAlertVisible: false });
@@ -38308,9 +38325,25 @@ var App = function (_Component) {
             }),
             _react2.default.createElement(_Alert2.default, {
               type: 'warning',
-              title: 'Alert',
+              title: 'Warning',
               content: 'Lorem ipsum dolor sit amet',
-              isVisible: isAlertVisible,
+              isVisible: true,
+              icon: 'downvote',
+              delay: 4500,
+              onCancel: function onCancel() {
+                console.log('on cancel alert!');
+                _this2.setState({ isAlertVisible: false });
+              },
+              onConfirm: function onConfirm() {
+                console.log('on confirm alert');
+              }
+            }),
+            _react2.default.createElement(_Alert2.default, {
+              type: 'error',
+              title: 'Error',
+              content: 'Lorem ipsum dolor sit amet',
+              isVisible: true,
+              delay: 5500,
               onCancel: function onCancel() {
                 console.log('on cancel alert!');
                 _this2.setState({ isAlertVisible: false });
@@ -38325,7 +38358,7 @@ var App = function (_Component) {
           'div',
           { className: 'stat' },
           _react2.default.createElement(_Stat2.default, {
-            iconName: 'stats',
+            icon: 'stats',
             count: 5
           })
         ),
@@ -39846,7 +39879,9 @@ var Notification = function Notification(_ref) {
       _ref$text = _ref.text,
       text = _ref$text === undefined ? '' : _ref$text,
       _ref$title = _ref.title,
-      title = _ref$title === undefined ? '' : _ref$title;
+      title = _ref$title === undefined ? '' : _ref$title,
+      _ref$icon = _ref.icon,
+      icon = _ref$icon === undefined ? 'notification' : _ref$icon;
   return _react2.default.createElement(
     'div',
     {
@@ -39854,7 +39889,7 @@ var Notification = function Notification(_ref) {
       'data-component': 'notification',
       'data-notification': type
     },
-    _react2.default.createElement(_Icon2.default, { name: 'notification' }),
+    _react2.default.createElement(_Icon2.default, { name: icon }),
     _react2.default.createElement(
       'span',
       { className: 'text' },
@@ -40150,10 +40185,10 @@ var Alert = function (_Component) {
   _createClass(Alert, [{
     key: 'componentDidMount',
     value: function componentDidMount() {
-      var _state = this.state,
-          isConfirm = _state.isConfirm,
-          _state$delay = _state.delay,
-          delay = _state$delay === undefined ? defaultDelay : _state$delay;
+      var _props = this.props,
+          isConfirm = _props.isConfirm,
+          _props$delay = _props.delay,
+          delay = _props$delay === undefined ? defaultDelay : _props$delay;
 
       if (!isConfirm) {
         this.hideAfterDelay(delay);
@@ -40166,7 +40201,8 @@ var Alert = function (_Component) {
 
       var isVisible = _ref2.isVisible,
           isConfirm = _ref2.isConfirm,
-          delay = _ref2.delay;
+          _ref2$delay = _ref2.delay,
+          delay = _ref2$delay === undefined ? defaultDelay : _ref2$delay;
 
       this.setState({ isAlertVisible: isVisible }, function () {
         if (!isConfirm) {
@@ -40179,25 +40215,27 @@ var Alert = function (_Component) {
     value: function render() {
       var _this3 = this;
 
-      var _props = this.props,
-          _props$type = _props.type,
-          type = _props$type === undefined ? 'info' : _props$type,
-          _props$title = _props.title,
-          title = _props$title === undefined ? '' : _props$title,
-          _props$content = _props.content,
-          content = _props$content === undefined ? '' : _props$content,
-          _props$closeText = _props.closeText,
-          closeText = _props$closeText === undefined ? 'Close' : _props$closeText,
-          _props$cancelText = _props.cancelText,
-          cancelText = _props$cancelText === undefined ? 'Cancel' : _props$cancelText,
-          _props$confirmText = _props.confirmText,
-          confirmText = _props$confirmText === undefined ? 'OK' : _props$confirmText,
-          _props$isConfirm = _props.isConfirm,
-          isConfirm = _props$isConfirm === undefined ? false : _props$isConfirm,
-          _props$onCancel = _props.onCancel,
-          onCancel = _props$onCancel === undefined ? function () {} : _props$onCancel,
-          _props$onConfirm = _props.onConfirm,
-          onConfirm = _props$onConfirm === undefined ? function () {} : _props$onConfirm;
+      var _props2 = this.props,
+          _props2$type = _props2.type,
+          type = _props2$type === undefined ? 'info' : _props2$type,
+          _props2$title = _props2.title,
+          title = _props2$title === undefined ? '' : _props2$title,
+          _props2$content = _props2.content,
+          content = _props2$content === undefined ? '' : _props2$content,
+          _props2$closeText = _props2.closeText,
+          closeText = _props2$closeText === undefined ? 'Close' : _props2$closeText,
+          _props2$cancelText = _props2.cancelText,
+          cancelText = _props2$cancelText === undefined ? 'Cancel' : _props2$cancelText,
+          _props2$confirmText = _props2.confirmText,
+          confirmText = _props2$confirmText === undefined ? 'OK' : _props2$confirmText,
+          _props2$icon = _props2.icon,
+          icon = _props2$icon === undefined ? '' : _props2$icon,
+          _props2$isConfirm = _props2.isConfirm,
+          isConfirm = _props2$isConfirm === undefined ? false : _props2$isConfirm,
+          _props2$onCancel = _props2.onCancel,
+          onCancel = _props2$onCancel === undefined ? function () {} : _props2$onCancel,
+          _props2$onConfirm = _props2.onConfirm,
+          onConfirm = _props2$onConfirm === undefined ? function () {} : _props2$onConfirm;
       var isAlertVisible = this.state.isAlertVisible;
 
 
@@ -40214,9 +40252,14 @@ var Alert = function (_Component) {
           'div',
           { className: 'component-header' },
           _react2.default.createElement(
-            'span',
-            { className: 'title' },
-            title
+            'div',
+            { className: 'title-box' },
+            icon !== '' && _react2.default.createElement(_Icon2.default, { name: icon }),
+            _react2.default.createElement(
+              'span',
+              { className: 'title' },
+              title
+            )
           ),
           _react2.default.createElement(
             'div',
