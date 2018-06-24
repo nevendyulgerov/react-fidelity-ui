@@ -219,17 +219,17 @@ const FilterTag = () => (
     />
     <Alert
       type="success"
-      title="Success"
+      title="Success alert"
       isVisible={true}
     />
     <Alert
       type="warning"
-      title="Warning"
+      title="Warning alert"
       isVisible={true}
     />
     <Alert
       type="error"
-      title="Error"
+      title="Error alert"
       isVisible={true}
     />
   </StackableAlerts>
