@@ -35,8 +35,7 @@
   }
 
   &[data-notification="info"] {
-    background-color: $light-blue;
-    color: $dark-grey;
+    @extend .fidelity-ui-info;
 
     [data-component="icon"] {
       .icon {
@@ -46,19 +45,11 @@
   }
 
   &[data-notification="success"] {
-    background-color: $soft-green;
-    color: $dark-grey;
-
-    [data-component="icon"] {
-      .icon {
-        fill: $dark-grey;
-      }
-    }
+    @extend .fidelity-ui-success;
   }
 
   &[data-notification="warning"] {
-    background-color: $soft-yellow;
-    color: $dark-grey;
+    @extend .fidelity-ui-warning;
 
     [data-component="icon"] {
       .icon {
@@ -68,14 +59,6 @@
   }
 
   &[data-notification="error"] {
-    background-color: $soft-red;
-
-    .trigger.remove-notification {
-      [data-component="icon"] {
-        .icon {
-          fill: $white;
-        }
-      }
-    }
+    @extend .fidelity-ui-error;
   }
 }
