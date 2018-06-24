@@ -13,29 +13,11 @@ import Dropdown, {
   filterItemsByName,
   syncDropdownMenuOffset
 } from '../../Dropdown/';
-import { randomInclusive, select } from '../../../utils/ammo';
-
-const defaultThumbnail = 'https://wallpaperbits.com/wp-content/uploads/2018/01/google-nexus-5-wallpaper-154171-nature-landscape-mountain-nexus-5.jpg';
-
-const createItems = (count = 10) => {
-  const items = [];
-  for (let i = 0; i < count; i++) {
-    const isNewDate = randomInclusive(0, 10) > 6;
-    const subTrackedDays = randomInclusive(0, 365);
-    items.push({
-      id: i,
-      name: `Item ${i}`,
-      url: 'https://google.com',
-      isSelected: i === 0,
-      thumbnail: defaultThumbnail,
-      note: 'some note',
-      created_at: isNewDate
-        ? moment(new Date()).subtract(subTrackedDays, 'days')
-        : moment(i > 0 ? items[i - 1].created_at : new Date())
-    });
-  }
-  return items;
-};
+import StackableAlerts from '../../StackableAlerts/';
+import Alert from '../../Alert/';
+import Stat from '../../Stat/';
+import { createItems } from './Utils';
+import { select } from '../../../utils/ammo';
 
 const defaultItems = createItems(30);
 
@@ -43,7 +25,8 @@ class App extends Component {
   state = {
     items: defaultItems,
     initialItems: defaultItems,
-    isChecked: false
+    isChecked: false,
+    isAlertVisible: true
   };
 
   /**
@@ -81,7 +64,7 @@ class App extends Component {
   };
 
   render() {
-    const { items, initialItems, isChecked } = this.state;
+    const { items, initialItems, isChecked, isAlertVisible } = this.state;
 
     return (
       <div data-component="fidelity-ui-test-app">
@@ -94,6 +77,44 @@ class App extends Component {
               event.preventDefault();
               console.log(url);
             }}
+          />
+        </div>
+
+        <div className="alert">
+          <StackableAlerts>
+            <Alert
+              type="info"
+              title="Alert"
+              content="Lorem ipsum dolor sit amet"
+              isVisible={isAlertVisible}
+              onCancel={() => {
+                console.log('on cancel alert!');
+                this.setState({ isAlertVisible: false });
+              }}
+              onConfirm={() => {
+                console.log('on confirm alert');
+              }}
+            />
+            <Alert
+              type="warning"
+              title="Alert"
+              content="Lorem ipsum dolor sit amet"
+              isVisible={isAlertVisible}
+              onCancel={() => {
+                console.log('on cancel alert!');
+                this.setState({ isAlertVisible: false });
+              }}
+              onConfirm={() => {
+                console.log('on confirm alert');
+              }}
+            />
+          </StackableAlerts>
+        </div>
+
+        <div className="stat">
+          <Stat
+            iconName="stats"
+            count={5}
           />
         </div>
 
