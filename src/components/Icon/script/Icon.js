@@ -20,10 +20,10 @@ const icons = [
   'tick'
 ];
 
-const Icon = ({ name, className = '' }) => {
+const Icon = ({ name, className = '', title = '' }) => {
 
   return (
-    <div className={`component ${className}`} data-component="icon">
+    <div className={`component ${className}`} data-component="icon" title={title}>
       <svg className="icon component-icon">
         <use xlinkHref={`./src/icons/icon-sprite.svg#icon-${name}`}>
           {/* icon is populated here */}
