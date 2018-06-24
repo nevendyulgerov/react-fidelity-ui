@@ -150,7 +150,7 @@ class App extends Component {
                 this.setState({ isInfoAlertVisible: false });
               }}
               onConfirm={() => {
-                console.log('on confirm!');
+                this.setState({ isInfoAlertVisible: false });
               }}
             />
             <Alert
