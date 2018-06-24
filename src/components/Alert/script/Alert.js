@@ -1,24 +1,19 @@
 import React, { Component } from 'react';
 import Icon from '../../Icon';
-import { isHovered } from '../../../utils/ammo';
+import { isHovered, isObj } from '../../../utils/ammo';
 
 const defaultDelay = 5000;
 
 class Alert extends Component {
   state = {
-    isAlertVisible: this.props.isVisible
+    isAlertVisible: this.props.isVisible,
+    isHideAfterUnderway: false
   };
 
-  componentDidMount() {
-    const { isConfirm, delay = defaultDelay } = this.props;
-    if (!isConfirm) {
-      this.hideAfterDelay(delay);
-    }
-  }
-
   componentWillReceiveProps({ isVisible, isConfirm, delay = defaultDelay }) {
+    const { isHideAfterUnderway } = this.state;
     this.setState({ isAlertVisible: isVisible }, () => {
-      if (!isConfirm) {
+      if (isVisible && !isConfirm && !isHideAfterUnderway) {
         this.hideAfterDelay(delay);
       }
     });
@@ -27,12 +22,26 @@ class Alert extends Component {
   refComponent;
 
   hideAfterDelay = delay => {
+    const { onCancel = () => {} } = this.props;
+
+    this.setState({ isHideAfterUnderway: true });
+
     setTimeout(() => {
+      if (!isObj(this.refComponent)) {
+        return false;
+      }
+      const { isAlertVisible } = this.state;
+      if (!isAlertVisible) {
+        return false;
+      }
       const isAlertHovered = isHovered(this.refComponent);
       if (isAlertHovered) {
         return this.hideAfterDelay(delay);
       }
-      this.setState({ isAlertVisible: false });
+      this.setState({
+        isAlertVisible: false,
+        isHideAfterUnderway: false
+      }, () => onCancel());
     }, delay);
   };
 
