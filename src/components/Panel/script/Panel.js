@@ -1,35 +1,35 @@
 import React from 'react';
+import Icon from '../../Icon/';
 import { isFunc } from '../../../utils/ammo';
 
 const Panel = ({ theme = 'default', item }) => {
-  const { name, date, thumbnail, note } = item;
 
   return (
     <div data-component="panel" data-theme={theme}>
       {theme === 'default' && (
-        <div className="meta">
-          <span className="name">{name}</span>
+        <div className="component-body">
+          <span className="name">{item.name}</span>
           <span className="date">
             {'Created at '}
-            <time>{date}</time>
+            <time>{item.date}</time>
           </span>
         </div>
       )}
       {theme === 'card' && (
-        <div className="card">
+        <div className="component-body">
           <figure className="avatar" title="Avatar">
             <img
-              src={thumbnail}
+              src={item.thumbnail}
               alt="avatar"
               onLoad={({ target }) => target.closest('.avatar').classList.add('active')}
             />
           </figure>
           <div className="meta">
             <span className="author" title="Name">
-              {name}
+              {item.name}
             </span>
             <span className="note">
-              {isFunc(note) ? note() : note}
+              {isFunc(item.note) ? item.note() : item.note}
             </span>
             <span className="date" title="Date">
               {' at '}
@@ -39,6 +39,14 @@ const Panel = ({ theme = 'default', item }) => {
               {'.'}
             </span>
           </div>
+        </div>
+      )}
+      {theme === 'stat' && (
+        <div className="component-body">
+          <Icon name={item.icon} />
+          <span className="count">
+            {item.count}
+          </span>
         </div>
       )}
     </div>

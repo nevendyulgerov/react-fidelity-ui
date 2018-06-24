@@ -5,7 +5,7 @@
 
 [data-component="panel"] {
   &[data-theme="default"] {
-    .meta {
+    .component-body {
       .name {
         display: block;
         font-weight: 800;
@@ -22,7 +22,7 @@
   }
 
   &[data-theme="card"] {
-    .card {
+    .component-body {
       position: relative;
       display: flex;
       justify-content: flex-start;
@@ -80,6 +80,38 @@
         .time {
           font-weight: 600;
         }
+      }
+    }
+  }
+
+  &[data-theme="stat"] {
+    display: inline-block;
+    margin: 0 20px 0 0;
+
+    &:last-child {
+      margin: 0;
+    }
+
+    .component-body {
+      display: flex;
+      justify-content: flex-start;
+      align-items: center;
+      padding: 0;
+      margin: 0;
+
+      [data-component="icon"] {
+        margin: 0 4px 0 0;
+        pointer-events: none;
+
+        .icon {
+          fill: $dark-grey;
+        }
+      }
+
+      .count {
+        font-weight: 700;
+        pointer-events: none;
+        color: $dark-grey;
       }
     }
   }
