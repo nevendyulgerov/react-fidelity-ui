@@ -220,7 +220,7 @@ const FilterTag = ({ id, name, onRemove = () => {} }) => (
 ```
 
 #### Timeline
-Timeline component. This component can be customized via the `direction` option - 'horizontal' or 'vertical'. Timeline comes with a built-in sorting dropdown supporting asc/desc sorting.
+Timeline component. This component can be customized via the `direction` option - `horizontal` or `vertical`. Timeline comes with a built-in sorting dropdown supporting asc/desc sorting.
 
 ##### Example
 
@@ -230,10 +230,10 @@ import { Timeline, Tag } from 'react-fidelity-ui';
 
 const HorizontalTimeline = ({ items }) => (
   <Timeline
-    title="Timeline"
-    direction="horizontal"
-    targetKey="created_at"
-    items={items}
+    title="Timeline" // string, default = ''
+    direction="horizontal" // string, default = 'vertical'
+    targetKey="created_at" // string, the key containing date information in your items array of objects, [dateField], required
+    items={items} // array of objects, with schema [{ [dateField]: string }], required
     displayItem={({ name, created_at, thumbnail, note }) => (
       <Tag name={name} />
     )}
