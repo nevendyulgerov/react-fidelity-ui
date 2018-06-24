@@ -28,7 +28,7 @@ Run `npm install --save react-fidelity-ui`
 ## Components
 
 #### Alerts
-Alerts component. This component offers 4 distinct alert types - info (default), success, warning and error. Alerts can also be configured to require user confirmation or simply display a notification. This can be controlled via the `isConfirm` option.
+Alerts component. Alerts offer 4 distinct alert types - info (default), success, warning and error. This component can be configured to require user confirmation or simply display a notification. This can be controlled via the `isConfirm` option.
 
 ##### Example
 
@@ -36,12 +36,12 @@ Alerts component. This component offers 4 distinct alert types - info (default),
 import React from 'react';
 import { Breadcrumbs } from 'react-fidelity-ui';
 
-const InfoAlert = ({ isAlertVisible, onHideAlert = () => {} }) => (
+const WarningAlert = ({ isAlertVisible = false, onHideAlert = () => {} }) => (
   <Alert
-    type="info" // string, default = 'info'
-    title="Alert" // string, default = ''
+    type="warning" // string, default = 'info'
+    title="Warning alert" // string, default = ''
     isConfirm={true} // boolean, default = false
-    content="Default info alert" // string, default = ''
+    content="Default warning alert" // string, default = ''
     isVisible={isAlertVisible} // boolean, default = false
     onCancel={() => onHideAlert()} // function, default = () => {}
   />
@@ -49,7 +49,7 @@ const InfoAlert = ({ isAlertVisible, onHideAlert = () => {} }) => (
 ```
 
 #### Breadcrumbs
-Breadcrumbs component. This component offers a number of UI configurations via its options.
+Breadcrumbs component. Breadcrumbs offer a number of UI configurations via its options `isToggleableOnMobile` and `isStackedOnMobile`.
 
 ##### Example
 
@@ -57,18 +57,19 @@ Breadcrumbs component. This component offers a number of UI configurations via i
 import React from 'react';
 import { Breadcrumbs } from 'react-fidelity-ui';
 
-const BreadcrumbsComponent = () => (
+const BreadcrumbsComponent = ({ items ) => (
   <Breadcrumbs
     isToggleableOnMobile={true} // boolean, default = true
     isStackedOnMobile={false} // boolean, default = true
-    items={[{ url: '', name: '' }]} // array of objects, required
+    isLastActive={true} // boolea, default = false, when set to {false}, you need to pass items with schema { url: string, name: string, isSelected: boolean }
+    items={items} // array of objects, with schema [{ url: '', name: '' }], required
     onChange={({ url, name, isSelected, event }) => {}} // function, default = () => {}
   />
 );
 ```
 
 #### Checkbox
-Checkbox component. This component exposes checkbox behavior.
+Checkbox component. Checkbox exposes a styled checkbox with default checkbox behavior.
 
 ##### Example
 
@@ -88,7 +89,7 @@ const Checkbox = ({ isChecked, onToggle = () => {} ) => (
 ```
 
 #### Dropdown
-Multi-purpose dropdown component. This component supports single/multi select, items filtering, adding new items, integration for tagging. This component can also take advantage of several helper methods from the `utils` space.
+Multi-purpose dropdown component. Dropdown supports single/multi select, items filtering, adding new items, integration for tagging. This component can also take advantage of several helper methods from the `utils` space.
 
 ##### Example
 
@@ -100,10 +101,10 @@ const { changeMultiSelect } = utils;
 
 const DropdownComponent = ({ items, onChangeItems }) => (
   <Dropdown
-    title="Dropdown" // string, default = hidden, optional
-    text="Text" // string, default = hidden, optional
-    triggerText="Trigger text" // string, default = '', optional
-    items={[{ url: '', name: '', isSelected: false }]} // array of objects, required
+    title="Dropdown" // string, default = ''
+    text="Text" // string, default = ''
+    triggerText="Trigger text" // string, default = ''
+    items={items} // array of objects, with schema [{ url: '', name: '', isSelected: false }], required
     onChange={(selectedId, isSelected) => {
       const nextItems = changeMultiSelect(items, selectedId, isSelected);
       onChangeItems({ items: nextItems });
@@ -123,7 +124,7 @@ import { Icon } from 'react-fidelity-ui';
 
 const UpvoteIcon = () => (
   <Icon
-    name="upvote" // string, default = ''
+    name="upvote" // string, default = 'comment'
     title="Upvote icon" // string, default = ''
   />
 );
@@ -138,7 +139,7 @@ Loader component displaying a spinner.
 import React from 'react';
 import { Loader } from 'react-fidelity-ui';
 
-const LoadingSpinner = ({ isLoading }) => (
+const LoadingSpinner = ({ isLoading = false }) => (
   <Loader
     isLoading={isLoading} // boolean, default = false
   />
@@ -146,7 +147,7 @@ const LoadingSpinner = ({ isLoading }) => (
 ```
 
 #### Notification
-Notification component displaying static notifications.
+Notification component displaying static notifications. Notification offers 4 distinct notification types - info (default), success, warning and error.
 
 ##### Example
 
@@ -165,7 +166,7 @@ const SuccessNotification = ({ isLoading }) => (
 ```
 
 #### Panel
-General purpose panel component. This component supports a number of themes via the `theme` option.
+General purpose panel component. Panel supports a number of distinctive themes via the `theme` option.
 
 ##### Example
 
@@ -178,7 +179,7 @@ const Panels = ({ isLoading }) => (
     <Panel
       theme="card" // string, default = 'default'
       item={{
-        name: 'Default panel', // string, required
+        name: 'Card panel', // string, required
         date: '2018-06-24' // string, required
       }}
     />
@@ -187,7 +188,7 @@ const Panels = ({ isLoading }) => (
         name: 'Default panel', // string, required
         date: '2018-06-24', // string, required
         thumbnail: 'stats', // string, required
-        node: 'Some note' // string/function, required
+        note: 'Some note' // string/function
       }}
     />
     <Panel
@@ -202,7 +203,7 @@ const Panels = ({ isLoading }) => (
 ```
 
 #### Tag
-Tag component displaying a label and a close 'x' button.
+Tag component displaying a label and a remove button.
 
 ##### Example
 
@@ -219,7 +220,7 @@ const FilterTag = ({ id, name, onRemove = () => {} }) => (
 ```
 
 #### Timeline
-Timeline component. This component can be customized via the `direction` option - 'horizontal' or 'vertical'. This component comes with a built-in sorting dropdown supporting asc/desc sorting.
+Timeline component. This component can be customized via the `direction` option - 'horizontal' or 'vertical'. Timeline comes with a built-in sorting dropdown supporting asc/desc sorting.
 
 ##### Example
 
