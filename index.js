@@ -11,6 +11,7 @@ import Dropdown, {
 import Icon from './src/components/Icon';
 import Loader from './src/components/Loader';
 import Notification from './src/components/Notification';
+import StackableAlerts from './src/components/StackableAlerts';
 import Panel from './src/components/Panel';
 import Tag from './src/components/Tag';
 import Timeline, {
@@ -42,6 +43,7 @@ export {
   Loader,
   Notification,
   Panel,
+  StackableAlerts,
   Tag,
   Timeline,
   utils
