@@ -8,11 +8,12 @@ export const createItems = (count = 10) => {
   for (let i = 0; i < count; i++) {
     const isNewDate = randomInclusive(0, 10) > 6;
     const subTrackedDays = randomInclusive(0, 365);
+    const isSelected = randomInclusive(0, 10) > 9;
     items.push({
       id: i,
-      name: `Item ${i}`,
+      name: `Item ${i + 1}`,
       url: 'https://google.com',
-      isSelected: i === 0,
+      isSelected,
       thumbnail: defaultThumbnail,
       note: 'some note',
       created_at: isNewDate
