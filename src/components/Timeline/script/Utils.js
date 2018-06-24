@@ -1,5 +1,39 @@
-import { extend, shape } from '../../../utils/ammo';
+import { extend, shape, sortBy } from '../../../utils/ammo';
 
+/**
+ * @description Sort timeline
+ * @param groupedItems
+ * @param direction
+ * @param targetKey
+ */
+export const sortTimeline = (groupedItems, direction, targetKey) => {
+  return sortBy(groupedItems, 'date', 'date', direction).reduce((accumulator, groupedItem) => {
+    const nextGroupedItem = extend({}, groupedItem, {
+      items: sortBy(groupedItem.items, targetKey, 'date', direction)
+    });
+    accumulator.push(nextGroupedItem);
+    return accumulator;
+  }, []);
+};
+
+/**
+ * @description Get time spacing
+ * @param date
+ * @param nextDate
+ * @param isDesc
+ */
+export const getTimeSpacing = (date, nextDate, isDesc) => {
+  const dateStart = new Date(date);
+  const dateEnd = new Date(nextDate);
+  const differentInDaysBetweenStartEnd = getDifferenceInDays(dateStart, dateEnd);
+  const differentInDaysBetweenEndStart = getDifferenceInDays(dateEnd, dateStart);
+
+  const differenceInDays = isDesc
+    ? differentInDaysBetweenStartEnd >= 0 ? differentInDaysBetweenStartEnd : differentInDaysBetweenEndStart
+    : differentInDaysBetweenEndStart >= 0 ? differentInDaysBetweenEndStart : differentInDaysBetweenStartEnd;
+
+  return differenceInDays <= 30 ? 'small' : (differenceInDays <= 180 ? 'medium' : 'large');
+};
 
 /**
  * @description Group items by date
