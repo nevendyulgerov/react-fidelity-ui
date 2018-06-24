@@ -74,9 +74,11 @@ const DropdownComponent = ({ items, onChangeItems }) => (
 #### Timeline
 Timeline component. This component supports horizontal/vertical display, asc/desc sorting. This component works with any array of objects, containing a date field.
 
-
 #### Notification
 Notifications component. This component displays static messages to the DOM.
+
+#### Alert
+Alerts component. This component displays alert messages (info/success/warning/error) to the DOM.
 
 #### Panel
 General-purpose panel component. It comes with a number of built-in themes. This component can be utilized within other components like `Dropdown` and `Timeline`.
@@ -89,3 +91,6 @@ Loader component. This component displays a loading spinner.
 
 #### Icon
 Icon component. It displays svg icons from the `fidelity-ui` icons pack.
+
+#### Stat
+Stat component. It displays an icon and a counter.
