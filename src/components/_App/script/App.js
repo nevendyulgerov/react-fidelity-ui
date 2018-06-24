@@ -48,22 +48,22 @@ class App extends Component {
 
   /**
    * @description Change single select
-   * @param selectedId
+   * @param id
    */
-  changeSingleSelect = selectedId => {
+  changeSingleSelect = ({ id }) => {
     const { items } = this.state;
-    const nextItems = changeSingleSelect(items, selectedId);
+    const nextItems = changeSingleSelect(items, id);
     this.setState({ items: nextItems }, () => this.setState({ initialItems: nextItems }));
   };
 
   /**
    * @description Change multi select
-   * @param selectedId
+   * @param id
    * @param isSelected
    */
-  changeMultiSelect = (selectedId, isSelected) => {
+  changeMultiSelect = ({ id }, isSelected) => {
     const { items } = this.state;
-    const nextItems = changeMultiSelect(items, selectedId, isSelected);
+    const nextItems = changeMultiSelect(items, id, isSelected);
     this.setState({ items: nextItems }, () => {
       const component = this.getNode();
       syncDropdownMenuOffset(component);
