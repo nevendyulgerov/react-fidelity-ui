@@ -28,37 +28,19 @@
   }
 
   &[data-alert-type="info"] {
-    background-color: $light-blue;
+    @extend .fidelity-ui-info;
   }
 
   &[data-alert-type="success"] {
-    background-color: $light-green;
-    color: $white;
-
-    .component-header {
-      [data-component="icon"] {
-        .icon {
-          fill: $white;
-        }
-      }
-    }
+    @extend .fidelity-ui-success;
   }
 
   &[data-alert-type="warning"] {
-    background-color: $soft-yellow;
+    @extend .fidelity-ui-warning;
   }
 
   &[data-alert-type="error"] {
-    background-color: $light-red;
-    color: $white;
-
-    .component-header {
-      [data-component="icon"] {
-        .icon {
-          fill: $white;
-        }
-      }
-    }
+    @extend .fidelity-ui-error;
   }
 
   .component-header {
@@ -72,8 +54,9 @@
       }
 
       .title {
+        font-size: 16px;
         display: block;
-        font-weight: 700;
+        font-weight: 800;
         word-break: break-word;
         cursor: default;
       }
@@ -112,9 +95,9 @@
     padding: 10px 0 0 0;
 
     .trigger {
+      @extend .fidelity-ui-trigger;
       opacity: 1;
       pointer-events: all;
-      @extend .fidelity-ui-trigger;
       padding: 6px 10px;
       border-radius: 4px;
       transition: all 0.15s ease-in-out;
