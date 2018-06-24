@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import Icon from '../../Icon/';
 import Dropdown from '../../Dropdown/';
 import { groupItemsByDate, getDifferenceInDays } from './Utils';
-import { extend, shape, sortBy, selectAll, isObj, isFunc } from '../../../utils/ammo';
+import { extend, shape, sortBy, selectAll, isObj, isFunc, uid } from '../../../utils/ammo';
 
 class Timeline extends Component {
   state = {
@@ -83,20 +83,20 @@ class Timeline extends Component {
    * @description On change sorting
    * @param nextSortingOptionId
    */
-  onChangeSorting = nextSortingOptionId => {
+  onChangeSorting = ({ id }) => {
     const { groupedItems, sortingOptions } = this.state;
     const selectedSortingOption = shape(sortingOptions).filterByProp('isSelected', true).fetchIndex(0);
     const nextSortingOptions = sortingOptions.map(sortingOption => ({
       ...sortingOption,
-      isSelected: sortingOption.id === nextSortingOptionId
+      isSelected: sortingOption.id === id
     }));
 
     this.setState({ sortingOptions: nextSortingOptions }, () => {
-      if (selectedSortingOption.id === nextSortingOptionId) {
+      if (selectedSortingOption.id === id) {
         return false;
       }
 
-      const nextSortedGroupedItems = this.sortTimeline(groupedItems, nextSortingOptionId);
+      const nextSortedGroupedItems = this.sortTimeline(groupedItems, id);
       this.setState({ groupedItems: nextSortedGroupedItems }, this.normalizeUI);
     });
   };
@@ -108,8 +108,12 @@ class Timeline extends Component {
     selectAll('.trigger.toggle-grouped-items', this.refComponent).each(trigger => {
       const iconExpand = trigger.querySelector('.icon-expand');
       const iconCollapse = trigger.querySelector('.icon-collapse');
-      iconExpand.classList.add('active');
-      iconCollapse.classList.remove('active');
+      if (isObj(iconExpand)) {
+        iconExpand.classList.add('active');
+      }
+      if (isObj(iconCollapse)) {
+        iconCollapse.classList.remove('active');
+      }
       trigger.classList.remove('expanded');
     });
   };
@@ -217,7 +221,7 @@ class Timeline extends Component {
                   <ul className="grouped-items">
 
                     {items.map((item, groupedItemIndex) => (
-                      <li key={item.id} className="grouped-item">
+                      <li key={item.id || uid()} className="grouped-item">
                         {displayItem(
                           item,
                           isDesc
