@@ -86,7 +86,24 @@ class App extends Component {
               type="info"
               title="Alert"
               content="Lorem ipsum dolor sit amet"
-              isVisible={isAlertVisible}
+              isVisible={true}
+              icon="settings"
+              delay={2500}
+              onCancel={() => {
+                console.log('on cancel alert!');
+                this.setState({ isAlertVisible: false });
+              }}
+              onConfirm={() => {
+                console.log('on confirm alert');
+              }}
+            />
+            <Alert
+              type="success"
+              title="Success"
+              content="Lorem ipsum dolor sit amet"
+              isVisible={true}
+              icon="upvote"
+              delay={3500}
               onCancel={() => {
                 console.log('on cancel alert!');
                 this.setState({ isAlertVisible: false });
@@ -97,9 +114,25 @@ class App extends Component {
             />
             <Alert
               type="warning"
-              title="Alert"
+              title="Warning"
               content="Lorem ipsum dolor sit amet"
-              isVisible={isAlertVisible}
+              isVisible={true}
+              icon="downvote"
+              delay={4500}
+              onCancel={() => {
+                console.log('on cancel alert!');
+                this.setState({ isAlertVisible: false });
+              }}
+              onConfirm={() => {
+                console.log('on confirm alert');
+              }}
+            />
+            <Alert
+              type="error"
+              title="Error"
+              content="Lorem ipsum dolor sit amet"
+              isVisible={true}
+              delay={5500}
               onCancel={() => {
                 console.log('on cancel alert!');
                 this.setState({ isAlertVisible: false });
@@ -113,7 +146,7 @@ class App extends Component {
 
         <div className="stat">
           <Stat
-            iconName="stats"
+            icon="stats"
             count={5}
           />
         </div>
