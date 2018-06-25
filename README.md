@@ -27,8 +27,8 @@ Run `npm install --save react-fidelity-ui`
 
 ## Components
 
-#### Alerts
-Alerts component. Alerts offer 4 distinct alert types - info (default), success, warning and error. This component can be configured to require user confirmation or simply display a notification. This can be controlled via the `isConfirm` option.
+#### Alert
+Alerts component. Alert offers 4 distinct alert types - info (default), success, warning and error. This component can be configured to require user confirmation or simply display a notification. This can be controlled via the `isConfirm` option.
 
 ##### Example
 
@@ -62,7 +62,7 @@ const BreadcrumbsComponent = ({ items ) => (
   <Breadcrumbs
     isToggleableOnMobile={true} // boolean, default = true
     isStackedOnMobile={false} // boolean, default = true
-    isLastActive={true} // boolean, default = false, when set to {true}, you need to pass items with schema { url: string, name: string, isSelected: boolean }
+    isLastActive={true} // boolean, default = true, when set to {false}, you need to pass items with schema { url: string, name: string, isSelected: boolean }
     items={items} // array of objects, with schema [{ url: '', name: '' }], required
     onChange={({ url, name, isSelected, event }) => {}} // function, default = () => {}
   />
