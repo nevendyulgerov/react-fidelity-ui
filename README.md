@@ -15,7 +15,7 @@
 
 ## Installation
 
-Run `npm install --save react-fidelity-ui`
+Run `npm install react-fidelity-ui --save`
 
 ## Principles
 
