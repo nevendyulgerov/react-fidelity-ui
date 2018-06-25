@@ -84,7 +84,7 @@ const CheckboxComponent = ({ isChecked, onToggle = () => {} ) => (
     isChecked={isChecked} // boolean, default = false
     labelText="Tick to activate" // string, default = ''
     labelTitle="Tick to activate" // string, default = ''
-    onChange={() => onToggle()} // function, default = () => {}
+    onChange={event => onToggle(event)} // function, default = () => {}
   />
 );
 ```
@@ -105,9 +105,9 @@ const DropdownComponent = ({ items, onChangeItems }) => (
     title="Dropdown" // string, default = ''
     text="Text" // string, default = ''
     triggerText="Trigger text" // string, default = ''
-    items={items} // array of objects, with schema [{ url: '', name: '', isSelected: false }], required
-    onChange={(selectedId, isSelected) => {
-      const nextItems = changeMultiSelect(items, selectedId, isSelected);
+    items={items} // array of objects, with schema [{ name: '', isSelected: false }], required
+    onChange={({ name }, isSelected) => {
+      const nextItems = changeMultiSelect(items, name, isSelected, 'name');
       onChangeItems({ items: nextItems });
     }}
   />
