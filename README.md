@@ -50,7 +50,7 @@ const WarningAlert = ({ isVisible = false, onHide = () => {}, onConfirm = () => 
 ```
 
 #### Breadcrumbs
-Breadcrumbs component. Breadcrumbs offer a number of UI configurations via its options `isToggleableOnMobile` and `isStackedOnMobile`.
+Breadcrumbs component. Breadcrumbs offer a number of UI configurations for mobile screens via its options `isToggleableOnMobile` and `isStackedOnMobile`.
 
 ##### Example
 
@@ -62,7 +62,7 @@ const BreadcrumbsComponent = ({ items ) => (
   <Breadcrumbs
     isToggleableOnMobile={true} // boolean, default = true
     isStackedOnMobile={false} // boolean, default = true
-    isLastActive={true} // boolea, default = false, when set to {false}, you need to pass items with schema { url: string, name: string, isSelected: boolean }
+    isLastActive={true} // boolean, default = false, when set to {false}, you need to pass items with schema { url: string, name: string, isSelected: boolean }
     items={items} // array of objects, with schema [{ url: '', name: '' }], required
     onChange={({ url, name, isSelected, event }) => {}} // function, default = () => {}
   />
