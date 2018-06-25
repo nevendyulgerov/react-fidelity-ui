@@ -98,15 +98,16 @@ Multi-purpose dropdown component. Dropdown supports single/multi select, items f
 import React from 'react';
 import { Dropdown, utils } from 'react-fidelity-ui';
 
-const { changeMultiSelect } = utils;
+const { changeSingleSelect, changeMultiSelect } = utils;
 
 const DropdownComponent = ({ items, onChangeItems }) => (
   <Dropdown
     title="Dropdown" // string, default = ''
     text="Text" // string, default = ''
     triggerText="Trigger text" // string, default = ''
-    items={items} // array of objects, with schema [{ name: '', isSelected: false }], required
+    items={items} // array of objects, with schema [{ name: string, isSelected: boolean }], required
     onChange={({ name }, isSelected) => {
+      // update items using multi select logic
       const nextItems = changeMultiSelect(items, name, isSelected, 'name');
       onChangeItems({ items: nextItems });
     }}
