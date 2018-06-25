@@ -34,7 +34,7 @@ Alerts component. Alerts offer 4 distinct alert types - info (default), success,
 
 ```javascript
 import React from 'react';
-import { Breadcrumbs } from 'react-fidelity-ui';
+import { Alert } from 'react-fidelity-ui';
 
 const WarningAlert = ({ isAlertVisible = false, onHideAlert = () => {} }) => (
   <Alert
