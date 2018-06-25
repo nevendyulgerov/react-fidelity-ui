@@ -36,14 +36,15 @@ Alerts component. Alerts offer 4 distinct alert types - info (default), success,
 import React from 'react';
 import { Alert } from 'react-fidelity-ui';
 
-const WarningAlert = ({ isAlertVisible = false, onHideAlert = () => {} }) => (
+const WarningAlert = ({ isVisible = false, onHide = () => {}, onConfirm = () => {} }) => (
   <Alert
     type="warning" // string, default = 'info'
     title="Warning alert" // string, default = ''
     isConfirm={true} // boolean, default = false
     content="Default warning alert" // string, default = ''
-    isVisible={isAlertVisible} // boolean, default = false
+    isVisible={isVisible} // boolean, default = false
     onCancel={() => onHideAlert()} // function, default = () => {}
+    onConfirm={() => onConfirm()} // function, default = () => {}
   />
 );
 ```
