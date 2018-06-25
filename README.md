@@ -27,10 +27,10 @@ Run `npm install react-fidelity-ui --save`
 
 ## Components
 
-#### Alert
+### Alert
 Alerts component. Alert offers 4 distinct alert types - info (default), success, warning and error. This component can be configured to require user confirmation or simply display a notification. This can be controlled via the `isConfirm` option.
 
-##### Example
+#### Example
 
 ```javascript
 import React from 'react';
@@ -49,10 +49,10 @@ const WarningAlert = ({ isVisible = false, onHide = () => {}, onConfirm = () => 
 );
 ```
 
-#### Breadcrumbs
+### Breadcrumbs
 Breadcrumbs component. Breadcrumbs offer a number of UI configurations for mobile screens via its options `isToggleableOnMobile` and `isStackedOnMobile`.
 
-##### Example
+#### Example
 
 ```javascript
 import React from 'react';
@@ -69,10 +69,10 @@ const BreadcrumbsComponent = ({ items ) => (
 );
 ```
 
-#### Checkbox
+### Checkbox
 Checkbox component. Checkbox exposes a styled checkbox with default checkbox behavior.
 
-##### Example
+#### Example
 
 ```javascript
 import React from 'react';
@@ -89,10 +89,10 @@ const CheckboxComponent = ({ isChecked = false, onToggle = () => {} ) => (
 );
 ```
 
-#### Dropdown
+### Dropdown
 Multi-purpose dropdown component. Dropdown supports single/multi select, items filtering, adding new items, integration for tagging. This component can also take advantage of several helper methods from the `utils` space.
 
-##### Example
+#### Example
 
 ```javascript
 import React from 'react';
@@ -115,10 +115,10 @@ const DropdownComponent = ({ items, onChangeItems }) => (
 );
 ```
 
-#### Icon
+### Icon
 Icon component exposing svg icons.
 
-##### Example
+#### Example
 
 ```javascript
 import React from 'react';
@@ -132,10 +132,10 @@ const UpvoteIcon = () => (
 );
 ```
 
-#### Loader
+### Loader
 Loader component displaying a spinner.
 
-##### Example
+#### Example
 
 ```javascript
 import React from 'react';
@@ -148,10 +148,10 @@ const LoadingSpinner = ({ isLoading = false }) => (
 );
 ```
 
-#### Notification
+### Notification
 Notification component displaying static notifications. Notification offers 4 distinct notification types - info (default), success, warning and error.
 
-##### Example
+#### Example
 
 ```javascript
 import React from 'react';
@@ -167,10 +167,10 @@ const SuccessNotification = ({ isLoading }) => (
 );
 ```
 
-#### Panel
+### Panel
 General purpose panel component. Panel supports a number of distinctive themes via the `theme` option.
 
-##### Example
+#### Example
 
 ```javascript
 import React from 'react';
@@ -204,10 +204,10 @@ const Panels = ({ isLoading }) => (
 );
 ```
 
-#### StackableAlerts
+### StackableAlerts
 Wrapper components, designed to work with component `Alert`. It enables stacking of alerts, when multiple alerts are displayed.
 
-##### Example
+#### Example
 
 ```javascript
 import React from 'react';
@@ -238,10 +238,10 @@ const FilterTag = () => (
 );
 ```
 
-#### Tag
+### Tag
 Tag component displaying a label and a remove button.
 
-##### Example
+#### Example
 
 ```javascript
 import React from 'react';
@@ -255,10 +255,10 @@ const FilterTag = ({ id, name, onRemove = () => {} }) => (
 );
 ```
 
-#### Timeline
+### Timeline
 Timeline component. This component can be customized via the `direction` option - `horizontal` or `vertical`. Timeline comes with a built-in sorting dropdown supporting asc/desc sorting.
 
-##### Example
+#### Example
 
 ```javascript
 import React from 'react';
