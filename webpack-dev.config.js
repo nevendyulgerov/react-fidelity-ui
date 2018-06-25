@@ -24,6 +24,10 @@ module.exports = {
       {
         test: /\.scss$/,
         use: 'sass-bulk-import-loader'
+      },
+      {
+        test: /\.svg$/,
+        use: 'svg-sprite-loader'
       }
     ],
     loaders: []
