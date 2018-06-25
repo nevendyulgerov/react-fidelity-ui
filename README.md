@@ -250,7 +250,7 @@ import { Tag } from 'react-fidelity-ui';
 const FilterTag = ({ id, name, onRemove = () => {} }) => (
   <Tag
     name={tag.name} // string, required
-    onRemove={() => onRemove(tag.id)} // function, default = undefined
+    onRemove={() => onRemove(tag.id)} // function, default = undefined, not invoked when undefined
   />
 );
 ```
@@ -275,7 +275,7 @@ const HorizontalTimeline = ({ items }) => (
     )} // function, default = () => {}
     formatDate={itemDate => (
       <span>{itemDate.substr(0, 3)}</span>
-    )} // function, default = undefined
+    )} // function, default = undefined, not invoked when undefined
   />
 );
 ```
