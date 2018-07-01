@@ -1,0 +1,52 @@
+/**
+ * Component: Modal
+ */
+
+[data-component="modal"] {
+  opacity: 0;
+  pointer-events: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 999;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  transition: all 0.15s ease-in-out;
+
+  &.active {
+    opacity: 1;
+    pointer-events: all;
+    transition: all 0.15s ease-in-out;
+    background-color: $transparent-grey;
+  }
+
+  > .component-body {
+    position: relative;
+    top: 40px;
+    width: 60%;
+    height: auto;
+    background-color: $white;
+    box-shadow: $shadow-depth-2;
+    border-radius: 4px;
+    overflow: hidden;
+
+    @media (max-width: $screen-md) {
+      width: 75%;
+    }
+
+    @media (max-width: $screen-sm) {
+      width: 85%;
+    }
+
+    @media (max-width: $screen-xs) {
+      width: 90%;
+    }
+
+    @media (max-width: $screen-xxs) {
+      width: 90%;
+    }
+  }
+}
