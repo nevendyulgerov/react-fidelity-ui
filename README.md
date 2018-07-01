@@ -148,6 +148,36 @@ const LoadingSpinner = ({ isLoading = false }) => (
 );
 ```
 
+### Modal
+Modal component with standard dialog behavior. This component can be used in combination with the `modal` template of component `Panel`.
+
+#### Example
+
+```javascript
+import React from 'react';
+import { Modal, Panel } from 'react-fidelity-ui';
+
+const ConfirmModal = ({ isModalActive = false, onCancel = () => {}, onConfirm = () => {} }) => (
+  <Modal
+    isActive={isModalActive} // boolean, default = false
+    isCloseWithEscapeKey={false}  // boolean, default = true
+    content={() => (
+      <Panel
+        template="modal"
+        item={{
+          title: 'Modal title',
+          content: 'Are you sure you want to proceed?',
+          onCancel,
+          onConfirm
+        }}
+      />
+    )} // function, default = () => {}
+    onCancel={onCancel} // function, default = undefined
+    onConfirm={onConfirm} // function, default = undefined
+  />
+);
+```
+
 ### Notification
 Notification component displaying static notifications. Notification offers 4 distinct notification types - info (default), success, warning and error.
 
@@ -179,7 +209,7 @@ import { Panel } from 'react-fidelity-ui';
 const Panels = ({ isLoading }) => (
   <div data-component="panels">
     <Panel
-      theme="card" // string, default = 'default'
+      template="card" // string, default = 'default'
       item={{
         name: 'Card panel', // string, required
         date: '2018-06-24' // string, required
@@ -194,7 +224,7 @@ const Panels = ({ isLoading }) => (
       }}
     />
     <Panel
-      theme="stat"
+      template="stat"
       item={{
         icon: 'stats', // string, required
         count: 2 // string/number, required
