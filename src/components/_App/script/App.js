@@ -7,6 +7,7 @@ import Tag from '../../Tag/';
 import Notification from '../../Notification/';
 import Icon from '../../Icon/';
 import Loader from '../../Loader';
+import Modal from '../../Modal/';
 import Breadcrumbs from '../../Breadcrumbs/';
 import Dropdown, {
   changeSingleSelect,
@@ -39,7 +40,8 @@ class App extends Component {
     isInfoAlertVisible: false,
     isSuccessAlertVisible: false,
     isWarningAlertVisible: false,
-    isErrorAlertVisible: false
+    isErrorAlertVisible: false,
+    isModalActive: false
   };
 
   /**
@@ -89,7 +91,8 @@ class App extends Component {
       isInfoAlertVisible,
       isSuccessAlertVisible,
       isWarningAlertVisible,
-      isErrorAlertVisible
+      isErrorAlertVisible,
+      isModalActive
     } = this.state;
 
     return (
@@ -286,6 +289,39 @@ class App extends Component {
           </div>
         </div>
 
+        <div className="demo-box" data-demo="modal">
+          <span className="title">
+            {'Modal'}
+          </span>
+          <div className="actions">
+            <button
+              className="trigger toggle-modal"
+              disabled={isModalActive}
+              onClick={() => this.setState(({ isModalActive }) => ({ isModalActive: !isModalActive }))}
+            >
+              {'Toggle Modal'}
+            </button>
+          </div>
+          <div className="demo">
+            <Modal
+              isActive={isModalActive}
+              content={() => (
+                <Panel
+                  template="modal"
+                  item={{
+                    title: 'Modal title',
+                    content: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
+                    onCancel: () => this.setState({ isModalActive: false }),
+                    onConfirm: () => this.setState({ isModalActive: false })
+                  }}
+                />
+              )}
+              onCancel={() => this.setState({ isModalActive: false })}
+              onConfirm={() => this.setState({ isModalActive: false })}
+            />
+          </div>
+        </div>
+
         <div className="demo-box" data-demo="notification">
           <span className="title">
             {'Notification'}
@@ -303,10 +339,10 @@ class App extends Component {
             {'Panel'}
           </span>
           <div className="demo">
-            <Panel theme="stat" item={{ icon: 'stats', count: 2 }} />
-            <Panel theme="stat" item={{ icon: 'edit', count: 3 }} />
-            <Panel theme="stat" item={{ icon: 'comment', count: 10 }} />
-            <Panel theme="stat" item={{ icon: 'upvote', count: 4 }} />
+            <Panel template="stat" item={{ icon: 'stats', count: 2 }} />
+            <Panel template="stat" item={{ icon: 'edit', count: 3 }} />
+            <Panel template="stat" item={{ icon: 'comment', count: 10 }} />
+            <Panel template="stat" item={{ icon: 'upvote', count: 4 }} />
           </div>
         </div>
 
@@ -355,7 +391,7 @@ class App extends Component {
               items={timelineHorizontalItems}
               displayItem={({ name, created_at, thumbnail, note }) => (
                 <Panel
-                  theme="card"
+                  template="card"
                   item={{
                     name,
                     thumbnail,
