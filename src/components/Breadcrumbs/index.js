@@ -1,2 +1,3 @@
 import Breadcrumbs from './script/Breadcrumbs';
-export default Breadcrumbs
+
+export default Breadcrumbs;

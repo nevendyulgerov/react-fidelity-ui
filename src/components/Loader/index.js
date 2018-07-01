@@ -1,2 +1,2 @@
-import Loader from './script/Loader';
-export default Loader
+const Loader = require('./script/Loader.js');
+module.exports = Loader;
