@@ -1,6 +1,7 @@
 import Alert from './src/components/Alert/';
 import Breadcrumbs from './src/components/Breadcrumbs/';
-import Checkbox from './src/components/Checkbox';
+import Checkbox from './src/components/Checkbox/';
+
 import Dropdown, {
   changeSingleSelect,
   changeMultiSelect,
@@ -8,18 +9,21 @@ import Dropdown, {
   filterItemsByName,
   syncDropdownMenuOffset
 } from './src/components/Dropdown/';
-import Icon from './src/components/Icon';
-import Loader from './src/components/Loader';
-import Notification from './src/components/Notification';
-import StackableAlerts from './src/components/StackableAlerts';
-import Panel from './src/components/Panel';
-import Tag from './src/components/Tag';
+
+import Icon from './src/components/Icon/';
+import Loader from './src/components/Loader/';
+import Modal from './src/components/Modal/';
+import Notification from './src/components/Notification/';
+import StackableAlerts from './src/components/StackableAlerts/';
+import Panel from './src/components/Panel/';
+import Tag from './src/components/Tag/';
+
 import Timeline, {
   groupItemsByDate,
   getDifferenceInDays,
   getDateYMD,
   isSameDate
-} from './src/components/Timeline';
+} from './src/components/Timeline/';
 import './dist/style.min.css';
 
 const utils = {
@@ -41,6 +45,7 @@ export {
   Dropdown,
   Icon,
   Loader,
+  Modal,
   Notification,
   Panel,
   StackableAlerts,
