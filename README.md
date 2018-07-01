@@ -165,15 +165,15 @@ const ConfirmModal = ({ isModalActive = false, onCancel = () => {}, onConfirm = 
       <Panel
         template="modal"
         item={{
-          title: 'Modal title',
-          content: 'Are you sure you want to proceed?',
-          onCancel,
-          onConfirm
+          title: 'Modal title', // string, default = ''
+          content: 'Are you sure you want to proceed?', // string, default = ''
+          onCancel // function, default = undefined
+          onConfirm // function, default = undefined
         }}
       />
     )} // function, default = () => {}
-    onCancel={onCancel} // function, default = undefined
-    onConfirm={onConfirm} // function, default = undefined
+    onCancel={onCancel} // function, default = () => {}
+    onConfirm={onConfirm} // function, default = () => {}
   />
 );
 ```
@@ -292,7 +292,8 @@ Timeline component. This component can be customized via the `direction` option 
 
 ```javascript
 import React from 'react';
-import { Timeline, Tag } from 'react-fidelity-ui';
+import { Timeline, Panel } from 'react-fidelity-ui';
+import moment from 'moment'; // using moment-js for this example
 
 const HorizontalTimeline = ({ items }) => (
   <Timeline
@@ -300,12 +301,13 @@ const HorizontalTimeline = ({ items }) => (
     direction="horizontal" // string, default = 'vertical'
     targetKey="created_at" // string, the key containing date information in your items array of objects, [dateField], required
     items={items} // array of objects, with schema [{ [dateField]: string }], required
-    displayItem={item => (
-      <span>{JSON.stringify(item, null, 4)}</span>
+    displayItem={({ name, thumbnail, note, date }) => (
+      <Panel
+        template="card"
+        item={{ name, thumbnail, note, date }}
+      />
     )} // function, default = () => {}
-    formatDate={itemDate => (
-      <span>{itemDate.substr(0, 3)}</span>
-    )} // function, default = undefined, not invoked when undefined
+    formatDate={date => moment(date).format('HH:mm')}} // function, default = undefined, not invoked when undefined
   />
 );
 ```
