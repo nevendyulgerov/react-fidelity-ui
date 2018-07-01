@@ -230,12 +230,21 @@ const Panels = ({ isLoading }) => (
         count: 2 // string/number, required
       }}
     />
+    <Panel
+      template="modal"
+      item={{
+        title: 'Modal title', // string, default = ''
+        content: 'Lorem ipsum dolor sit amet', // string, default = ''
+        onCancel // function, default = undefined
+        onConfirm // function, default = undefined
+      }}
+    />
   </div>
 );
 ```
 
 ### StackableAlerts
-Wrapper components, designed to work with component `Alert`. It enables stacking of alerts, when multiple alerts are displayed.
+Wrapper component, designed to work with component `Alert`. It enables stacking of alerts, when multiple alerts are displayed.
 
 #### Example
 
