@@ -18519,17 +18519,8 @@ exports.default = _Dropdown2.default;
 "use strict";
 
 
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _Loader = __webpack_require__(169);
-
-var _Loader2 = _interopRequireDefault(_Loader);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-exports.default = _Loader2.default;
+var Loader = __webpack_require__(169);
+module.exports = Loader;
 
 /***/ }),
 /* 142 */
@@ -18668,7 +18659,7 @@ var isSameDate = exports.isSameDate = function isSameDate(dateA, dateB) {
 /***/ (function(module, exports, __webpack_require__) {
 
 __webpack_require__(144);
-module.exports = __webpack_require__(184);
+module.exports = __webpack_require__(186);
 
 
 /***/ }),
@@ -38247,7 +38238,11 @@ var _Loader = __webpack_require__(141);
 
 var _Loader2 = _interopRequireDefault(_Loader);
 
-var _Breadcrumbs = __webpack_require__(177);
+var _Modal = __webpack_require__(177);
+
+var _Modal2 = _interopRequireDefault(_Modal);
+
+var _Breadcrumbs = __webpack_require__(179);
 
 var _Breadcrumbs2 = _interopRequireDefault(_Breadcrumbs);
 
@@ -38255,15 +38250,15 @@ var _Dropdown = __webpack_require__(140);
 
 var _Dropdown2 = _interopRequireDefault(_Dropdown);
 
-var _StackableAlerts = __webpack_require__(179);
+var _StackableAlerts = __webpack_require__(181);
 
 var _StackableAlerts2 = _interopRequireDefault(_StackableAlerts);
 
-var _Alert = __webpack_require__(181);
+var _Alert = __webpack_require__(183);
 
 var _Alert2 = _interopRequireDefault(_Alert);
 
-var _Utils = __webpack_require__(183);
+var _Utils = __webpack_require__(185);
 
 var _ammo = __webpack_require__(2);
 
@@ -38307,7 +38302,8 @@ var App = function (_Component) {
       isInfoAlertVisible: false,
       isSuccessAlertVisible: false,
       isWarningAlertVisible: false,
-      isErrorAlertVisible: false
+      isErrorAlertVisible: false,
+      isModalActive: false
     }, _this.changeSingleSelect = function (_ref2) {
       var id = _ref2.id;
       var dropdownItems = _this.state.dropdownItems;
@@ -38368,7 +38364,8 @@ var App = function (_Component) {
           isInfoAlertVisible = _state.isInfoAlertVisible,
           isSuccessAlertVisible = _state.isSuccessAlertVisible,
           isWarningAlertVisible = _state.isWarningAlertVisible,
-          isErrorAlertVisible = _state.isErrorAlertVisible;
+          isErrorAlertVisible = _state.isErrorAlertVisible,
+          isModalActive = _state.isModalActive;
 
 
       return _react2.default.createElement(
@@ -38626,6 +38623,61 @@ var App = function (_Component) {
         ),
         _react2.default.createElement(
           'div',
+          { className: 'demo-box', 'data-demo': 'modal' },
+          _react2.default.createElement(
+            'span',
+            { className: 'title' },
+            'Modal'
+          ),
+          _react2.default.createElement(
+            'div',
+            { className: 'actions' },
+            _react2.default.createElement(
+              'button',
+              {
+                className: 'trigger toggle-modal',
+                disabled: isModalActive,
+                onClick: function onClick() {
+                  return _this2.setState(function (_ref7) {
+                    var isModalActive = _ref7.isModalActive;
+                    return { isModalActive: !isModalActive };
+                  });
+                }
+              },
+              'Toggle Modal'
+            )
+          ),
+          _react2.default.createElement(
+            'div',
+            { className: 'demo' },
+            _react2.default.createElement(_Modal2.default, {
+              isActive: isModalActive,
+              content: function content() {
+                return _react2.default.createElement(_Panel2.default, {
+                  template: 'modal',
+                  item: {
+                    title: 'Modal title',
+                    content: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
+                    onCancel: function onCancel() {
+                      return _this2.setState({ isModalActive: false });
+                    },
+                    onConfirm: function onConfirm() {
+                      return _this2.setState({ isModalActive: false });
+                    }
+                  }
+                });
+              },
+              onCancel: function onCancel() {
+                return _this2.setState({ isModalActive: false });
+              },
+              onConfirm: function onConfirm() {
+                return _this2.setState({ isModalActive: false });
+              }
+            })
+          )
+        ),
+        _react2.default.createElement(
+          'div',
           { className: 'demo-box', 'data-demo': 'notification' },
           _react2.default.createElement(
             'span',
@@ -38652,10 +38704,10 @@ var App = function (_Component) {
           _react2.default.createElement(
             'div',
             { className: 'demo' },
-            _react2.default.createElement(_Panel2.default, { theme: 'stat', item: { icon: 'stats', count: 2 } }),
-            _react2.default.createElement(_Panel2.default, { theme: 'stat', item: { icon: 'edit', count: 3 } }),
-            _react2.default.createElement(_Panel2.default, { theme: 'stat', item: { icon: 'comment', count: 10 } }),
-            _react2.default.createElement(_Panel2.default, { theme: 'stat', item: { icon: 'upvote', count: 4 } })
+            _react2.default.createElement(_Panel2.default, { template: 'stat', item: { icon: 'stats', count: 2 } }),
+            _react2.default.createElement(_Panel2.default, { template: 'stat', item: { icon: 'edit', count: 3 } }),
+            _react2.default.createElement(_Panel2.default, { template: 'stat', item: { icon: 'comment', count: 10 } }),
+            _react2.default.createElement(_Panel2.default, { template: 'stat', item: { icon: 'upvote', count: 4 } })
           )
         ),
         _react2.default.createElement(
@@ -38698,11 +38750,11 @@ var App = function (_Component) {
               title: 'Timeline',
               targetKey: 'created_at',
               items: timelineVerticalItems,
-              displayItem: function displayItem(_ref7) {
-                var name = _ref7.name,
-                    created_at = _ref7.created_at,
-                    thumbnail = _ref7.thumbnail,
-                    note = _ref7.note;
+              displayItem: function displayItem(_ref8) {
+                var name = _ref8.name,
+                    created_at = _ref8.created_at,
+                    thumbnail = _ref8.thumbnail,
+                    note = _ref8.note;
                 return _react2.default.createElement(_Panel2.default, {
                   item: {
                     name: name,
@@ -38718,13 +38770,13 @@ var App = function (_Component) {
               direction: 'horizontal',
               targetKey: 'created_at',
               items: timelineHorizontalItems,
-              displayItem: function displayItem(_ref8) {
-                var name = _ref8.name,
-                    created_at = _ref8.created_at,
-                    thumbnail = _ref8.thumbnail,
-                    note = _ref8.note;
+              displayItem: function displayItem(_ref9) {
+                var name = _ref9.name,
+                    created_at = _ref9.created_at,
+                    thumbnail = _ref9.thumbnail,
+                    note = _ref9.note;
                 return _react2.default.createElement(_Panel2.default, {
-                  theme: 'card',
+                  template: 'card',
                   item: {
                     name: name,
                     thumbnail: thumbnail,
@@ -41242,21 +41294,20 @@ var _ammo = __webpack_require__(2);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var Panel = function Panel(_ref) {
-  var _ref$theme = _ref.theme,
-      theme = _ref$theme === undefined ? 'default' : _ref$theme,
+  var _ref$template = _ref.template,
+      template = _ref$template === undefined ? 'default' : _ref$template,
       item = _ref.item;
 
-
-  return _react2.default.createElement(
-    'div',
-    { 'data-component': 'panel', 'data-theme': theme },
-    theme === 'default' && _react2.default.createElement(
+  var getDefaultPanel = function getDefaultPanel(_ref2) {
+    var name = _ref2.name,
+        date = _ref2.date;
+    return _react2.default.createElement(
       'div',
       { className: 'component-body' },
       _react2.default.createElement(
         'span',
         { className: 'name' },
-        item.name
+        name
       ),
       _react2.default.createElement(
         'span',
@@ -41265,21 +41316,43 @@ var Panel = function Panel(_ref) {
         _react2.default.createElement(
           'time',
           null,
-          item.date
+          date
         )
       )
-    ),
-    theme === 'card' && _react2.default.createElement(
+    );
+  };
+
+  var getStatPanel = function getStatPanel(_ref3) {
+    var icon = _ref3.icon,
+        count = _ref3.count;
+    return _react2.default.createElement(
+      'div',
+      { className: 'component-body' },
+      _react2.default.createElement(_Icon2.default, { name: icon }),
+      _react2.default.createElement(
+        'span',
+        { className: 'count' },
+        count
+      )
+    );
+  };
+
+  var getCardPanel = function getCardPanel(_ref4) {
+    var thumbnail = _ref4.thumbnail,
+        name = _ref4.name,
+        note = _ref4.note,
+        date = _ref4.date;
+    return _react2.default.createElement(
       'div',
       { className: 'component-body' },
       _react2.default.createElement(
         'figure',
         { className: 'avatar', title: 'Avatar' },
         _react2.default.createElement('img', {
-          src: item.thumbnail,
+          src: thumbnail,
           alt: 'avatar',
-          onLoad: function onLoad(_ref2) {
-            var target = _ref2.target;
+          onLoad: function onLoad(_ref5) {
+            var target = _ref5.target;
             return target.closest('.avatar').classList.add('active');
           }
         })
@@ -41290,12 +41363,12 @@ var Panel = function Panel(_ref) {
         _react2.default.createElement(
           'span',
           { className: 'author', title: 'Name' },
-          item.name
+          name
         ),
         _react2.default.createElement(
           'span',
           { className: 'note' },
-          (0, _ammo.isFunc)(item.note) ? item.note() : item.note
+          (0, _ammo.isFunc)(note) ? note() : (0, _ammo.isStr)(note) ? note : ''
         ),
         _react2.default.createElement(
           'span',
@@ -41304,22 +41377,106 @@ var Panel = function Panel(_ref) {
           _react2.default.createElement(
             'time',
             { className: 'time' },
-            item.date
+            date
           ),
           '.'
         )
       )
-    ),
-    theme === 'stat' && _react2.default.createElement(
+    );
+  };
+
+  var getModalPanel = function getModalPanel(_ref6) {
+    var title = _ref6.title,
+        _ref6$closeTitle = _ref6.closeTitle,
+        closeTitle = _ref6$closeTitle === undefined ? '' : _ref6$closeTitle,
+        _ref6$content = _ref6.content,
+        content = _ref6$content === undefined ? '' : _ref6$content,
+        _ref6$cancelText = _ref6.cancelText,
+        cancelText = _ref6$cancelText === undefined ? 'Cancel' : _ref6$cancelText,
+        _ref6$confirmText = _ref6.confirmText,
+        confirmText = _ref6$confirmText === undefined ? 'OK' : _ref6$confirmText,
+        _ref6$cancelTitle = _ref6.cancelTitle,
+        cancelTitle = _ref6$cancelTitle === undefined ? '' : _ref6$cancelTitle,
+        _ref6$confirmTitle = _ref6.confirmTitle,
+        confirmTitle = _ref6$confirmTitle === undefined ? '' : _ref6$confirmTitle,
+        onCancel = _ref6.onCancel,
+        onConfirm = _ref6.onConfirm;
+    return _react2.default.createElement(
       'div',
       { className: 'component-body' },
-      _react2.default.createElement(_Icon2.default, { name: item.icon }),
       _react2.default.createElement(
-        'span',
-        { className: 'count' },
-        item.count
+        'div',
+        { className: 'modal-header' },
+        _react2.default.createElement(
+          'div',
+          { className: 'text-box' },
+          _react2.default.createElement(
+            'span',
+            { className: 'title' },
+            title
+          )
+        ),
+        _react2.default.createElement(
+          'button',
+          {
+            className: 'trigger close-modal',
+            title: closeTitle,
+            onClick: function onClick() {
+              return onCancel();
+            }
+          },
+          _react2.default.createElement(_Icon2.default, { name: 'add' })
+        )
+      ),
+      content !== '' && _react2.default.createElement(
+        'div',
+        { className: 'modal-body' },
+        _react2.default.createElement(
+          'div',
+          { className: 'content' },
+          content
+        )
+      ),
+      (0, _ammo.isFunc)(onCancel) && (0, _ammo.isFunc)(onConfirm) && _react2.default.createElement(
+        'div',
+        { className: 'modal-footer' },
+        _react2.default.createElement(
+          'div',
+          { className: 'modal-actions' },
+          _react2.default.createElement(
+            'button',
+            {
+              className: 'trigger cancel',
+              title: cancelTitle,
+              onClick: function onClick() {
+                return onCancel();
+              }
+            },
+            cancelText
+          ),
+          _react2.default.createElement(
+            'button',
+            {
+              className: 'trigger confirm',
+              title: confirmTitle,
+              onClick: function onClick() {
+                return onConfirm();
+              }
+            },
+            confirmText
+          )
+        )
       )
-    )
+    );
+  };
+
+  return _react2.default.createElement(
+    'div',
+    { 'data-component': 'panel', 'data-template': template },
+    template === 'default' && getDefaultPanel(item),
+    template === 'card' && getCardPanel(item),
+    template === 'stat' && getStatPanel(item),
+    template === 'modal' && getModalPanel(item)
   );
 };
 
@@ -41478,7 +41635,191 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _Breadcrumbs = __webpack_require__(178);
+var _Modal = __webpack_require__(178);
+
+var _Modal2 = _interopRequireDefault(_Modal);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+exports.default = _Modal2.default;
+
+/***/ }),
+/* 178 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _react = __webpack_require__(1);
+
+var _react2 = _interopRequireDefault(_react);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var Modal = function (_Component) {
+  _inherits(Modal, _Component);
+
+  function Modal() {
+    var _ref;
+
+    var _temp, _this, _ret;
+
+    _classCallCheck(this, Modal);
+
+    for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
+      args[_key] = arguments[_key];
+    }
+
+    return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_ref = Modal.__proto__ || Object.getPrototypeOf(Modal)).call.apply(_ref, [this].concat(args))), _this), _this.state = {}, _this.componentWillReceiveProps = function (_ref2) {
+      var isActive = _ref2.isActive;
+
+      _this.toggleBody(isActive);
+    }, _this.closeViaKeyDown = function (event) {
+      if (event.key === 'Escape') {
+        _this.onCancel({ isClosedWithEscapeKey: true });
+      }
+    }, _this.toggleBody = function (isOn) {
+      if (isOn) {
+        document.body.classList.add('fidelity-ui-no-scroll');
+      } else {
+        document.body.classList.remove('fidelity-ui-no-scroll');
+      }
+    }, _this.onCancel = function (_ref3) {
+      var _ref3$isClosedWithEsc = _ref3.isClosedWithEscapeKey,
+          isClosedWithEscapeKey = _ref3$isClosedWithEsc === undefined ? false : _ref3$isClosedWithEsc;
+      var _this$props$onCancel = _this.props.onCancel,
+          onCancel = _this$props$onCancel === undefined ? function () {} : _this$props$onCancel;
+
+      onCancel(isClosedWithEscapeKey);
+    }, _this.onConfirm = function () {
+      var _this$props$onConfirm = _this.props.onConfirm,
+          onConfirm = _this$props$onConfirm === undefined ? function () {} : _this$props$onConfirm;
+
+      onConfirm();
+    }, _temp), _possibleConstructorReturn(_this, _ret);
+  }
+
+  _createClass(Modal, [{
+    key: 'componentWillMount',
+    value: function componentWillMount() {
+      var _props$isClosedWithEs = this.props.isClosedWithEscapeKey,
+          isClosedWithEscapeKey = _props$isClosedWithEs === undefined ? true : _props$isClosedWithEs;
+
+      if (!isClosedWithEscapeKey) {
+        return false;
+      }
+      this.attachKeydownMonitor();
+    }
+  }, {
+    key: 'componentWillUnmount',
+    value: function componentWillUnmount() {
+      var _props$isClosedWithEs2 = this.props.isClosedWithEscapeKey,
+          isClosedWithEscapeKey = _props$isClosedWithEs2 === undefined ? true : _props$isClosedWithEs2;
+
+      if (!isClosedWithEscapeKey) {
+        return false;
+      }
+      this.detachKeydownMonitor();
+    }
+  }, {
+    key: 'attachKeydownMonitor',
+
+
+    /**
+     * @description Attach keydown monitor
+     */
+    value: function attachKeydownMonitor() {
+      window.addEventListener('keydown', this.closeViaKeyDown);
+    }
+
+    /**
+     * @description Detach keydown monitor
+     */
+
+  }, {
+    key: 'detachKeydownMonitor',
+    value: function detachKeydownMonitor() {
+      window.addEventListener('keydown', this.closeViaKeyDown);
+    }
+
+    /**
+     * @description Close via key down
+     */
+
+
+    /**
+     * @description Toggle body
+     * @param isOn
+     */
+
+
+    /**
+     * @description On cancel
+     * @param isClosedWithEscapeKey
+     */
+
+
+    /**
+     * @description On confirm
+     */
+
+  }, {
+    key: 'render',
+    value: function render() {
+      var _props = this.props,
+          _props$content = _props.content,
+          content = _props$content === undefined ? function () {} : _props$content,
+          _props$className = _props.className,
+          className = _props$className === undefined ? '' : _props$className,
+          _props$isActive = _props.isActive,
+          isActive = _props$isActive === undefined ? false : _props$isActive;
+
+
+      return _react2.default.createElement(
+        'div',
+        { className: className + ' ' + (isActive ? 'active' : ''), 'data-component': 'modal', role: 'dialog' },
+        _react2.default.createElement(
+          'div',
+          { className: 'component-body' },
+          _react2.default.createElement(
+            'div',
+            { className: 'component-content' },
+            content()
+          )
+        )
+      );
+    }
+  }]);
+
+  return Modal;
+}(_react.Component);
+
+exports.default = Modal;
+
+/***/ }),
+/* 179 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _Breadcrumbs = __webpack_require__(180);
 
 var _Breadcrumbs2 = _interopRequireDefault(_Breadcrumbs);
 
@@ -41487,7 +41828,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 exports.default = _Breadcrumbs2.default;
 
 /***/ }),
-/* 178 */
+/* 180 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -41628,7 +41969,7 @@ var Breadcrumbs = function (_Component) {
 exports.default = Breadcrumbs;
 
 /***/ }),
-/* 179 */
+/* 181 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -41638,7 +41979,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _StackableAlerts = __webpack_require__(180);
+var _StackableAlerts = __webpack_require__(182);
 
 var _StackableAlerts2 = _interopRequireDefault(_StackableAlerts);
 
@@ -41647,7 +41988,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 exports.default = _StackableAlerts2.default;
 
 /***/ }),
-/* 180 */
+/* 182 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -41675,7 +42016,7 @@ var StackableAlerts = function StackableAlerts(_ref) {
 exports.default = StackableAlerts;
 
 /***/ }),
-/* 181 */
+/* 183 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -41685,7 +42026,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _Alert = __webpack_require__(182);
+var _Alert = __webpack_require__(184);
 
 var _Alert2 = _interopRequireDefault(_Alert);
 
@@ -41694,7 +42035,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 exports.default = _Alert2.default;
 
 /***/ }),
-/* 182 */
+/* 184 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -41888,7 +42229,7 @@ var Alert = function (_Component) {
 exports.default = Alert;
 
 /***/ }),
-/* 183 */
+/* 185 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -41931,7 +42272,7 @@ var createItems = exports.createItems = function createItems() {
 };
 
 /***/ }),
-/* 184 */
+/* 186 */
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin
