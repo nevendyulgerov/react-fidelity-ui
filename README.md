@@ -27,6 +27,19 @@ Run `npm install react-fidelity-ui --save`
 
 ## Components
 
+- Alert
+- Breadcrumbs
+- Checkbox
+- Dropdown
+- Icon
+- Loader
+- Modal
+- Notification
+- Panel
+- StackableAlerts
+- Tag
+- Timeline
+
 ### Alert
 Alerts component. Alert offers 4 distinct alert types - info (default), success, warning and error. This component can be configured to require user confirmation or simply display a notification. This can be controlled via the `isConfirm` option.
 
@@ -107,7 +120,7 @@ const DropdownComponent = ({ items, onChangeItems }) => (
     triggerText="Trigger text" // string, default = ''
     items={items} // array of objects, with schema [{ name: string, isSelected: boolean }], required
     onChange={({ name }, isSelected) => {
-      // update items using multi select logic
+      // update items using multi select logic, using `name` as unique identifier
       const nextItems = changeMultiSelect(items, name, isSelected, 'name');
       onChangeItems({ items: nextItems });
     }}
@@ -179,7 +192,7 @@ const ConfirmModal = ({ isModalActive = false, onCancel = () => {}, onConfirm = 
 ```
 
 ### Notification
-Notification component displaying static notifications. Notification offers 4 distinct notification types - info (default), success, warning and error.
+Notification component displaying static notifications. Notification offers 4 distinct types - info (default), success, warning and error.
 
 #### Example
 
