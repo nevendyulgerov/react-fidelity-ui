@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import Icon from '../../Icon';
+import Icon from '../../Icon/';
 import { isFunc, uid } from '../../../utils/ammo';
 
 class Breadcrumbs extends Component {
