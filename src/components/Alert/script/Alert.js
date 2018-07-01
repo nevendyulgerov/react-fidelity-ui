@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import Icon from '../../Icon';
+import Icon from '../../Icon/';
 import { isHovered, isObj } from '../../../utils/ammo';
 
 const defaultDelay = 5000;

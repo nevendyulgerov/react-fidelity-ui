@@ -43,7 +43,7 @@
     @extend .fidelity-ui-error;
   }
 
-  .component-header {
+  > .component-header {
     .title-box {
       display: flex;
       justify-content: flex-start;
@@ -91,7 +91,7 @@
     }
   }
 
-  .component-body {
+  > .component-body {
     padding: 10px 0 0 0;
 
     .trigger {
