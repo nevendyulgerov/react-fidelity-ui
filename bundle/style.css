@@ -178,7 +178,7 @@ body.fidelity-ui-test-body {
       font-weight: 800;
       word-break: break-word;
       cursor: default; }
-  [data-component="alert"] > .component-header .content {
+  [data-component="alert"] > .component-header .subtitle {
     word-break: break-word;
     cursor: default; }
   [data-component="alert"] > .component-header .trigger.close-alert {

@@ -38476,7 +38476,7 @@ var App = function (_Component) {
               _react2.default.createElement(_Alert2.default, {
                 type: 'info',
                 title: 'Alert',
-                content: 'Info alert with \'settings\' icon',
+                subtitle: 'Info alert with \'settings\' icon',
                 isVisible: isInfoAlertVisible,
                 isConfirm: true,
                 icon: 'settings',
@@ -38490,7 +38490,7 @@ var App = function (_Component) {
               _react2.default.createElement(_Alert2.default, {
                 type: 'success',
                 title: 'Success',
-                content: 'Default success alert',
+                subtitle: 'Default success alert',
                 isVisible: isSuccessAlertVisible,
                 onCancel: function onCancel() {
                   _this2.setState({ isSuccessAlertVisible: false });
@@ -38499,7 +38499,7 @@ var App = function (_Component) {
               _react2.default.createElement(_Alert2.default, {
                 type: 'warning',
                 title: 'Warning',
-                content: 'Default warning alert',
+                subtitle: 'Default warning alert',
                 isVisible: isWarningAlertVisible,
                 onCancel: function onCancel() {
                   _this2.setState({ isWarningAlertVisible: false });
@@ -38508,7 +38508,7 @@ var App = function (_Component) {
               _react2.default.createElement(_Alert2.default, {
                 type: 'error',
                 title: 'Error',
-                content: 'Default error alert',
+                subtitle: 'Default error alert',
                 isVisible: isErrorAlertVisible,
                 onCancel: function onCancel() {
                   _this2.setState({ isErrorAlertVisible: false });
@@ -42341,7 +42341,7 @@ var Alert = function (_Component) {
       var _props = this.props,
           type = _props.type,
           title = _props.title,
-          content = _props.content,
+          subtitle = _props.subtitle,
           closeTitle = _props.closeTitle,
           cancelText = _props.cancelText,
           confirmText = _props.confirmText,
@@ -42376,8 +42376,8 @@ var Alert = function (_Component) {
           ),
           _react2.default.createElement(
             'div',
-            { className: 'content' },
-            content
+            { className: 'subtitle' },
+            subtitle
           ),
           _react2.default.createElement(
             'button',
@@ -42421,7 +42421,7 @@ var Alert = function (_Component) {
 Alert.propTypes = {
   type: _propTypes2.default.string,
   title: _propTypes2.default.string.isRequired,
-  content: _propTypes2.default.string,
+  subtitle: _propTypes2.default.string,
   closeTitle: _propTypes2.default.string,
   cancelText: _propTypes2.default.string,
   confirmText: _propTypes2.default.string,
@@ -42433,7 +42433,7 @@ Alert.propTypes = {
 
 Alert.defaultProps = {
   type: 'info',
-  content: '',
+  subtitle: '',
   closeTitle: 'Close',
   cancelText: 'Close',
   confirmText: 'OK',
