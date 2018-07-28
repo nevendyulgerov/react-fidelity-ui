@@ -1,17 +1,31 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import Icon from '../../Icon/';
 
-const Notification = ({ type = 'info', text = '', title = '', icon = 'notification' }) => (
+const Notification = ({ type, note, title, icon }) => (
   <div
-    title={title !== '' ? title : text}
     data-component="notification"
     data-notification={type}
+    title={title !== '' ? title : title}
   >
     <Icon name={icon} />
     <span className="text">
-      {text}
+      {note}
     </span>
   </div>
 );
+
+Notification.propTypes = {
+  type: PropTypes.string,
+  note: PropTypes.string.isRequired,
+  title: PropTypes.string,
+  icon: PropTypes.string
+};
+
+Notification.defaultProps = {
+  type: 'info',
+  title: '',
+  icon: 'notification'
+};
 
 export default Notification;
