@@ -1,19 +1,25 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import Icon from '../../Icon/';
 import { isFunc } from '../../../utils/ammo';
 
-const Tag = ({ name, onRemove }) => (
-  <div data-component="tag" title={`Tag '${name}'`}>
+const Tag = ({ name, title, removeTitle, onRemove }) => (
+  <div
+    data-component="tag"
+    title={title}
+  >
     <div className="component-body">
-      <span className="tag-name">{name}</span>
+      <span className="tag-name">
+        {name}
+      </span>
       {isFunc(onRemove) && (
         <button
           className="trigger remove-tag"
-          title={`Remove tag '${name}'`}
+          title={removeTitle}
           onClick={event => {
             event.preventDefault();
             event.stopPropagation();
-            onRemove();
+            onRemove(name);
           }}
         >
           <Icon name="add" />
@@ -22,5 +28,17 @@ const Tag = ({ name, onRemove }) => (
     </div>
   </div>
 );
+
+Tag.propTypes = {
+  name: PropTypes.string.isRequired,
+  title: PropTypes.string,
+  removeTitle: PropTypes.string,
+  onRemove: PropTypes.func.isRequired
+};
+
+Tag.defaultProps = {
+  title: '',
+  removeTitle: ''
+};
 
 export default Tag;

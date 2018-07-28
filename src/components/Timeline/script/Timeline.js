@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import Icon from '../../Icon/';
 import Dropdown from '../../Dropdown/';
 import { groupItemsByDate, getTimeSpacing, sortTimeline } from './Utils';
@@ -103,7 +104,7 @@ class Timeline extends Component {
   };
 
   render() {
-    const { title = '', targetKey, direction = 'vertical', displayItem = () => {}, formatDate } = this.props;
+    const { title, targetKey, direction, displayItem = () => {}, formatDate } = this.props;
     const { groupedItems, sortingOptions } = this.state;
     const { length } = groupedItems;
     const selectedSortingOption = shape(sortingOptions).filterByProp('isSelected', true).fetchIndex(0);
@@ -149,11 +150,14 @@ class Timeline extends Component {
 
                 {items.length > 0 && (
                   <span className="timeline-item-date" title="Timeline date">
-                    {isFunc(formatDate) ? formatDate(items[0][targetKey]) : new Date(items[0][targetKey]).toLocaleString('en-US', {
-                      year: 'numeric',
-                      month: 'short',
-                      day: 'numeric'
-                    })}
+                    {isFunc(formatDate)
+                      ? formatDate(items[0][targetKey])
+                      : new Date(items[0][targetKey]).toLocaleString('en-US', {
+                        year: 'numeric',
+                        month: 'short',
+                        day: 'numeric'
+                      })
+                    }
                   </span>
                 )}
 
@@ -213,5 +217,21 @@ class Timeline extends Component {
     );
   }
 }
+
+Timeline.propTypes = {
+  items: PropTypes.arrayOf(
+    PropTypes.objectOf(PropTypes.string)
+  ).isRequired,
+  title: PropTypes.string.isRequired,
+  targetKey: PropTypes.string.isRequired,
+  direction: PropTypes.string,
+  displayItem: PropTypes.func.isRequired,
+  formatDate: PropTypes.any
+};
+
+Timeline.defaultProps = {
+  direction: 'vertical',
+  formatDate: undefined,
+};
 
 export default Timeline;

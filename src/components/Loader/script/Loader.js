@@ -1,6 +1,7 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
-const Loader = ({ isLoading = false }) => (
+const Loader = ({ isLoading }) => (
   <div
     data-component="loader"
     className={`${isLoading ? 'active' : ''}`}
@@ -10,5 +11,13 @@ const Loader = ({ isLoading = false }) => (
     </div>
   </div>
 );
+
+Loader.propTypes = {
+  isLoading: PropTypes.bool
+};
+
+Loader.defaultProps = {
+  isLoading: false
+};
 
 export default Loader;

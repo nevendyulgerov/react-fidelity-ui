@@ -1,13 +1,8 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 
 class Modal extends Component {
-  state = {};
-
   componentWillMount() {
-    const { isClosedWithEscapeKey = true } = this.props;
-    if (!isClosedWithEscapeKey) {
-      return false;
-    }
     this.attachKeydownMonitor();
   }
 
@@ -16,10 +11,6 @@ class Modal extends Component {
   };
 
   componentWillUnmount() {
-    const { isClosedWithEscapeKey = true } = this.props;
-    if (!isClosedWithEscapeKey) {
-      return false;
-    }
     this.detachKeydownMonitor();
   }
 
@@ -29,22 +20,23 @@ class Modal extends Component {
    * @description Attach keydown monitor
    */
   attachKeydownMonitor() {
-    window.addEventListener('keydown', this.closeViaKeyDown);
+    window.addEventListener('keydown', this.handleEscapeKeyPress);
   }
 
   /**
    * @description Detach keydown monitor
    */
   detachKeydownMonitor() {
-    window.addEventListener('keydown', this.closeViaKeyDown);
+    window.addEventListener('keydown', this.handleEscapeKeyPress);
   }
 
   /**
-   * @description Close via key down
+   * @description Handle escape key press
    */
-  closeViaKeyDown = event => {
+  handleEscapeKeyPress = event => {
+    const { onEscapeKey } = this.props;
     if (event.key === 'Escape') {
-      this.onCancel({ isClosedWithEscapeKey: true });
+      onEscapeKey();
     }
   };
 
@@ -60,36 +52,34 @@ class Modal extends Component {
     }
   };
 
-  /**
-   * @description On cancel
-   * @param isClosedWithEscapeKey
-   */
-  onCancel = ({ isClosedWithEscapeKey = false }) => {
-    const { onCancel = () => {} } = this.props;
-    onCancel(isClosedWithEscapeKey);
-  };
-
-  /**
-   * @description On confirm
-   */
-  onConfirm = () => {
-    const { onConfirm = () => {} } = this.props;
-    onConfirm();
-  };
-
   render() {
-    const { content = () => {}, className = '', isActive = false } = this.props;
+    const { content, className, isActive } = this.props;
 
     return (
-      <div className={`${className} ${isActive ? 'active' : ''}`} data-component="modal" role="dialog">
+      <div
+        data-component="modal"
+        role="dialog"
+        className={`${className} ${isActive ? 'active' : ''}`}
+      >
         <div className="component-body">
-          <div className="component-content">
-            {content()}
-          </div>
+          {content()}
         </div>
       </div>
     );
   }
 }
+
+Modal.propTypes = {
+  content: PropTypes.func.isRequired,
+  className: PropTypes.string,
+  isActive: PropTypes.bool,
+  onEscapeKey: PropTypes.func
+};
+
+Modal.defaultProps = {
+  className: '',
+  isActive: false,
+  onEscapeKey: () => {}
+};
 
 export default Modal;

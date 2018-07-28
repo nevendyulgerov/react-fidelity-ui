@@ -1,8 +1,9 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import Icon from '../../Icon/';
 import { isFunc, isStr } from '../../../utils/ammo';
 
-const Panel = ({ template = 'default', item }) => {
+const Panel = ({ template, item }) => {
   const getDefaultPanel = ({ name, date }) => (
     <div className="component-body">
       <span className="name">
@@ -110,6 +111,44 @@ const Panel = ({ template = 'default', item }) => {
       {template === 'modal' && getModalPanel(item)}
     </div>
   );
+};
+
+Panel.propTypes = {
+  template: PropTypes.string,
+  item: PropTypes.oneOfType([
+    PropTypes.shape({
+      name: PropTypes.string,
+      date: PropTypes.string
+    }),
+    PropTypes.shape({
+      icon: PropTypes.string,
+      count: PropTypes.number
+    }),
+    PropTypes.shape({
+      thumbnail: PropTypes.string.isRequired,
+      name: PropTypes.string.isRequired,
+      note: PropTypes.oneOf([
+        PropTypes.string,
+        PropTypes.func
+      ]).isRequired,
+      date: PropTypes.string.isRequired
+    }),
+    PropTypes.shape({
+      title: PropTypes.string.isRequired,
+      closeTitle: PropTypes.string,
+      content: PropTypes.string,
+      cancelText: PropTypes.string,
+      confirmText: PropTypes.string,
+      cancelTitle: PropTypes.string,
+      confirmTitle: PropTypes.string,
+      onCancel: PropTypes.func.isRequired,
+      onConfirm: PropTypes.func.isRequired
+    })
+  ]).isRequired
+};
+
+Panel.defaultProps = {
+  template: 'default'
 };
 
 export default Panel;
