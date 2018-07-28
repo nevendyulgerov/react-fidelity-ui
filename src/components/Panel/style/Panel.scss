@@ -5,7 +5,7 @@
 
 [data-component="panel"] {
   &[data-template="default"] {
-    > .component-body {
+    .component-body {
       .name {
         display: block;
         font-weight: 800;
@@ -22,7 +22,7 @@
   }
 
   &[data-template="card"] {
-    > .component-body {
+    .component-body {
       position: relative;
       display: flex;
       justify-content: flex-start;
@@ -92,7 +92,7 @@
       margin: 0;
     }
 
-    > .component-body {
+    .component-body {
       display: flex;
       justify-content: flex-start;
       align-items: center;
@@ -117,7 +117,7 @@
   }
 
   &[data-template="modal"] {
-    > .modal-header {
+    .modal-header {
       position: relative;
       z-index: 100;
       padding: 20px 24px;
@@ -186,7 +186,7 @@
       }
     }
 
-    > .modal-body {
+    .modal-body {
       padding: 20px 24px;
 
       @media (max-width: $screen-md) {
@@ -194,7 +194,7 @@
       }
     }
 
-    > .modal-footer {
+    .modal-footer {
       padding: 0 22px 20px 22px !important;
       text-align: right;
 
