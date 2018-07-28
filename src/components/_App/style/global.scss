@@ -17,7 +17,7 @@ body {
     [data-component="fidelity-ui-test-app"] {
       padding: 20px;
 
-      .demo-box {
+      > .demo-box {
         margin: 0 0 40px 0;
 
         .title {
@@ -50,6 +50,10 @@ body {
               @extend .fidelity-ui-error;
             }
           }
+        }
+
+        &[data-demo="accordion"] {
+          width: 520px;
         }
 
         &[data-demo="breadcrumbs"] {
