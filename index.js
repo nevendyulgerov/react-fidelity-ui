@@ -18,12 +18,7 @@ import StackableAlerts from './src/components/StackableAlerts/';
 import Panel from './src/components/Panel/';
 import Tag from './src/components/Tag/';
 
-import Timeline, {
-  groupItemsByDate,
-  getDifferenceInDays,
-  getDateYMD,
-  isSameDate
-} from './src/components/Timeline/';
+import Timeline from './src/components/Timeline/';
 import './dist/style.min.css';
 
 const utils = {
@@ -31,11 +26,7 @@ const utils = {
   changeMultiSelect,
   deselectItem,
   filterItemsByName,
-  syncDropdownMenuOffset,
-  groupItemsByDate,
-  getDifferenceInDays,
-  getDateYMD,
-  isSameDate
+  syncDropdownMenuOffset
 };
 
 export {
