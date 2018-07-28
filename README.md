@@ -382,7 +382,7 @@ import React from 'react';
 import { Alert } from 'react-fidelity-ui';
 
 const ErrorAlert = ({ isVisible, onClose }) => (
-  <div className="alert error>
+  <div className="alert error">
     <Alert
       type="error"
       title="Error"
