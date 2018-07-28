@@ -141,49 +141,51 @@ class App extends Component {
             </button>
           </div>
 
-          <StackableAlerts>
-            <Alert
-              type="info"
-              title="Alert"
-              content="Info alert with 'settings' icon"
-              isVisible={isInfoAlertVisible}
-              isConfirm={true}
-              icon="settings"
-              onCancel={() => {
-                this.setState({ isInfoAlertVisible: false });
-              }}
-              onConfirm={() => {
-                this.setState({ isInfoAlertVisible: false });
-              }}
-            />
-            <Alert
-              type="success"
-              title="Success"
-              content="Default success alert"
-              isVisible={isSuccessAlertVisible}
-              onCancel={() => {
-                this.setState({ isSuccessAlertVisible: false });
-              }}
-            />
-            <Alert
-              type="warning"
-              title="Warning"
-              content="Default warning alert"
-              isVisible={isWarningAlertVisible}
-              onCancel={() => {
-                this.setState({ isWarningAlertVisible: false });
-              }}
-            />
-            <Alert
-              type="error"
-              title="Error"
-              content="Default error alert"
-              isVisible={isErrorAlertVisible}
-              onCancel={() => {
-                this.setState({ isErrorAlertVisible: false });
-              }}
-            />
-          </StackableAlerts>
+          <div className="demo">
+            <StackableAlerts>
+              <Alert
+                type="info"
+                title="Alert"
+                content="Info alert with 'settings' icon"
+                isVisible={isInfoAlertVisible}
+                isConfirm={true}
+                icon="settings"
+                onCancel={() => {
+                  this.setState({ isInfoAlertVisible: false });
+                }}
+                onConfirm={() => {
+                  this.setState({ isInfoAlertVisible: false });
+                }}
+              />
+              <Alert
+                type="success"
+                title="Success"
+                content="Default success alert"
+                isVisible={isSuccessAlertVisible}
+                onCancel={() => {
+                  this.setState({ isSuccessAlertVisible: false });
+                }}
+              />
+              <Alert
+                type="warning"
+                title="Warning"
+                content="Default warning alert"
+                isVisible={isWarningAlertVisible}
+                onCancel={() => {
+                  this.setState({ isWarningAlertVisible: false });
+                }}
+              />
+              <Alert
+                type="error"
+                title="Error"
+                content="Default error alert"
+                isVisible={isErrorAlertVisible}
+                onCancel={() => {
+                  this.setState({ isErrorAlertVisible: false });
+                }}
+              />
+            </StackableAlerts>
+          </div>
         </div>
 
         <div className="demo-box" data-demo="breadcrumbs">
@@ -225,8 +227,8 @@ class App extends Component {
           <div className="demo">
             <Dropdown
               title="Dropdown"
-              text="Text"
-              triggerText="Trigger text"
+              subtitle="Dropdown subtitle"
+              triggerText="Select tags"
               addItemTitle="Add"
               isFilterable={true}
               items={dropdownItems}
@@ -316,8 +318,7 @@ class App extends Component {
                   }}
                 />
               )}
-              onCancel={() => this.setState({ isModalActive: false })}
-              onConfirm={() => this.setState({ isModalActive: false })}
+              onEscapeKey={() => this.setState({ isModalActive: false })}
             />
           </div>
         </div>
@@ -327,10 +328,10 @@ class App extends Component {
             {'Notification'}
           </span>
           <div className="demo">
-            <Notification type="info" text="Info" />
-            <Notification type="success" text="Success" icon="upvote" />
-            <Notification type="warning" text="Warning" icon="edit" />
-            <Notification type="error" text="Error" icon="more" />
+            <Notification type="info" note="Info" />
+            <Notification type="success" note="Success" icon="upvote" />
+            <Notification type="warning" note="Warning" icon="edit" />
+            <Notification type="error" note="Error" icon="more" />
           </div>
         </div>
 
