@@ -6,7 +6,7 @@
   display: inline-block;
   margin: 0 10px 0 0;
 
-  .component-body {
+  > .component-body {
     @extend .fidelity-ui-trigger;
     padding: 0;
     display: flex;
