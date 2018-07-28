@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import Icon from '../../Icon/';
 import Loader from '../../Loader/';
 import Checkbox from '../../Checkbox/';
@@ -24,14 +25,14 @@ class Dropdown extends Component {
    * @description Attach click monitor
    */
   attachClickMonitor() {
-    window.addEventListener('click', this.closeViaOutsideClick, false);
+    window.addEventListener('click', this.closeViaOutsideClick);
   }
 
   /**
    * @description Detach click monitor
    */
   detachClickMonitor() {
-    window.addEventListener('click', this.closeViaOutsideClick, false);
+    window.addEventListener('click', this.closeViaOutsideClick);
   }
 
   /**
@@ -87,20 +88,20 @@ class Dropdown extends Component {
 
   render() {
     const {
-      triggerText = '',
       title,
-      text,
+      subtitle,
+      triggerText,
       items,
-      filterPlaceholder = '',
-      addItemTitle = '',
-      isCloseOnSelect = false,
-      isDisabled = false,
-      isFilterable = false,
-      isLoading = false,
-      isAddable = false,
+      filterPlaceholder,
+      addItemTitle,
+      isCloseOnSelect,
+      isDisabled,
+      isFilterable,
+      isLoading,
+      isAddable,
       onDisplaySelectedItems,
-      onChange = () => {},
-      onAddItem = () => {}
+      onChange,
+      onAddItem
     } = this.props;
     const { filterText, isMenuOpened } = this.state;
     const selectedItems = items.filter(item => item.isSelected);
@@ -108,14 +109,15 @@ class Dropdown extends Component {
 
     return (
       <div
-        className={`${isDisabled ? 'disabled' : ''}`}
         data-component="dropdown"
+        className={`${isDisabled ? 'disabled' : ''}`}
         title={triggerText}
         ref={node => {
           this.refComponent = node;
         }}
       >
         <div
+          role="button"
           className={`trigger toggle-menu ${isMenuOpened ? 'active' : ''}`}
           onClick={() => this.toggleMenu()}
         >
@@ -146,9 +148,9 @@ class Dropdown extends Component {
                 {title}
               </span>
             )}
-            {text && (
-              <span className="component-text">
-                {text}
+            {subtitle !== '' && (
+              <span className="component-subtitle">
+                {subtitle}
               </span>
             )}
           </div>
@@ -214,5 +216,43 @@ class Dropdown extends Component {
     );
   }
 }
+
+Dropdown.propTypes = {
+  title: PropTypes.string.isRequired,
+  subtitle: PropTypes.string,
+  triggerText: PropTypes.string,
+  items: PropTypes.arrayOf(PropTypes.shape({
+    name: PropTypes.string,
+    isSelected: PropTypes.bool
+  })).isRequired,
+  isFilterable: PropTypes.bool,
+  filterPlaceholder: PropTypes.string,
+  isAddable: PropTypes.bool,
+  addItemTitle: PropTypes.string,
+  isCloseOnSelect: PropTypes.bool,
+  isDisabled: PropTypes.bool,
+  isLoading: PropTypes.bool,
+  onDisplaySelectedItems: PropTypes.any,
+  onChange: PropTypes.func.isRequired,
+  onAddItem: PropTypes.func,
+  onFilter: PropTypes.func,
+  onToggleMenu: PropTypes.func
+};
+
+Dropdown.defaultProps = {
+  subtitle: '',
+  triggerText: '',
+  isFilterable: false,
+  filterPlaceholder: '',
+  isAddable: false,
+  addItemTitle: '',
+  isCloseOnSelect: false,
+  isDisabled: false,
+  isLoading: false,
+  onDisplaySelectedItems: undefined,
+  onAddItem: () => {},
+  onFilter: () => {},
+  onToggleMenu: () => {}
+};
 
 export default Dropdown;
