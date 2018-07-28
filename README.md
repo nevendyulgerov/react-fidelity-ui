@@ -394,12 +394,13 @@ const ErrorAlert = ({ isVisible, onClose }) => (
 );
 ```
 
+
 ```scss
 .alert.error {
-  [data-component=alert] {
+  [data-component='alert'] {
 
     // overwrite error styles
-    &[data-alert-type=error] {
+    &[data-alert-type='error'] {
       background-color: red;
       color: white;
     }
