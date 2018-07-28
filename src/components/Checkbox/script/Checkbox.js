@@ -1,7 +1,8 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { uid } from '../../../utils/ammo';
 
-const Checkbox = ({ id = uid(), labelText = '', labelTitle = '', isChecked = false, isDisabled = false, onChange = () => {} }) => (
+const Checkbox = ({ id, labelText = '', labelTitle = '', isChecked = false, isDisabled = false, onChange = () => {} }) => (
   <div data-component="checkbox">
     <input
       id={id}
@@ -15,5 +16,23 @@ const Checkbox = ({ id = uid(), labelText = '', labelTitle = '', isChecked = fal
     </label>
   </div>
 );
+
+Checkbox.propTypes = {
+  id: PropTypes.string,
+  labelText: PropTypes.string,
+  labelTitle: PropTypes.string,
+  isChecked: PropTypes.bool,
+  isDisabled: PropTypes.bool,
+  onChange: PropTypes.func
+};
+
+Checkbox.defaultProps = {
+  id: uid(),
+  labelText: '',
+  labelTitle: '',
+  isChecked: false,
+  isDisabled: false,
+  onChange: () => {}
+};
 
 export default Checkbox;
