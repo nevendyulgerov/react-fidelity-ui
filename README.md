@@ -425,7 +425,7 @@ For consistency, all `fidelity-ui` components follow this pattern for their html
   <div className="component-header">
     header content
   </div>
-  <div className="component-body>
+  <div className="component-body">
     body content
   </div>
   <div className="component-footer">
