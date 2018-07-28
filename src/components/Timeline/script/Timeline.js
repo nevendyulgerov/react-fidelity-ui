@@ -219,9 +219,7 @@ class Timeline extends Component {
 }
 
 Timeline.propTypes = {
-  items: PropTypes.arrayOf(
-    PropTypes.objectOf(PropTypes.string)
-  ).isRequired,
+  items: PropTypes.array.isRequired,
   title: PropTypes.string.isRequired,
   targetKey: PropTypes.string.isRequired,
   direction: PropTypes.string,
