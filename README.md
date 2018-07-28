@@ -53,7 +53,7 @@ const WarningAlert = ({ isVisible, onCancel, onConfirm }) => (
   <Alert
     type="warning" // string, default = 'info'
     title="Warning alert" // string, REQUIRED
-    content="Default warning alert" // string, default = ''
+    subtitle="Default warning alert" // string, default = ''
     closeTitle="Close" // string, default = 'Close'
     cancelText="Cancel" // string, default = 'Cancel'
     confirmText="OK" // string, default = 'OK'
@@ -373,3 +373,65 @@ const HorizontalTimeline = ({ items }) => (
 );
 ```
 
+## Styling
+
+You can overwrite any of the base styles for any component using css/sass/StyledComponents. Here's how to do this with sass:
+
+```javascript
+import React from 'react';
+import { Alert } from 'react-fidelity-ui';
+
+const ErrorAlert = ({ isVisible, onClose }) => (
+  <div className="alert error>
+    <Alert
+      type="error"
+      title="Error"
+      subtitle="Lorem ipsum dolor sit amet"
+      isVisible={isVisible}
+      onCancel={onClose}
+    />
+  </div>
+);
+```
+
+```scss
+.alert.error {
+  [data-component="alert"] {
+
+    // overwrite error styles
+    &[data-alert-type="error"] {
+      background-color: red;
+      color: white;
+    }
+
+    // overwrite title and subtitle styles
+    > .component-header {
+      .title {
+        text-transform: uppercase;
+      }
+
+      .subtitle {
+        font-size: 12px;
+      }
+    }
+  }
+}
+```
+
+All `fidelity-ui` components follow this pattern for their html markup:
+
+```jsx
+<div data-component="{component-name}">
+  <div className="component-header">
+    header content
+  </div>
+  <div className="component-body>
+    body content
+  </div>
+  <div className="component-footer">
+    footer content
+  </div>
+</div>
+```
+
+Some components may lack certain parts of the above html schema. For instance, component `Tag` has only `component-body` html wrapper.
