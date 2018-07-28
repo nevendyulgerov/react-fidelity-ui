@@ -6,7 +6,7 @@
 [data-component="breadcrumbs"] {
   position: relative;
 
-  .component-items {
+  > .component-items {
     padding: 0;
     margin: 0;
     list-style-type: none;
@@ -77,7 +77,7 @@
   }
 
   &.mobile-toggle {
-    .component-items {
+    > .component-items {
       .component-item {
         @media (max-width: $screen-md) {
           display: none;
@@ -93,7 +93,7 @@
 
   &.stacked {
     &.mobile-toggle {
-      .component-items {
+      > .component-items {
         .component-item {
           @media (max-width: $screen-md) {
             display: none;
@@ -102,7 +102,7 @@
       }
     }
 
-    .component-items {
+    > .component-items {
       @media (max-width: $screen-md) {
         flex-direction: column;
         align-items: flex-start;
@@ -194,7 +194,7 @@
 
   &.mobile-active {
     @media (max-width: $screen-md) {
-      .component-items {
+      > .component-items {
         z-index: 999;
         position: absolute;
         top: 34px;
@@ -213,7 +213,7 @@
     }
 
     @media (max-width: $screen-xs) {
-      .component-items {
+      > .component-items {
         top: 33px;
       }
     }
