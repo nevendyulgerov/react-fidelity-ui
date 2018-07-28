@@ -146,7 +146,7 @@ class App extends Component {
               <Alert
                 type="info"
                 title="Alert"
-                content="Info alert with 'settings' icon"
+                subtitle="Info alert with 'settings' icon"
                 isVisible={isInfoAlertVisible}
                 isConfirm={true}
                 icon="settings"
@@ -160,7 +160,7 @@ class App extends Component {
               <Alert
                 type="success"
                 title="Success"
-                content="Default success alert"
+                subtitle="Default success alert"
                 isVisible={isSuccessAlertVisible}
                 onCancel={() => {
                   this.setState({ isSuccessAlertVisible: false });
@@ -169,7 +169,7 @@ class App extends Component {
               <Alert
                 type="warning"
                 title="Warning"
-                content="Default warning alert"
+                subtitle="Default warning alert"
                 isVisible={isWarningAlertVisible}
                 onCancel={() => {
                   this.setState({ isWarningAlertVisible: false });
@@ -178,7 +178,7 @@ class App extends Component {
               <Alert
                 type="error"
                 title="Error"
-                content="Default error alert"
+                subtitle="Default error alert"
                 isVisible={isErrorAlertVisible}
                 onCancel={() => {
                   this.setState({ isErrorAlertVisible: false });
