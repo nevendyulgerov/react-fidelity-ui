@@ -47,7 +47,7 @@ class Alert extends Component {
   };
 
   render() {
-    const { type, title, content, closeTitle, cancelText, confirmText, icon, isConfirm, onCancel, onConfirm } = this.props;
+    const { type, title, subtitle, closeTitle, cancelText, confirmText, icon, isConfirm, onCancel, onConfirm } = this.props;
     const { isAlertVisible } = this.state;
 
     return isAlertVisible && (
@@ -67,8 +67,8 @@ class Alert extends Component {
               {title}
             </span>
           </div>
-          <div className="content">
-            {content}
+          <div className="subtitle">
+            {subtitle}
           </div>
 
           <button
@@ -105,7 +105,7 @@ class Alert extends Component {
 Alert.propTypes = {
   type: PropTypes.string,
   title: PropTypes.string.isRequired,
-  content: PropTypes.string,
+  subtitle: PropTypes.string,
   closeTitle: PropTypes.string,
   cancelText: PropTypes.string,
   confirmText: PropTypes.string,
@@ -117,7 +117,7 @@ Alert.propTypes = {
 
 Alert.defaultProps = {
   type: 'info',
-  content: '',
+  subtitle: '',
   closeTitle: 'Close',
   cancelText: 'Close',
   confirmText: 'OK',
