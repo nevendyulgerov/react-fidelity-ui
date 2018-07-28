@@ -18,7 +18,10 @@ const Checkbox = ({ id, labelText = '', labelTitle = '', isChecked = false, isDi
 );
 
 Checkbox.propTypes = {
-  id: PropTypes.string,
+  id: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.number
+  ]),
   labelText: PropTypes.string,
   labelTitle: PropTypes.string,
   isChecked: PropTypes.bool,
