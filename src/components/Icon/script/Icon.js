@@ -1,8 +1,13 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import '../../../icons/icon-sprite.svg';
 
-const Icon = ({ name = 'comment', className = '', title = '' }) => (
-  <div className={`component ${className}`} data-component="icon" title={title}>
+const Icon = ({ name, className, title }) => (
+  <div
+    data-component="icon"
+    className={`component ${className}`}
+    title={title}
+  >
     <svg className="icon component-icon">
       <use xlinkHref={`#icon-sprite_icon-${name}`}>
         {/* icon is populated here */}
@@ -10,5 +15,16 @@ const Icon = ({ name = 'comment', className = '', title = '' }) => (
     </svg>
   </div>
 );
+
+Icon.propTypes = {
+  name: PropTypes.string.isRequired,
+  className: PropTypes.string,
+  title: PropTypes.string
+};
+
+Icon.defaultProps = {
+  className: '',
+  title: ''
+};
 
 export default Icon;
