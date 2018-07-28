@@ -242,7 +242,7 @@ const SuccessNotification = () => (
 ```
 
 ### Panel
-General purpose panel component. Panel supports a number of distinctive themes via the `theme` option.
+General purpose panel component. Panel supports a number of distinctive template via the `template` option.
 
 #### Example
 
