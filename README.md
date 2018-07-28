@@ -418,7 +418,7 @@ const ErrorAlert = ({ isVisible, onClose }) => (
 }
 ```
 
-All `fidelity-ui` components follow this pattern for their html markup:
+For consistency, all `fidelity-ui` components follow this pattern for their html markup:
 
 ```jsx
 <div data-component="{component-name}">
