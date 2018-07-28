@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import Icon from '../../Icon/';
 import { isHovered, isObj } from '../../../utils/ammo';
 
@@ -46,18 +47,7 @@ class Alert extends Component {
   };
 
   render() {
-    const {
-      type = 'info',
-      title = '',
-      content = '',
-      closeText = 'Close',
-      cancelText = 'Cancel',
-      confirmText = 'OK',
-      icon = '',
-      isConfirm = false,
-      onCancel = () => {},
-      onConfirm = () => {}
-    } = this.props;
+    const { type, title, content, closeTitle, cancelText, confirmText, icon, isConfirm, onCancel, onConfirm } = this.props;
     const { isAlertVisible } = this.state;
 
     return isAlertVisible && (
@@ -83,7 +73,7 @@ class Alert extends Component {
 
           <button
             className="trigger close-alert"
-            title={closeText}
+            title={closeTitle}
             onClick={onCancel}
           >
             <Icon name="add" />
@@ -111,5 +101,30 @@ class Alert extends Component {
     );
   }
 }
+
+Alert.propTypes = {
+  type: PropTypes.string,
+  title: PropTypes.string.isRequired,
+  content: PropTypes.string,
+  closeTitle: PropTypes.string,
+  cancelText: PropTypes.string,
+  confirmText: PropTypes.string,
+  icon: PropTypes.string,
+  isConfirm: PropTypes.bool,
+  onCancel: PropTypes.func,
+  onConfirm: PropTypes.func
+};
+
+Alert.defaultProps = {
+  type: 'info',
+  content: '',
+  closeTitle: 'Close',
+  cancelText: 'Close',
+  confirmText: 'OK',
+  icon: '',
+  isConfirm: false,
+  onCancel: () => {},
+  onConfirm: () => {}
+};
 
 export default Alert;
