@@ -116,7 +116,7 @@ Multi-purpose dropdown component. Dropdown supports single/multi select, items f
 import React from 'react';
 import { Dropdown, utils } from 'react-fidelity-ui';
 
-const { changeSingleSelect } = utils;
+const { changeMultiSelect } = utils;
 
 const DropdownComponent = ({ items, onChangeItems }) => (
   <Dropdown
@@ -418,7 +418,7 @@ const ErrorAlert = ({ isVisible, onClose }) => (
 }
 ```
 
-For consistency, all `fidelity-ui` components follow this pattern for their html markup:
+For consistency and predictability, all `fidelity-ui` components follow this pattern for their html markup:
 
 ```jsx
 <div data-component="{component-name}">
