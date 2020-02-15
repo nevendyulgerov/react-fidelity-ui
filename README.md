@@ -1,6 +1,6 @@
 <p>
   <a href="https://github.com/nevendyulgerov/react-fidelity-ui">
-    <img height="128" width="128" src="https://fidelityui.com/logo.png" alt="logo" />
+    <img height="64" width="64" src="https://fidelityui.com/logo.png" alt="logo" />
   </a>
 </p>
 
@@ -16,5 +16,5 @@ Run `npm install react-fidelity-ui`
 
 ## Documentation
 
-<p>Guides, documentation and other resources are available at the <a href="https://fidelityui.com" target="_blank">official website</a>.</p></p>
+<p>Documentation, guides and other resources are available at the <a href="https://fidelityui.com" target="_blank">official website</a>.</p></p>
 
