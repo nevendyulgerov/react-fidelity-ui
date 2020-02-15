@@ -1,0 +1,162 @@
+.fidelity-ui-app .card {
+  --card-color: var(--color-gray-7);
+  --card-color--dark: var(--color-gray-10);
+  --card-color--light: var(--color-gray-5);
+  --card-color-bg: var(--color-white);
+  --card-color-border: var(--color-body--border);
+  --card-shadow: var(--depth-1);
+  --card-shadow--hover: var(--depth-2);
+  --card-border-radius: var(--border-radius--lg);
+  --card-padding: var(--spacer);
+  --card-padding--sm: calc(var(--spacer) / 2);
+  --card-padding--lg: calc(var(--spacer) * 1.5);
+  --card-padding--xl: calc(var(--spacer) * 3);
+  --card-transition: var(--transition);
+  --card-divider-height: 0.25rem;
+
+  background: var(--card-color-bg);
+  box-shadow: var(--card-shadow);
+  margin-bottom: calc(var(--grid-gutter--sm) * 2);
+  transition: var(--card-transition);
+  color: var(--card-color);
+  position: relative;
+  word-break: break-word;
+
+  /* divider */
+  &__divider {
+    background: var(--color-body--bg);
+    height: var(--card-divider-height);
+    margin-top: var(--card-padding--lg);
+    margin-bottom: var(--card-padding--lg);
+    box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.1);
+  }
+
+  /* headings */
+  h1,
+  .h1,
+  h2,
+  .h2,
+  h3,
+  .h3,
+  h4,
+  .h4,
+  h5,
+  .h5 {
+    color: var(--card-color--dark);
+  }
+
+  @media (--viewport-md-min) {
+    margin-bottom: calc(var(--grid-gutter) * 2);
+  }
+
+  &--padding {
+    padding: var(--card-padding);
+
+    .card__divider {
+      margin-left: calc(-1 * var(--card-padding));
+      margin-right: calc(-1 * var(--card-padding));
+    }
+
+    @media (--viewport-md-min) {
+      padding: var(--card-padding--lg);
+
+      .card__divider {
+        margin-left: calc(-1 * var(--card-padding--lg));
+        margin-right: calc(-1 * var(--card-padding--lg));
+        margin-top: calc(var(--card-padding--lg) * 1.5);
+        margin-bottom: calc(var(--card-padding--lg) * 1.5);
+      }
+    }
+  }
+
+  &--padding-sm {
+    padding: var(--card-padding--sm);
+
+    .card__divider {
+      margin-left: calc(-1 * var(--card-padding--sm));
+      margin-right: calc(-1 * var(--card-padding--sm));
+    }
+
+    @media (--viewport-md-min) {
+      .card__divider {
+        margin-left: calc(-1 * var(--card-padding--sm));
+        margin-right: calc(-1 * var(--card-padding--sm));
+      }
+    }
+  }
+
+  &--padding-lg {
+    padding: var(--card-padding--lg);
+
+    .card__divider {
+      margin-left: calc(-1 * var(--card-padding--lg));
+      margin-right: calc(-1 * var(--card-padding--lg));
+    }
+
+    @media (--viewport-sm-min) {
+      padding: var(--card-padding--xl);
+
+      .card__divider {
+        margin-left: calc(-1 * var(--card-padding--xl));
+        margin-right: calc(-1 * var(--card-padding--xl));
+        margin-top: var(--card-padding--xl);
+        margin-bottom: var(--card-padding--xl);
+      }
+    }
+  }
+
+  /* states */
+  &--hover {
+    &:hover {
+      box-shadow: var(--card-shadow--hover);
+    }
+  }
+
+  &--bordered {
+    border: 1px solid var(--card-color-border);
+  }
+
+  &--flat {
+    box-shadow: none;
+  }
+
+  &--rounded {
+    border-radius: var(--card-border-radius);
+  }
+
+  &--loading {
+    min-height: 7rem;
+    pointer-events: none;
+
+    * {
+      visibility: hidden;
+      color: transparent;
+      font-size: 0;
+    }
+
+    &::after {
+      content: '';
+      position: absolute;
+      animation: Spin 0.4s infinite linear;
+      height: 4em;
+      width: 4em;
+      left: calc(50% - 2em);
+      top: calc(50% - 2em);
+      border: 3px solid var(--card-color-border);
+      border-right-color: transparent;
+      border-top-color: transparent;
+      border-radius: 5em;
+    }
+
+    &:before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      border-radius: inherit;
+      background-color: inherit;
+    }
+  }
+}

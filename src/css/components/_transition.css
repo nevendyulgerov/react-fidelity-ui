@@ -1,0 +1,288 @@
+.fidelity-ui-app {
+  .Fade {
+    animation: Fade 0.4s 1 ease;
+  }
+
+  .FadeInDown {
+    animation: FadeInDown 0.4s 1 ease;
+  }
+
+  .FadeInDownSmall {
+    animation: FadeInDownSmall 0.4s 1 ease;
+  }
+
+  .FadeInUp {
+    animation: FadeInUp 0.4s 1 ease;
+  }
+
+  .FadeOut {
+    animation: FadeOut 0.4s 1 ease;
+  }
+
+  .SlideInDown {
+    animation: SlideInDown 0.4s 1 ease;
+  }
+
+  .SlideInLeft {
+    animation: SlideInLeft 0.4s 1 ease;
+  }
+
+  .SlideInRight {
+    animation: SlideInRight 0.4s 1 ease;
+  }
+
+  .SlideInUp {
+    animation: SlideInUp 0.4s 1 ease;
+  }
+
+  .SlideOutDown {
+    animation: SlideOutDown 0.4s 1 ease;
+  }
+
+  .SlideOutLeft {
+    animation: SlideOutLeft 0.4s 1 ease;
+  }
+
+  .SlideOutRight {
+    animation: SlideOutRight 0.4s 1 ease;
+  }
+
+  .Spin {
+    animation: Spin 0.4s 1 ease;
+  }
+
+  .transition {
+    display: inline-block;
+
+    /* types */
+    &--fade {
+      animation: Fade 0.4s 1 ease;
+    }
+
+    &--fade-in-down {
+      animation: FadeInDown 0.4s 1 ease;
+    }
+
+    &--fade-in-left {
+      animation: FadeInLeft 0.4s 1 ease;
+    }
+
+    &--fade-in-right {
+      animation: FadeInRight 0.4s 1 ease;
+    }
+
+    &--fade-in-up {
+      animation: FadeInUp 0.4s 1 ease;
+    }
+
+    &--fade-out {
+      animation: FadeOut 0.4s 1 ease;
+    }
+
+    &--slide-in-down {
+      animation: SlideInDown 0.4s 1 ease;
+    }
+
+    &--slide-in-left {
+      animation: SlideInLeft 0.4s 1 ease;
+    }
+
+    &--slide-in-right {
+      animation: SlideInRight 0.4s 1 ease;
+    }
+
+    &--slide-in-up {
+      animation: SlideInUp 0.4s 1 ease;
+    }
+
+    &--slide-out-down {
+      animation: SlideOutDown 0.4s 1 ease;
+    }
+
+    &--slide-out-Left {
+      animation: SlideOutLeft 0.4s 1 ease;
+    }
+
+    &--slide-out-right {
+      animation: SlideOutRight 0.4s 1 ease;
+    }
+
+    &--slide-out-up {
+      animation: SlideOutUp 0.4s 1 ease;
+    }
+
+    &--spin {
+      animation: Spin 0.4s 1 ease;
+    }
+  }
+}
+
+@keyframes Fade {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes FadeInDown {
+  from {
+    opacity: 0;
+    transform: translate3d(0, -20px, 0);
+  }
+
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+@keyframes FadeInDownSmall {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes FadeInLeft {
+  from {
+    opacity: 0;
+    transform: translate3d(20px, 0, 0);
+  }
+
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+@keyframes FadeInRight {
+  from {
+    opacity: 0;
+    transform: translate3d(-20px, 0, 0);
+  }
+
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+@keyframes FadeInUp {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 20px, 0);
+  }
+
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+@keyframes FadeOut {
+  from {
+    opacity: 1;
+  }
+
+  to {
+    opacity: 0;
+  }
+}
+
+@keyframes SlideInDown {
+  from {
+    transform: translate3d(0, -100%, 0);
+  }
+
+  to {
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+@keyframes SlideInLeft {
+  from {
+    transform: translate3d(100%, 0, 0);
+  }
+
+  to {
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+@keyframes SlideInRight {
+  from {
+    transform: translate3d(-100%, 0, 0);
+  }
+
+  to {
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+@keyframes SlideInUp {
+  from {
+    transform: translate3d(0, 100%, 0);
+  }
+
+  to {
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+@keyframes SlideOutDown {
+  from {
+    transform: translate3d(0, 0, 0);
+  }
+
+  to {
+    transform: translate3d(0, -100%, 0);
+  }
+}
+
+@keyframes SlideOutLeft {
+  from {
+    transform: translate3d(0, 0, 0);
+  }
+
+  to {
+    transform: translate3d(100%, 0, 0);
+  }
+}
+
+@keyframes SlideOutRight {
+  from {
+    transform: translate3d(0, 0, 0);
+  }
+
+  to {
+    transform: translate3d(100%, 0, 0);
+  }
+}
+
+@keyframes SlideOutUp {
+  from {
+    transform: translate3d(0, 0, 0);
+  }
+
+  to {
+    transform: translate3d(0, 100%, 0);
+  }
+}
+
+@keyframes Spin {
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
+}

@@ -1,0 +1,86 @@
+.fidelity-ui-app .btn-group {
+  --btn-rounded-border-radius: 18px;
+
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: flex-start;
+  min-height: 0;
+  min-width: 0;
+
+  &:last-child {
+    margin-bottom: calc(-1 * var(--spacer) / 2);
+  }
+
+  & > .btn {
+    margin-bottom: calc(var(--spacer) / 2);
+  }
+
+  & > .btn:not(:last-child):not(.btn--expanded) {
+    margin-right: calc(var(--spacer) / 2);
+  }
+
+  &--right {
+    justify-content: flex-end;
+  }
+
+  &--center {
+    justify-content: center;
+  }
+
+  &--nowrap {
+    flex-wrap: nowrap;
+
+    &:last-child {
+      margin-bottom: 0;
+    }
+
+    & > .btn {
+      margin-bottom: 0;
+    }
+  }
+
+  &--rounded {
+    > .btn:not(.btn--expanded) {
+      &:first-child {
+        border-top-left-radius: var(--btn-rounded-border-radius);
+        border-bottom-left-radius: var(--btn-rounded-border-radius);
+      }
+
+      &:last-child {
+        border-top-right-radius: var(--btn-rounded-border-radius);
+        border-bottom-right-radius: var(--btn-rounded-border-radius);
+      }
+    }
+
+    > .btn.btn--expanded {
+      &:first-child {
+        border-top-left-radius: var(--btn-rounded-border-radius);
+        border-top-right-radius: var(--btn-rounded-border-radius);
+      }
+
+      &:last-child {
+        border-bottom-left-radius: var(--btn-rounded-border-radius);
+        border-bottom-right-radius: var(--btn-rounded-border-radius);
+      }
+    }
+  }
+
+  &--stacked {
+    > .btn {
+      border-radius: 0;
+    }
+
+    > .btn--expanded:not(:last-child) {
+      margin-bottom: 0;
+    }
+
+    > *:not(.btn--expanded):not(:first-child) {
+      margin-left: -1px;
+    }
+
+    & > .btn:not(:last-child):not(.btn--expanded) {
+      margin-right: 0;
+    }
+  }
+}

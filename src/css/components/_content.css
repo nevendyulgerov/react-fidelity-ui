@@ -1,0 +1,7 @@
+.fidelity-ui-app .content {
+  padding: calc(var(--grid-gutter) * 2) 0;
+
+  @media (--viewport-lg-min) {
+    padding: calc(var(--grid-gutter) * 3) 0;
+  }
+}

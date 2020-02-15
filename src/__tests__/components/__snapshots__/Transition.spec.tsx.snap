@@ -1,0 +1,15 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Components / Transition matches snapshot 1`] = `
+<body>
+  <div>
+    <div
+      class="transition transition--fade"
+    >
+      <span>
+        Transition
+      </span>
+    </div>
+  </div>
+</body>
+`;

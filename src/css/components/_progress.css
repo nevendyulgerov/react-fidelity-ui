@@ -1,0 +1,171 @@
+.fidelity-ui-app .progress {
+  --progress-size: 1rem;
+  --progress-size--xs: 0.25rem;
+  --progress-size--sm: 0.5rem;
+  --progress-size--md: var(--progress-size);
+  --progress-size--lg: 1.5rem;
+  --progress-size--xl: 1.75rem;
+  --progress-color-bg: var(--color-body--border);
+  --progress-color-bar-bg: var(--color-secondary);
+  --progress-border-radius: 1em;
+  --progress-shadow: var(--depth-1);
+  --progress-shadow-hover: var(--depth-2);
+  --progress-transition: var(--transition);
+
+  position: relative;
+  display: block;
+  height: var(--progress-size);
+  background: var(--progress-color-bg);
+  min-width: 4rem;
+  overflow: hidden;
+  transition: var(--progress-transition);
+
+  &__bar {
+    display: block;
+    height: var(--progress-size);
+    background: var(--progress-color-bar-bg);
+    transition: var(--progress-transition);
+  }
+
+  &__label {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: auto;
+    width: auto;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    line-height: 1;
+    color: var(--color-white);
+    margin-left: calc(var(--spacer) / 3);
+    transition: var(--progress-transition);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+
+    &--left {
+      left: 0;
+      right: auto;
+      margin-left: calc(var(--spacer) / 3);
+      margin-right: 0;
+    }
+
+    &--center {
+      left: 0;
+      right: 0;
+      margin: 0 auto;
+    }
+
+    &--sticky {
+      left: auto;
+      margin-left: 0;
+      margin-right: calc(var(--spacer) / 3);
+    }
+
+    &--right {
+      left: auto;
+      right: 0;
+      margin-left: 0;
+      margin-right: calc(var(--spacer) / 3);
+    }
+  }
+
+  /* sizes */
+  &--xs {
+    height: var(--progress-size--xs);
+
+    .progress__bar {
+      height: var(--progress-size--xs);
+    }
+  }
+
+  &--sm {
+    height: var(--progress-size--sm);
+
+    .progress__bar {
+      height: var(--progress-size--sm);
+    }
+  }
+
+  &--md {
+    height: var(--progress-size--md);
+
+    .progress__bar {
+      height: var(--progress-size--md);
+    }
+  }
+
+  &--lg {
+    height: var(--progress-size--lg);
+
+    .progress__bar {
+      height: var(--progress-size--lg);
+    }
+  }
+
+  &--xl {
+    height: var(--progress-size--xl);
+
+    .progress__bar {
+      height: var(--progress-size--xl);
+    }
+  }
+
+  /* types */
+  &--primary {
+    .progress__bar {
+      background: var(--color-primary);
+    }
+  }
+
+  &--secondary {
+    .progress__bar {
+      background: var(--color-secondary);
+    }
+  }
+
+  &--info {
+    .progress__bar {
+      background: var(--color-info);
+    }
+  }
+
+  &--danger {
+    .progress__bar {
+      background: var(--color-danger);
+    }
+  }
+
+  &--warning {
+    .progress__bar {
+      background: var(--color-warning);
+    }
+  }
+
+  &--success {
+    .progress__bar {
+      background: var(--color-success);
+    }
+  }
+
+  /* states */
+  &--rounded {
+    border-radius: var(--progress-border-radius);
+
+    .progress__bar {
+      border-radius: var(--progress-border-radius);
+    }
+  }
+
+  &--elevated {
+    box-shadow: var(--progress-shadow);
+  }
+
+  &--hovered {
+    &:hover {
+      box-shadow: var(--progress-shadow-hover);
+    }
+  }
+}

@@ -1,0 +1,138 @@
+.fidelity-ui-app .form-group {
+  --form-group-margin: var(--spacer);
+  --input-padding-x: 0.625rem;
+  --form-group-margin-label: calc(var(--spacer) / 4);
+
+  position: relative;
+  margin-bottom: var(--form-group-margin);
+
+  /* remove margin if inside for,-group */
+  & .form-group {
+    margin-bottom: 0;
+  }
+
+  /* label */
+  & > label {
+    display: block;
+    margin-right: var(--form-group-margin-label);
+    margin-bottom: var(--form-group-margin-label);
+
+    &.label--rounded {
+      margin-left: calc(var(--input-padding-x) + 1px);
+    }
+  }
+
+  /* if multiple elements on on row */
+  &--row {
+    display: flex;
+    align-items: center;
+    width: 100%;
+
+    /* label */
+    & > label:first-child {
+      &.label--rounded {
+        margin-left: 0;
+      }
+    }
+
+    & label {
+      margin-bottom: 0;
+    }
+
+    /* remove margin if inside form-group */
+    & .form-group--row {
+      margin-bottom: 0;
+    }
+
+    /* remove margin if inside form-group */
+    & .form-group {
+      flex: 1;
+      margin-right: var(--grid-gutter--sm);
+    }
+
+    /* remove margin if inside form-group */
+    & .form-group:last-child {
+      margin-right: 0;
+    }
+
+    & .form-group > .form-control {
+      margin-left: 0;
+    }
+
+    & .form-group > label {
+      margin-bottom: var(--form-group-margin-label);
+    }
+
+    /* label after form-control */
+    & .form-control {
+      flex: 1 1 auto;
+      margin-right: 0;
+      margin-left: var(--grid-gutter--sm);
+
+      @media (--viewport-sm-min) {
+        margin-right: 0;
+        margin-left: var(--grid-gutter--sm);
+      }
+
+      &:not(:last-child) {
+        margin-right: var(--grid-gutter--sm);
+      }
+
+      &--rounded {
+
+      }
+    }
+
+    /* set margin on the right and remove bottom for label */
+    & > & label {
+      margin-bottom: 0;
+      flex: 0 1 auto;
+      margin-right: var(--grid-gutter--sm);
+
+      @media (--viewport-sm-min) {
+        margin-right: var(--grid-gutter);
+      }
+    }
+
+    /* label after form-control */
+    & .form-control + & label {
+      margin-right: 0;
+      margin-left: var(--grid-gutter--sm);
+
+      @media (--viewport-sm-min) {
+        margin-right: 0;
+        margin-left: var(--grid-gutter);
+      }
+    }
+
+    /* two labels next to each other */
+    & label + & label {
+      margin-left: var(--grid-gutter--sm);
+
+      @media (--viewport-sm-min) {
+        margin-left: var(--grid-gutter);
+      }
+    }
+
+    /* two form-controls next to each other */
+    & .form-control + & .form-control {
+      margin-left: var(--grid-gutter--sm);
+
+      @media (--viewport-sm-min) {
+        margin-left: var(--grid-gutter);
+      }
+    }
+
+    /* last child fix */
+    & .form-control:last-child,
+    & label:last-child {
+      margin-right: 0;
+    }
+
+    /* first child fix */
+    & .form-control:first-child,
+    & label:first-child:not(.label--rounded) {
+      margin-left: 0;
+    }
+  }
+}

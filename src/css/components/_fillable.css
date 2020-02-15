@@ -1,0 +1,52 @@
+.fidelity-ui-app .fillable {
+  --fillable-padding: var(--spacer);
+  --fillable-width: 40rem;
+  --fillable-max-height: 40rem;
+  --fillable-min-height: 4rem;
+  --fillable-border-width: 1px;
+  --fillable-color-border: var(--color-gray-3);
+  --fillable-border-radius: var(--border-radius);
+  --fillable-color-border--focus: var(--color-secondary);
+  --fillable-color-bg: var(--color-white);
+
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  width: var(--fillable-width);
+  max-width: 100%;
+  min-height: var(--fillable-min-height);
+  max-height: var(--fillable-max-height);
+  overflow: auto;
+  justify-content: flex-start;
+  align-items: flex-start;
+  text-align: left;
+  padding: var(--fillable-padding);
+  border: var(--fillable-border-width) solid var(--fillable-color-border);
+  border-radius: var(--fillable-border-radius);
+  -moz-appearance: textfield-multiline;
+  -webkit-appearance: textarea;
+  outline: none;
+
+  > * {
+    margin-right: calc(var(--spacer) / 2);
+    margin-bottom: calc(var(--spacer) / 2);
+  }
+
+  &:focus {
+    border: var(--fillable-border-width) solid var(--fillable-color-border--focus);
+    box-shadow: 0 0 0 1px var(--fillable-color-border--focus);
+  }
+
+  &:-webkit-autofill {
+    -webkit-box-shadow: 0 0 0 100px var(--fillable-color-bg) inset;
+
+    &:focus {
+      -webkit-box-shadow: 0 0 0 100px var(--fillable-color-bg) inset, 0 0 0 1px var(--fillable-color-border--focus);
+    }
+  }
+
+  &:empty:before {
+    content:attr(data-placeholder);
+    color: var(--color-gray-5);
+  }
+}

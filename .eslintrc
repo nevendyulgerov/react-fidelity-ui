@@ -12,9 +12,21 @@
     "jquery": true
   },
   "rules": {
+    "import/extensions": [
+      "error",
+      "always",
+      {
+        "js": "never",
+        "mjs": "never",
+        "jsx": "never",
+        "ts": "never",
+        "tsx": "never"
+      }
+    ],
     "indent": [
       "warn",
-      2
+      2,
+      {"SwitchCase": 1}
     ],
     "max-len": [
       "warn",
@@ -36,17 +48,10 @@
     "compat/compat": "error",
     "consistent-return": "off",
     "comma-dangle": "off",
-    "flowtype-errors/show-errors": "off",
     "generator-star-spacing": "off",
     "import/no-unresolved": "error",
     "import/no-extraneous-dependencies": "off",
-    "jsx-a11y/label-has-for": [ 2, {
-      "components": [ "Label" ],
-      "required": {
-        "some": [ "nesting", "id" ]
-      },
-      "allowChildren": false
-    }],
+    "jsx-a11y/anchor-is-valid": "off",
     "no-console": "off",
     "no-use-before-define": "off",
     "no-multi-assign": "off",
@@ -61,6 +66,7 @@
     "function-paren-newline": "off",
     "camelcase": "off",
     "no-nested-ternary": "off",
+    "no-case-declarations": "off",
     "object-curly-newline": [
       "off"
     ],
@@ -76,13 +82,29 @@
         ]
       }
     ],
+    "jsx-a11y/label-has-for": [
+      2,
+      {
+        "components": [
+          "Label"
+        ],
+        "required": {
+          "some": [
+            "nesting",
+            "id"
+          ]
+        },
+        "allowChildren": true
+      }
+    ],
     "react/jsx-no-bind": "off",
     "react/jsx-filename-extension": [
       "error",
       {
         "extensions": [
           ".js",
-          ".jsx"
+          ".jsx",
+          ".tsx"
         ]
       }
     ],
@@ -93,10 +115,11 @@
     "react/prefer-stateless-function": "off",
     "react/forbid-prop-types": "warn",
     "react/jsx-boolean-value": "off",
-    "react/prop-types": [2, {
-      "skipUndeclared": false
-    }],
-    "react/no-danger": "off"
+    "react/prop-types": 2,
+    "react/no-danger": "off",
+    "react/jsx-props-no-spreading": "off",
+    "react-hooks/rules-of-hooks": "error",
+    "react-hooks/exhaustive-deps": "warn"
   },
   "globals": {
     "__DEV__": true
@@ -106,11 +129,17 @@
     "promise",
     "compat",
     "react",
-    "jest"
+    "jest",
+    "react-hooks"
   ],
   "settings": {
     "polyfills": [
       "promises"
-    ]
+    ],
+    "import/resolver": {
+      "node": {
+        "extensions": [".js", ".jsx", ".ts", ".tsx"]
+      }
+    }
   }
 }

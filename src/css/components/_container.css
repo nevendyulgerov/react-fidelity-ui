@@ -1,0 +1,11 @@
+.fidelity-ui-app .container {
+  padding: 0 var(--grid-gutter);
+  max-width: var(--container-width);
+  position: relative;
+  width: 100%;
+  margin: 0 auto;
+
+  @media (--viewport-sm-min) {
+    padding: 0 calc(var(--grid-gutter) * 2);
+  }
+}

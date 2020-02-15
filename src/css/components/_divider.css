@@ -1,0 +1,36 @@
+.fidelity-ui-app .divider {
+  --divider-bg: var(--color-white);
+
+  position: relative;
+  display: block;
+  margin: var(--spacer) 0;
+  text-align: center;
+  font-size: var(--font-size--sm);
+  background: var(--divider-bg);
+
+  &::before {
+    content: '';
+    height: 1px;
+    position: absolute;
+    left: 0;
+    top: 50%;
+    right: 0;
+    background: var(--color-body--border);
+  }
+
+  & > .divider__text {
+    display: inline-block;
+    position: relative;
+    padding: 0 var(--spacer);
+    background: inherit;
+  }
+
+  /* sizes */
+  &--sm {
+    margin: calc(var(--spacer) / 2) 0;
+  }
+
+  &--lg {
+    margin: calc(var(--spacer) * 2) 0;
+  }
+}

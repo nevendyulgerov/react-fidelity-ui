@@ -1,0 +1,123 @@
+.fidelity-ui-app .tabs {
+  --tabs-height: 3rem;
+  --btn-padding-x: calc(var(--input-padding-x) * 2);
+
+  display: flex;
+  align-items: center;
+  overflow-x: auto;
+  margin: 0;
+  -webkit-overflow-scrolling: touch;
+  -ms-overflow-style: -ms-autohiding-scrollbar;
+
+  li {
+    position: relative;
+    white-space: nowrap;
+
+    & + li {
+      margin-left: calc(var(--spacer) * 1.5);
+    }
+
+    @media (--viewport-md-min) {
+      & + li {
+        margin-left: 0;
+      }
+    }
+  }
+
+  &__item {
+    height: var(--tabs-height);
+    line-height: var(--tabs-height);
+    font-weight: var(--font-weight--bold);
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    color: var(--color-body);
+
+    > * {
+      text-decoration: none;
+    }
+
+    .icon {
+      margin-right: calc(var(--spacer) / 2);
+    }
+
+    @media (--viewport-md-min) {
+      padding: 0 var(--btn-padding-x);
+    }
+
+    &:hover {
+      text-decoration: none;
+      color: var(--color-primary);
+    }
+
+    &::before {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 2px;
+      background: var(--color-primary);
+      opacity: 0;
+      transform-origin: center center;
+    }
+
+    /* state active */
+    &--active {
+      color: var(--color-body--dark);
+    }
+
+    &--active > * {
+      color: var(--color-body--dark);
+    }
+
+    &--active .icon {
+      color: var(--color-primary);
+    }
+
+    &--active::before {
+      opacity: 1;
+      animation: Tab 0.2s 1 ease-in;
+    }
+  }
+
+  /* align on right flex parent */
+  &--right {
+    margin-left: auto;
+  }
+
+  /* no underline */
+  &--basic {
+    li + li {
+      margin-left: var(--spacer);
+    }
+
+    .tabs__item {
+      padding-left: 0;
+      padding-right: 0;
+    }
+
+    .tabs__item--active {
+      color: var(--color-primary);
+    }
+
+    .tabs__item::before {
+      content: none;
+    }
+  }
+
+  /* with border bottom */
+  &--border {
+    position: relative;
+
+    &::before {
+      content: '';
+      height: 1px;
+      background: var(--color-body--border);
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: 0;
+    }
+  }
+}

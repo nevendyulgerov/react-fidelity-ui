@@ -1,0 +1,21 @@
+.fidelity-ui-app {
+  .rotate {
+    transition: var(--transition);
+
+    &--90 {
+      transform: rotate(90deg) !important;
+    }
+
+    &--180 {
+      transform: rotate(180deg) !important;
+    }
+
+    &--270 {
+      transform: rotate(270deg) !important;
+    }
+
+    &--360 {
+      transform: rotate(360deg) !important;
+    }
+  }
+}

@@ -1,0 +1,31 @@
+.fidelity-ui-app .footer {
+  --footer-color: var(--color-body);
+  --footer-color-bg: var(--color-body--bg);
+  --footer-color-link: var(--color-body--link);
+
+  color: var(--footer-color);
+  background-color: var(--footer-color-bg);
+
+  a {
+    color: var(--footer-color-link);
+  }
+
+  &__text {
+    font-size: var(--font-size--sm);
+    margin: var(--grid-gutter) 0;
+  }
+
+  &__custom {
+    overflow: hidden;
+    max-width: 100%;
+    margin: var(--spacer) 0;
+
+    &:empty {
+      display: none;
+    }
+  }
+
+  & > .container {
+    max-width: none;
+  }
+}

@@ -1,0 +1,12 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Components / Progress / Bar matches snapshot 1`] = `
+<body>
+  <div>
+    <span
+      class="progress__bar"
+      style="width: 25%;"
+    />
+  </div>
+</body>
+`;

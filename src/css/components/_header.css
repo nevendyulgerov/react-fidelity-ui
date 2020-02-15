@@ -1,0 +1,42 @@
+.fidelity-ui-app .header {
+  --header-color: var(--color-body);
+  --header-color--dark: var(--color-body--heading);
+  --header-color--active: var(--color-primary);
+  --header-color-bg: var(--color-white);
+  --header-color-border: var(--color-body--border);
+  --header-color-link: var(--color-body--link);
+  --header-padding: calc(var(--spacer) / 2) 0;
+  --header-shadow: 0 2px 2px -1px rgba(30, 38, 51, 0.1);
+  --header-height: 4.125rem;
+
+  background: var(--header-color-bg);
+  color: var(--header-color);
+  padding: var(--header-padding);
+  z-index: var(--z-index-30);
+  top: 0;
+  will-change: z-index, box-shadow;
+  height: var(--header-height);
+  display: flex;
+  align-items: center;
+
+  & > .container {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    max-width: none;
+
+    @media (--viewport-sm-min) {
+      justify-content: space-between;
+    }
+  }
+
+  /* States */
+  &--sticky {
+    position: sticky;
+  }
+
+  &--scrolled {
+    z-index: var(--z-index-40);
+    box-shadow: var(--header-shadow);
+  }
+}

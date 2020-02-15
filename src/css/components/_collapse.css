@@ -1,0 +1,15 @@
+.fidelity-ui-app .collapse {
+  --collapse-transition: max-height cubic-bezier(0.55, 0, 0.1, 1) 0.35s, opacity cubic-bezier(0.55, 0, 0.1, 1) 0.35s;
+  --collapse-active-max-height: 300vh;
+
+  transition: var(--collapse-transition);
+  max-height: 0;
+  opacity: 0;
+  overflow: hidden;
+
+  &--active {
+    max-height: var(--collapse-active-max-height);
+    overflow: visible;
+    opacity: 1;
+  }
+}

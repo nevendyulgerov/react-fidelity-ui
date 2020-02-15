@@ -1,0 +1,56 @@
+import * as React from 'react';
+import * as PropTypes from 'prop-types';
+export declare type ButtonProps = {
+    children: React.ReactNode;
+    type?: string;
+    className?: string | null;
+    active?: boolean;
+    loading?: boolean;
+    outlined?: boolean;
+    expanded?: boolean;
+    rounded?: boolean;
+    fab?: boolean;
+    bordered?: boolean;
+    flat?: boolean;
+    hovered?: boolean;
+    dashed?: boolean;
+    squared?: boolean;
+    [key: string]: any;
+};
+declare const Button: {
+    (props: ButtonProps): JSX.Element;
+    propTypes: {
+        children: PropTypes.Validator<string | number | boolean | {} | PropTypes.ReactElementLike | PropTypes.ReactNodeArray>;
+        type: PropTypes.Requireable<string>;
+        size: PropTypes.Requireable<string | null>;
+        className: PropTypes.Requireable<string>;
+        active: PropTypes.Requireable<boolean>;
+        loading: PropTypes.Requireable<boolean>;
+        outlined: PropTypes.Requireable<boolean>;
+        expanded: PropTypes.Requireable<boolean>;
+        rounded: PropTypes.Requireable<boolean>;
+        fab: PropTypes.Requireable<boolean>;
+        bordered: PropTypes.Requireable<boolean>;
+        flat: PropTypes.Requireable<boolean>;
+        hovered: PropTypes.Requireable<boolean>;
+        dashed: PropTypes.Requireable<boolean>;
+        squared: PropTypes.Requireable<boolean>;
+    };
+    defaultProps: {
+        type: string;
+        size: null;
+        className: null;
+        active: boolean;
+        loading: boolean;
+        outlined: boolean;
+        expanded: boolean;
+        rounded: boolean;
+        fab: boolean;
+        bordered: boolean;
+        flat: boolean;
+        hovered: boolean;
+        dashed: boolean;
+        squared: boolean;
+    };
+};
+export default Button;
