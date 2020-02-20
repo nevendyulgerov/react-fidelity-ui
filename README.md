@@ -8,7 +8,7 @@
   <a href="https://github.com/nevendyulgerov/react-fidelity-ui">React Fidelity UI</a>
 </h1>
 
-<p>High-fidelity UI pack for <a href="https://reactjs.org/" target="_blank">React</a>.</p>
+<p>High-fidelity UI pack for <a href="https://reactjs.org/" target="_blank">React</a> with live-theming capabilities.</p>
 
 ## Installation
 
@@ -16,5 +16,4 @@ Run `npm install react-fidelity-ui`
 
 ## Documentation
 
-<p>Documentation, guides and other resources are available at the <a href="https://fidelityui.com" target="_blank">official website</a>.</p></p>
-
+<p>Documentation, guides and other resources are available at the <a href="https://fidelityui.com" target="_blank">official website</a>.</p>
