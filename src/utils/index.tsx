@@ -60,6 +60,22 @@ export const isNonEmptyStr = (val: any) : boolean => isStr(val) && val !== '';
 export const uid = (len: number = 7): string => Math.random().toString(35).substr(2, len);
 
 /**
+ * @description Get object keys
+ * @param obj
+ * @returns {Array}
+ */
+export const getKeys = (obj: any) => Object.keys(obj);
+
+/**
+ * @description Each key
+ * @param obj
+ * @param callback
+ */
+export const eachKey = (obj: any, callback: (key: string, prop: any, index: number) => void) => {
+  getKeys(obj).forEach((key, index) => callback(key, obj[key], index));
+};
+
+/**
  * @description Observe intersection
  * @param target
  * @param callback
@@ -108,3 +124,23 @@ export const limitNum = (num: number, max: number) => (num <= max ? num : max);
  * @param prop
  */
 export const isRenderable = (prop: any) => isNonEmptyStr(prop) || isNum(prop) || isObj(prop);
+
+/**
+ * @description Contains node
+ * @param nodes
+ * @param node
+ */
+export const containsNode = (nodes: Node[], node: Node): boolean => {
+  let containsNode = false;
+
+  for (let i = 0; i < nodes.length; i += 1) {
+    const pathNode = nodes[i];
+
+    if (isFunc(pathNode.isSameNode) && pathNode.isSameNode(node)) {
+      containsNode = true;
+      break;
+    }
+  }
+
+  return containsNode;
+};
