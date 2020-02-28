@@ -4,7 +4,7 @@
   --notification-shadow: var(--depth-1);
   --notification-shadow--hover: var(--depth-2);
   --notification-icon-size: 2rem;
-  --notification-border-radius: var(--border-radius--lg);
+  --notification-border-radius: var(--border-radius);
 
   display: flex;
   align-items: center;
