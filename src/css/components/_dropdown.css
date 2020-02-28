@@ -1,113 +1,101 @@
 .fidelity-ui-app .dropdown {
-  --dropdown-size: 12rem;
-  --dropdown-size-md: 16rem;
-  --dropdown-size-lg: 20rem;
-  --dropdown-shadow: var(--depth-4);
-  --dropdown-border-radius: var(--border-radius--lg);
-  --dropdown-color: var(--color-gray-7);
-  --dropdown-color-bg: var(--color-white);
-  --dropdown-color-border: rgba(0, 0, 0, 0.1);
+  --dropdown-body-size--auto: 100%;
+  --dropdown-body-size--xs: 8rem;
+  --dropdown-body-size--sm: 12rem;
+  --dropdown-body-size--md: 16rem;
+  --dropdown-body-size--lg: 20rem;
+  --dropdown-body-size--xl: 24rem;
+  --dropdown-body-min-width: 12rem;
+  --dropdown-body-max-width: calc(100vw - var(--gutter) * 2);
+  --dropdown-body-max-height: 40rem;
+  --dropdown-body-shadow: var(--depth-4);
+  --dropdown-body-border-radius: var(--border-radius);
+  --dropdown-body-color-bg: var(--color-white);
+  --dropdown-body-z-index: var(--z-index-20);
+  --dropdown-body-padding: calc(var(--spacer) / 2) 0;
+  --dropdown-body-scrollbar-width: 6px;
+  --dropdown-body-scrollbar-thumb-border-radius: 10px;
+  --dropdown-text-color: var(--color-gray-7);
+  --dropdown-text-color-border: rgba(0, 0, 0, 0.1);
+  --dropdown-text-padding: calc(var(--spacer) / 2) var(--spacer);
   --dropdown-item-color: var(--color-gray-10);
   --dropdown-item-color-bg-hover: rgba(0, 0, 0, 0.025);
   --dropdown-item-color-focus: var(--color-secondary);
   --dropdown-item-color-bg-focus: var(--color-white);
-  --dropdown-z-index: var(--z-index-20);
+  --dropdown-item-padding: calc(var(--spacer) / 1.5) calc(var(--spacer) * 1.5) calc(var(--spacer) / 1.5) var(--spacer);
 
-  max-width: 100%;
   position: relative;
   display: inline-block;
-
-  &__header {
-    position: relative;
-  }
+  max-width: 100%;
 
   &__body {
     display: none;
     position: absolute;
     top: calc(100% + 1px);
     left: 0;
-    background: var(--dropdown-color-bg);
-    min-width: var(--dropdown-size);
-    border-radius: var(--dropdown-border-radius);
-    box-shadow: var(--dropdown-shadow);
-    padding: calc(var(--spacer) / 2) 0;
-    z-index: var(--dropdown-z-index);
-    max-height: 40rem;
-    max-width: calc(100vw - var(--gutter) * 2);
+    min-width: var(--dropdown-body-min-width);
+    max-width: var(--dropdown-body-max-width);
+    max-height: var(--dropdown-body-max-height);
+    padding: var(--dropdown-body-padding);
+    z-index: var(--dropdown-body-z-index);
+    box-shadow: var(--dropdown-body-shadow);
+    border-radius: var(--dropdown-body-border-radius);
+    background: var(--dropdown-body-color-bg);
     overflow: auto;
     -webkit-overflow-scrolling: touch;
 
     &::-webkit-scrollbar {
-      width: 6px;
+      width: var(--dropdown-body-scrollbar-width);
       background-color: transparent;
     }
 
     &::-webkit-scrollbar-thumb {
-      border-radius: 10px;
+      border-radius: var(--dropdown-body-scrollbar-thumb-border-radius);
       background-color: var(--color-body--border);
+    }
+
+    &--active {
+      display: block;
+    }
+
+    &--size {
+      &-auto {
+        min-width: var(--dropdown-body-size--auto);
+      }
+
+      &-xs {
+        min-width: var(--dropdown-body-size--xs);
+      }
+
+      &-sm {
+        min-width: var(--dropdown-body-size--sm);
+      }
+
+      &-md {
+        min-width: var(--dropdown-body-size--md);
+      }
+
+      &-lg {
+        min-width: var(--dropdown-body-size--lg);
+      }
+
+      &-xl {
+        min-width: var(--dropdown-body-size--xl);
+      }
     }
   }
 
-  &__item,
-  &__text__item {
+  &__item {
     display: flex;
     align-items: center;
     white-space: nowrap;
-    padding: calc(var(--spacer) / 1.5) calc(var(--spacer) * 1.5) calc(var(--spacer) / 1.5) var(--spacer);
+    padding: var(--dropdown-item-padding);
     color: var(--dropdown-item-color);
     text-decoration: none;
-
-    /* icon inside item */
-    & > .icon {
-      margin-right: var(--spacer);
-      opacity: 0.7;
-    }
-
-    /* if autosuggest */
-    &__image {
-      margin-right: var(--spacer);
-    }
-
-    &__body {
-      flex: 1;
-      min-width: 0;
-    }
-
-    &__title {
-      font-weight: var(--font-weight--bold);
-      color: var(--dropdown-item-color);
-      line-height: 1;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-    }
-
-    &__meta {
-      font-size: var(--font-size--sm);
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-    }
-
-    /* footer CTA - used on notifications or apply filter ... */
-    &--footer {
-      text-align: center;
-      justify-content: center;
-      font-weight: var(--font-weight--bold);
-    }
-
-    &--footer.dropdown__text__item {
-      margin-top: calc(-1 * var(--spacer) / 2);
-      margin-bottom: calc(-1 * var(--spacer) / 2);
-    }
 
     &:hover {
       text-decoration: none;
       background: var(--dropdown-item-color-bg-hover);
-
-      & > .icon {
-        opacity: 1;
-      }
     }
 
     &--active,
@@ -126,88 +114,13 @@
 
   &__text {
     display: block;
-    padding: calc(var(--spacer) / 2) var(--spacer);
-    color: var(--dropdown-color);
-
-    /* used for items that don't close the dropdown inside text */
-    &__item,
-    .dropdown__item {
-      margin-left: calc(-1 * var(--spacer));
-      margin-right: calc(-1 * var(--spacer));
-      white-space: normal;
-    }
-
-    /* if there are a lot of items inside and we want to display scroll */
-    &--scroll {
-      max-height: 15rem;
-      overflow: auto;
-      -webkit-overflow-scrolling: touch;
-    }
-
-    &--scroll::-webkit-scrollbar {
-      width: 6px;
-      background-color: transparent;
-    }
-
-    &--scroll::-webkit-scrollbar-thumb {
-      border-radius: 10px;
-      background-color: var(--color-body--border);
-    }
-  }
-
-  &__title {
-    margin: 0;
-    font-size: var(--font-size--lg);
-    padding: calc(var(--spacer) / 2) 0;
-    font-weight: var(--font-weight--bold);
-    color: var(--dropdown-item-color);
+    padding: var(--dropdown-text-padding);
+    color: var(--dropdown-text-color);
   }
 
   &__divider {
     pointer-events: none;
-    border-top: 1px solid var(--dropdown-color-border);
+    border-top: 1px solid var(--dropdown-text-color-border);
     margin: calc(var(--spacer) / 2) 0;
-  }
-
-  /* alignment */
-  &--align-left {
-    .dropdown__body {
-      left: 0;
-      right: auto;
-    }
-  }
-
-  &--align-right {
-    .dropdown__body {
-      left: auto;
-      right: 0;
-    }
-  }
-
-  &--align-center {
-    .dropdown__body {
-      left: 50%;
-      transform: translateX(-50%);
-    }
-  }
-
-  /* sizes */
-  &--md {
-    .dropdown__body {
-      min-width: var(--dropdown-size-md);
-    }
-  }
-
-  &--lg {
-    .dropdown__body {
-      min-width: var(--dropdown-size-lg);
-    }
-  }
-
-  /* state */
-  &--active {
-    .dropdown__body {
-      display: block;
-    }
   }
 }

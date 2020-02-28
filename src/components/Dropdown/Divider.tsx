@@ -8,7 +8,8 @@ export type DropdownDividerProps = {
   [key: string]: any
 }
 
-const DropdownDivider = ({ className, ...restProps }: DropdownDividerProps) => {
+const DropdownDivider = (props: DropdownDividerProps) => {
+  const { className, ...restProps } = props;
   const componentClassName: string = classNames({
     dropdown__divider: true,
     // @ts-ignore

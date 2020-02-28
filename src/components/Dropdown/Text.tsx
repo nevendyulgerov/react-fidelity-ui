@@ -6,21 +6,23 @@ import { isNonEmptyStr } from '../../utils';
 export type DropdownTextProps = {
   children?: React.ReactNode,
   className?: string | null,
-  scrollable?: boolean
+  [key: string]: any
 };
 
 const DropdownText = (props: DropdownTextProps) => {
-  const { children, className, scrollable } = props;
+  const { children, className, ...restProps } = props;
 
   const componentClassName = classNames({
     dropdown__text: true,
-    'dropdown__text--scroll': scrollable,
     // @ts-ignore
     [className]: isNonEmptyStr(className)
   });
 
   return (
-    <div className={componentClassName}>
+    <div
+      {...restProps}
+      className={componentClassName}
+    >
       {children}
     </div>
   );
@@ -29,16 +31,15 @@ const DropdownText = (props: DropdownTextProps) => {
 DropdownText.propTypes = {
   children: PropTypes.oneOfType([
     PropTypes.string,
+    PropTypes.number,
     PropTypes.node,
     PropTypes.arrayOf(PropTypes.node)
   ]).isRequired,
-  className: PropTypes.string,
-  scrollable: PropTypes.bool
+  className: PropTypes.string
 };
 
 DropdownText.defaultProps = {
-  className: null,
-  scrollable: false
+  className: null
 };
 
 export default DropdownText;

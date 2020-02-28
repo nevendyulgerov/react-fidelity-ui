@@ -3,27 +3,30 @@ import * as PropTypes from 'prop-types';
 import classNames from 'classnames';
 import { isNonEmptyStr } from '../../utils';
 
-export type DropdownItemProps = {
+export type DropdownBodyProps = {
   children: React.ReactNode,
+  size?: string | 'auto',
   className?: string | null,
-  active?: boolean,
+  active?: boolean | false,
   [key: string]: any
 };
 
-const DropdownItem = (props: DropdownItemProps) => {
-  const { children, className, active, ...restProps } = props;
+const sizes = ['auto', 'xs', 'sm', 'md', 'lg', 'xl'];
 
-  const componentClassName = classNames({
-    dropdown__item: true,
-    'dropdown__item--active': active,
+const DropdownBody = (props: DropdownBodyProps) => {
+  const { children, size, className, active, ...restProps } = props;
+  const componentClassName: string = classNames({
+    dropdown__body: true,
+    'dropdown__body--active': active,
+    // @ts-ignore
+    [`dropdown__body--size-${size}`]: DropdownBody.sizes.includes(size),
     // @ts-ignore
     [className]: isNonEmptyStr(className)
   });
 
   return (
     <div
-      role="option"
-      aria-selected={active}
+      aria-expanded={active}
       {...restProps}
       className={componentClassName}
     >
@@ -32,20 +35,24 @@ const DropdownItem = (props: DropdownItemProps) => {
   );
 };
 
-DropdownItem.propTypes = {
+DropdownBody.sizes = sizes;
+
+DropdownBody.propTypes = {
   children: PropTypes.oneOfType([
     PropTypes.string,
     PropTypes.number,
     PropTypes.node,
     PropTypes.arrayOf(PropTypes.node)
   ]).isRequired,
+  size: PropTypes.oneOf(sizes),
   className: PropTypes.string,
   active: PropTypes.bool
 };
 
-DropdownItem.defaultProps = {
+DropdownBody.defaultProps = {
+  size: 'auto',
   className: null,
   active: false
 };
 
-export default DropdownItem;
+export default DropdownBody;
