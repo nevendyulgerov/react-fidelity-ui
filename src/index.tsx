@@ -1,6 +1,6 @@
 import { Button, Group as ButtonGroup } from './components/Button';
 import { Card, Divider as CardDivider } from './components/Card';
-import { Dropdown, Divider as DropdownDivider, Item as DropdownItem, Text as DropdownText, Title as DropdownTitle } from './components/Dropdown';
+import Dropdown from './components/Dropdown';
 import Grid from './components/Grid';
 import Layout from './components/Layout';
 import { Checkbox, Email, File, Group as InputGroup, Input, Number, Password, Radio, Search, Select, Tel, Textarea } from './components/Input';
@@ -39,10 +39,6 @@ export {
   Collapse,
   Divider,
   Dropdown,
-  DropdownDivider,
-  DropdownItem,
-  DropdownText,
-  DropdownTitle,
   Email,
   Empty,
   File,
