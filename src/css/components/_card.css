@@ -6,7 +6,7 @@
   --card-color-border: var(--color-body--border);
   --card-shadow: var(--depth-1);
   --card-shadow--hover: var(--depth-2);
-  --card-border-radius: var(--border-radius--lg);
+  --card-border-radius: var(--border-radius);
   --card-padding: var(--spacer);
   --card-padding--sm: calc(var(--spacer) / 2);
   --card-padding--lg: calc(var(--spacer) * 1.5);
