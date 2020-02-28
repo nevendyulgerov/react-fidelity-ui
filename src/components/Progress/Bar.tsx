@@ -28,8 +28,8 @@ const ProgressBar = (props: ProgressBarProps) => {
 
   return (
     <span
-      {...restProps}
       role="progressbar"
+      {...restProps}
       className={componentClassName}
       style={progressInStyle}
     />
