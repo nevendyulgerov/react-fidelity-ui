@@ -1,6 +1,6 @@
 import { Button, Group as ButtonGroup } from './components/Button';
 import { Card, Divider as CardDivider } from './components/Card';
-import { Dropdown, Divider as DropdownDivider, Item as DropdownItem, Text as DropdownText, Title as DropdownTitle } from './components/Dropdown';
+import Dropdown from './components/Dropdown';
 import Grid from './components/Grid';
 import Layout from './components/Layout';
 import { Checkbox, Email, File, Group as InputGroup, Input, Number, Password, Radio, Search, Select, Tel, Textarea } from './components/Input';
@@ -25,4 +25,4 @@ declare const utils: {
     getCssVar: (varName: string) => string | null;
     setCssVar: (varName: string, varValue: string | null) => void;
 };
-export { App, Badge, Button, ButtonGroup, Card, CardDivider, Checkbox, Collapse, Divider, Dropdown, DropdownDivider, DropdownItem, DropdownText, DropdownTitle, Email, Empty, File, Fillable, Grid, Icon, Image, InputGroup, Input, Layout, Modal, ModalBody, ModalFooter, ModalHeader, ModalTitle, Nav, NavMenu, NavMenuItem, NavTrigger, Number, Notification, Password, Progress, Radio, Search, Select, Sidebar, SidebarItem, Tab, Table, Tabs, Tag, Tel, Textarea, Transition, utils };
+export { App, Badge, Button, ButtonGroup, Card, CardDivider, Checkbox, Collapse, Divider, Dropdown, Email, Empty, File, Fillable, Grid, Icon, Image, InputGroup, Input, Layout, Modal, ModalBody, ModalFooter, ModalHeader, ModalTitle, Nav, NavMenu, NavMenuItem, NavTrigger, Number, Notification, Password, Progress, Radio, Search, Select, Sidebar, SidebarItem, Tab, Table, Tabs, Tag, Tel, Textarea, Transition, utils };

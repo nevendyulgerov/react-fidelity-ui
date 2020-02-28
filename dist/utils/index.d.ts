@@ -49,6 +49,18 @@ export declare const isNonEmptyStr: (val: any) => boolean;
  */
 export declare const uid: (len?: number) => string;
 /**
+ * @description Get object keys
+ * @param obj
+ * @returns {Array}
+ */
+export declare const getKeys: (obj: any) => string[];
+/**
+ * @description Each key
+ * @param obj
+ * @param callback
+ */
+export declare const eachKey: (obj: any, callback: (key: string, prop: any, index: number) => void) => void;
+/**
  * @description Observe intersection
  * @param target
  * @param callback
@@ -76,3 +88,9 @@ export declare const limitNum: (num: number, max: number) => number;
  * @param prop
  */
 export declare const isRenderable: (prop: any) => boolean;
+/**
+ * @description Contains node
+ * @param nodes
+ * @param node
+ */
+export declare const containsNode: (nodes: Node[], node: Node) => boolean;

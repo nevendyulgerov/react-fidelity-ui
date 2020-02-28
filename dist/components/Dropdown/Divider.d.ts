@@ -5,7 +5,7 @@ export declare type DropdownDividerProps = {
     [key: string]: any;
 };
 declare const DropdownDivider: {
-    ({ className, ...restProps }: DropdownDividerProps): JSX.Element;
+    (props: DropdownDividerProps): JSX.Element;
     propTypes: {
         className: PropTypes.Requireable<string>;
     };

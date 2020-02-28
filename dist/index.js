@@ -1307,6 +1307,22 @@ var limitNum = function (num, max) { return (num <= max ? num : max); };
  * @param prop
  */
 var isRenderable = function (prop) { return isNonEmptyStr(prop) || isNum(prop) || isObj(prop); };
+/**
+ * @description Contains node
+ * @param nodes
+ * @param node
+ */
+var containsNode = function (nodes, node) {
+    var containsNode = false;
+    for (var i = 0; i < nodes.length; i += 1) {
+        var pathNode = nodes[i];
+        if (isFunc(pathNode.isSameNode) && pathNode.isSameNode(node)) {
+            containsNode = true;
+            break;
+        }
+    }
+    return containsNode;
+};
 
 var Button = function (props) {
     var _a;
@@ -1487,15 +1503,99 @@ CardDivider.defaultProps = {
     className: null
 };
 
-var DropdownDivider = function (_a) {
-    var _b;
-    var className = _a.className, restProps = __rest(_a, ["className"]);
-    var componentClassName = classNames((_b = {
+var sizes = ['auto', 'xs', 'sm', 'md', 'lg', 'xl'];
+var DropdownBody = function (props) {
+    var _a;
+    var children = props.children, size = props.size, className = props.className, active = props.active, restProps = __rest(props, ["children", "size", "className", "active"]);
+    var componentClassName = classNames((_a = {
+            dropdown__body: true,
+            'dropdown__body--active': active
+        },
+        // @ts-ignore
+        _a["dropdown__body--size-" + size] = DropdownBody.sizes.includes(size),
+        // @ts-ignore
+        _a[className] = isNonEmptyStr(className),
+        _a));
+    return (React.createElement("div", __assign({ "aria-expanded": active }, restProps, { className: componentClassName }), children));
+};
+DropdownBody.sizes = sizes;
+DropdownBody.propTypes = {
+    children: propTypes_14([
+        propTypes_7,
+        propTypes_5,
+        propTypes_8,
+        propTypes_15(propTypes_8)
+    ]).isRequired,
+    size: propTypes_13(sizes),
+    className: propTypes_7,
+    active: propTypes_3
+};
+DropdownBody.defaultProps = {
+    size: 'auto',
+    className: null,
+    active: false
+};
+
+var DropdownText = function (props) {
+    var _a;
+    var children = props.children, className = props.className, restProps = __rest(props, ["children", "className"]);
+    var componentClassName = classNames((_a = {
+            dropdown__text: true
+        },
+        // @ts-ignore
+        _a[className] = isNonEmptyStr(className),
+        _a));
+    return (React.createElement("div", __assign({}, restProps, { className: componentClassName }), children));
+};
+DropdownText.propTypes = {
+    children: propTypes_14([
+        propTypes_7,
+        propTypes_5,
+        propTypes_8,
+        propTypes_15(propTypes_8)
+    ]).isRequired,
+    className: propTypes_7
+};
+DropdownText.defaultProps = {
+    className: null
+};
+
+var DropdownItem = function (props) {
+    var _a;
+    var children = props.children, className = props.className, active = props.active, restProps = __rest(props, ["children", "className", "active"]);
+    var componentClassName = classNames((_a = {
+            dropdown__item: true,
+            'dropdown__item--active': active
+        },
+        // @ts-ignore
+        _a[className] = isNonEmptyStr(className),
+        _a));
+    return (React.createElement("div", __assign({ role: "option", "aria-selected": active }, restProps, { className: componentClassName }), children));
+};
+DropdownItem.propTypes = {
+    children: propTypes_14([
+        propTypes_7,
+        propTypes_5,
+        propTypes_8,
+        propTypes_15(propTypes_8)
+    ]).isRequired,
+    className: propTypes_7,
+    active: propTypes_3
+};
+DropdownItem.defaultProps = {
+    className: null,
+    active: false
+};
+
+var DropdownDivider = function (props) {
+    var _a;
+    var className = props.className, restProps = __rest(props, ["className"]);
+    var componentClassName = classNames((_a = {
             dropdown__divider: true
         },
         // @ts-ignore
-        _b[className] = isNonEmptyStr(className),
-        _b));
+        _a[className] = isNonEmptyStr(className),
+        _a));
     return (React.createElement("div", __assign({}, restProps, { className: componentClassName })));
 };
 DropdownDivider.propTypes = {
@@ -1505,157 +1605,60 @@ DropdownDivider.defaultProps = {
     className: null
 };
 
-var useState = React.useState, useRef = React.useRef, useEffect = React.useEffect;
+var addEventListener = window.addEventListener, removeEventListener = window.removeEventListener;
+var useRef = React.useRef, useEffect = React.useEffect;
 var Dropdown = function (props) {
     var _a;
-    var children = props.children, trigger = props.trigger, size = props.size, nudgeBottom = props.nudgeBottom, align = props.align, className = props.className, active = props.active, onClickOutside = props.onClickOutside, restProps = __rest(props, ["children", "trigger", "size", "nudgeBottom", "align", "className", "active", "onClickOutside"]);
-    var _b = useState(false), isHovered = _b[0], setIsHovered = _b[1];
-    var _c = useState(false), isBodyHovered = _c[0], setIsBodyHovered = _c[1];
+    var children = props.children, className = props.className, onClickOutside = props.onClickOutside, restProps = __rest(props, ["children", "className", "onClickOutside"]);
     var refComponent = useRef(null);
+    var latestOnClickOutside = useRef(onClickOutside);
     var hasOnClickOutside = isFunc(onClickOutside);
     var componentClassName = classNames((_a = {
-            dropdown: true,
-            'dropdown--active': active
+            dropdown: true
         },
-        _a["dropdown--align-" + align] = isNonEmptyStr(align),
-        _a["dropdown--" + size] = size !== 'sm',
         // @ts-ignore
         _a[className] = isNonEmptyStr(className),
         _a));
-    var closeOnClick = function () {
-        if (hasOnClickOutside && active && !isHovered && !isBodyHovered) {
+    var onClick = function (event) {
+        var pathNodes = event.composedPath();
+        var dropdownNode = refComponent.current;
+        var hasPathNodes = isArr(pathNodes);
+        // @ts-ignore
+        if (hasPathNodes && !containsNode(pathNodes, dropdownNode)) {
             // @ts-ignore
             onClickOutside();
         }
     };
     useEffect(function () {
-        window.addEventListener('click', closeOnClick);
-        return function () { return window.removeEventListener('click', closeOnClick); };
-    });
-    // @ts-ignore
-    var dropdownBodyStyle = isNum(nudgeBottom) && nudgeBottom > 0
-        // @ts-ignore
-        ? { top: "calc(100% + " + nudgeBottom + "px)" }
-        : {};
-    var onMouseEnter = function (event) {
-        setIsHovered(true);
-        if (isFunc(restProps.onMouseEnter)) {
-            restProps.onMouseEnter(event);
+        latestOnClickOutside.current = onClickOutside;
+        if (hasOnClickOutside) {
+            addEventListener('click', onClick);
         }
-    };
-    var onMouseLeave = function (event) {
-        setIsHovered(false);
-        if (isFunc(restProps.onMouseLeave)) {
-            restProps.onMouseLeave(event);
-        }
-    };
-    var onMouseEnterBody = function () {
-        setIsBodyHovered(true);
-    };
-    var onMouseLeaveBody = function () {
-        setIsBodyHovered(false);
-    };
-    return (React.createElement("div", __assign({}, restProps, { ref: refComponent, className: componentClassName, onMouseEnter: onMouseEnter, onMouseLeave: onMouseLeave }),
-        React.createElement("div", { className: "dropdown__header" }, trigger),
-        React.createElement("div", { className: "dropdown__body", style: dropdownBodyStyle, onMouseEnter: onMouseEnterBody, onMouseLeave: onMouseLeaveBody }, children)));
+        return function () {
+            if (hasOnClickOutside) {
+                removeEventListener('click', onClick);
+            }
+        };
+    }, [onClickOutside]);
+    return (React.createElement("div", __assign({}, restProps, { ref: refComponent, className: componentClassName }), children));
 };
+Dropdown.Body = DropdownBody;
+Dropdown.Text = DropdownText;
+Dropdown.Item = DropdownItem;
+Dropdown.Divider = DropdownDivider;
 Dropdown.propTypes = {
     children: propTypes_14([
         propTypes_7,
+        propTypes_5,
         propTypes_8,
         propTypes_15(propTypes_8)
     ]).isRequired,
-    trigger: propTypes_8.isRequired,
-    size: propTypes_13(['sm', 'md', 'lg']),
-    nudgeBottom: propTypes_5,
-    align: propTypes_13([
-        'left',
-        'center',
-        'right'
-    ]),
     className: propTypes_7,
-    active: propTypes_3,
     onClickOutside: propTypes_4
 };
 Dropdown.defaultProps = {
-    size: 'sm',
-    nudgeBottom: 1,
-    align: 'left',
     className: null,
-    active: false,
     onClickOutside: null
-};
-
-var DropdownItem = function (props) {
-    var _a;
-    var className = props.className, active = props.active, renderItem = props.renderItem;
-    var componentClassName = classNames((_a = {
-            dropdown__item: true,
-            'dropdown__item--active': active
-        },
-        // @ts-ignore
-        _a[className] = isNonEmptyStr(className),
-        _a));
-    return renderItem(componentClassName);
-};
-DropdownItem.propTypes = {
-    className: propTypes_7,
-    active: propTypes_3,
-    renderItem: propTypes_4.isRequired
-};
-DropdownItem.defaultProps = {
-    className: null,
-    active: false,
-    renderItem: function () { }
-};
-
-var DropdownText = function (props) {
-    var _a;
-    var children = props.children, className = props.className, scrollable = props.scrollable;
-    var componentClassName = classNames((_a = {
-            dropdown__text: true,
-            'dropdown__text--scroll': scrollable
-        },
-        // @ts-ignore
-        _a[className] = isNonEmptyStr(className),
-        _a));
-    return (React.createElement("div", { className: componentClassName }, children));
-};
-DropdownText.propTypes = {
-    children: propTypes_14([
-        propTypes_7,
-        propTypes_8,
-        propTypes_15(propTypes_8)
-    ]).isRequired,
-    className: propTypes_7,
-    scrollable: propTypes_3
-};
-DropdownText.defaultProps = {
-    className: null,
-    scrollable: false
-};
-
-var DropdownTitle = function (props) {
-    var _a;
-    var children = props.children, className = props.className;
-    var componentClassName = classNames((_a = {
-            dropdown__title: true
-        },
-        // @ts-ignore
-        _a[className] = isNonEmptyStr(className),
-        _a));
-    return (React.createElement("h4", { className: componentClassName }, children));
-};
-DropdownTitle.propTypes = {
-    children: propTypes_14([
-        propTypes_7,
-        propTypes_8,
-        propTypes_15(propTypes_8)
-    ]).isRequired,
-    className: propTypes_7
-};
-DropdownTitle.defaultProps = {
-    className: null
 };
 
 var Row = function (props) {
@@ -1834,11 +1837,11 @@ Footer.defaultProps = {
     className: null
 };
 
-var useState$1 = React.useState, useEffect$1 = React.useEffect, useRef$1 = React.useRef;
+var useState = React.useState, useEffect$1 = React.useEffect, useRef$1 = React.useRef;
 var Header = function (props) {
     var _a;
     var children = props.children, className = props.className, sticky = props.sticky, restProps = __rest(props, ["children", "className", "sticky"]);
-    var _b = useState$1(false), isScrolled = _b[0], setIsScrolled = _b[1];
+    var _b = useState(false), isScrolled = _b[0], setIsScrolled = _b[1];
     var beforeHeaderRef = useRef$1(null);
     var componentClassName = classNames((_a = {
             header: true,
@@ -2771,14 +2774,14 @@ Icon.defaultProps = {
     spinning: false
 };
 
-var useState$2 = React.useState, useEffect$3 = React.useEffect;
+var useState$1 = React.useState, useEffect$3 = React.useEffect;
 var Image = function (props) {
     var _a;
     var src = props.src, alt = props.alt, size = props.size, aspectRatio = props.aspectRatio, className = props.className, spinner = props.spinner, spinnerHideDelay = props.spinnerHideDelay, rounded = props.rounded, hovered = props.hovered, elevated = props.elevated, expanded = props.expanded, contained = props.contained, onLoad = props.onLoad, onError = props.onError, restProps = __rest(props, ["src", "alt", "size", "aspectRatio", "className", "spinner", "spinnerHideDelay", "rounded", "hovered", "elevated", "expanded", "contained", "onLoad", "onError"]);
-    var _b = useState$2(true), isLoading = _b[0], setIsLoading = _b[1];
-    var _c = useState$2(false), isError = _c[0], setIsError = _c[1];
-    var _d = useState$2(null), errorNode = _d[0], setErrorNode = _d[1];
-    var _e = useState$2(false), hasSpinnerFaded = _e[0], setHasSpinnerFaded = _e[1];
+    var _b = useState$1(true), isLoading = _b[0], setIsLoading = _b[1];
+    var _c = useState$1(false), isError = _c[0], setIsError = _c[1];
+    var _d = useState$1(null), errorNode = _d[0], setErrorNode = _d[1];
+    var _e = useState$1(false), hasSpinnerFaded = _e[0], setHasSpinnerFaded = _e[1];
     var hasCustomError = isNonEmptyStr(errorNode) || isObj(errorNode);
     var hasAspectRatio = isNonEmptyStr(aspectRatio);
     var hasOnLoad = isFunc(onLoad);
@@ -2935,7 +2938,7 @@ var ProgressBar = function (props) {
         // @ts-ignore
         _a[className] = isNonEmptyStr(className),
         _a));
-    return (React.createElement("span", __assign({}, restProps, { role: "progressbar", className: componentClassName, style: progressInStyle })));
+    return (React.createElement("span", __assign({ role: "progressbar" }, restProps, { className: componentClassName, style: progressInStyle })));
 };
 ProgressBar.propTypes = {
     value: propTypes_5.isRequired,
@@ -3236,10 +3239,6 @@ exports.Checkbox = Checkbox;
 exports.Collapse = Collapse;
 exports.Divider = Divider;
 exports.Dropdown = Dropdown;
-exports.DropdownDivider = DropdownDivider;
-exports.DropdownItem = DropdownItem;
-exports.DropdownText = DropdownText;
-exports.DropdownTitle = DropdownTitle;
 exports.Email = Email;
 exports.Empty = Empty;
 exports.File = File;
