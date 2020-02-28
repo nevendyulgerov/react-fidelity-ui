@@ -1,5 +1,5 @@
 .fidelity-ui-app .empty {
-  --empty-border-radius: var(--border-radius--lg);
+  --empty-border-radius: var(--border-radius);
   --empty-shadow--hover: var(--depth-2);
   --empty-transition: var(--transition);
   --empty-shadow: var(--depth-1);
