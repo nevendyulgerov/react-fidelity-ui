@@ -5,6 +5,7 @@ exports[`Components / Progress / Bar matches snapshot 1`] = `
   <div>
     <span
       class="progress__bar"
+      role="progressbar"
       style="width: 25%;"
     />
   </div>

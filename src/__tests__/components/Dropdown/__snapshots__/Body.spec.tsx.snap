@@ -1,0 +1,14 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Components / Dropdown / Body matches snapshot 1`] = `
+<body>
+  <div>
+    <div
+      aria-expanded="false"
+      class="dropdown__body dropdown__body--size-auto"
+    >
+      Dropdown Body
+    </div>
+  </div>
+</body>
+`;

@@ -1,0 +1,13 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Components / Dropdown / Text matches snapshot 1`] = `
+<body>
+  <div>
+    <div
+      class="dropdown__text"
+    >
+      Dropdown Text
+    </div>
+  </div>
+</body>
+`;

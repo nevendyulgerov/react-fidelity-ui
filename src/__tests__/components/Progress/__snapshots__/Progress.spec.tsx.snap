@@ -7,7 +7,11 @@ exports[`Components / Progress matches snapshot 1`] = `
       class="progress progress--rounded progress--secondary"
     >
       <span
+        aria-valuemax="100"
+        aria-valuemin="0"
+        aria-valuenow="25"
         class="progress__bar"
+        role="progressbar"
         style="width: 25%;"
       />
     </div>

@@ -56,7 +56,7 @@ describe('Components / Progress / Bar', () => {
     expect(isClickTriggered).toBe(true);
 
     // test attribute prop
-    const role = 'role';
+    const role = 'progressbar';
     rerender(<ProgressBar value={25} role={role} />);
 
     // @ts-ignore
