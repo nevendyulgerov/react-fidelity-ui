@@ -5,7 +5,7 @@ import Body from './Body';
 import Text from './Text';
 import Item from './Item';
 import Divider from './Divider';
-import { isNonEmptyStr, isFunc, isArr, containsNode } from '../../utils';
+import { isNonEmptyStr, isFunc, isObj } from '../../utils';
 
 const { addEventListener, removeEventListener } = window;
 const { useRef, useEffect } = React;
@@ -13,28 +13,29 @@ const { useRef, useEffect } = React;
 export type DropdownProps = {
   children: React.ReactNode,
   className?: string | null,
+  active?: boolean | false,
   onClickOutside?: () => void | null,
   [key: string]: any
 };
 
 const Dropdown = (props: DropdownProps) => {
-  const { children, className, onClickOutside, ...restProps } = props;
+  const { children, className, active, onClickOutside, ...restProps } = props;
   const refComponent = useRef(null);
   const latestOnClickOutside = useRef(onClickOutside);
   const hasOnClickOutside: boolean = isFunc(onClickOutside);
   const componentClassName: string = classNames({
     dropdown: true,
+    'dropdown--active': active,
     // @ts-ignore
     [className]: isNonEmptyStr(className)
   });
 
   const onClick = (event: MouseEvent): void => {
-    const pathNodes = event.composedPath();
     const dropdownNode = refComponent.current;
-    const hasPathNodes = isArr(pathNodes);
-
     // @ts-ignore
-    if (hasPathNodes && !containsNode(pathNodes, dropdownNode)) {
+    const closestDropdown = event.target.closest('.dropdown');
+
+    if (!isObj(closestDropdown) || !closestDropdown.isSameNode(dropdownNode)) {
       // @ts-ignore
       onClickOutside();
     }
@@ -78,11 +79,13 @@ Dropdown.propTypes = {
     PropTypes.arrayOf(PropTypes.node)
   ]).isRequired,
   className: PropTypes.string,
+  active: PropTypes.bool,
   onClickOutside: PropTypes.func
 };
 
 Dropdown.defaultProps = {
   className: null,
+  active: false,
   onClickOutside: null
 };
 
