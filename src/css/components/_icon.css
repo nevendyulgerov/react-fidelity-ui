@@ -6,6 +6,7 @@
   fill: currentColor;
   vertical-align: middle;
   transform-origin: center center;
+  transition: var(--transition);
 
   /* sizes */
   &--4 {
