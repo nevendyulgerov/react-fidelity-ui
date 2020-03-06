@@ -21,8 +21,8 @@ const Collapse = (props: CollapseProps) => {
 
   return (
     <div
-      {...restProps}
       aria-expanded={active}
+      {...restProps}
       className={componentClassName}
     >
       {children}
