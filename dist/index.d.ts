@@ -4,7 +4,7 @@ import Dropdown from './components/Dropdown';
 import Grid from './components/Grid';
 import Layout from './components/Layout';
 import { Checkbox, Email, File, Group as InputGroup, Input, Number, Password, Radio, Search, Select, Tel, Textarea } from './components/Input';
-import { Modal, Body as ModalBody, Header as ModalHeader, Footer as ModalFooter, Title as ModalTitle } from './components/Modal';
+import Modal from './components/Modal';
 import { Nav, NavTrigger, Menu as NavMenu, MenuItem as NavMenuItem } from './components/Nav';
 import { Sidebar, SidebarItem } from './components/Sidebar';
 import { Tabs, Tab } from './components/Tabs';
@@ -25,4 +25,4 @@ declare const utils: {
     getCssVar: (varName: string) => string | null;
     setCssVar: (varName: string, varValue: string | null) => void;
 };
-export { App, Badge, Button, ButtonGroup, Card, CardDivider, Checkbox, Collapse, Divider, Dropdown, Email, Empty, File, Fillable, Grid, Icon, Image, InputGroup, Input, Layout, Modal, ModalBody, ModalFooter, ModalHeader, ModalTitle, Nav, NavMenu, NavMenuItem, NavTrigger, Number, Notification, Password, Progress, Radio, Search, Select, Sidebar, SidebarItem, Tab, Table, Tabs, Tag, Tel, Textarea, Transition, utils };
+export { App, Badge, Button, ButtonGroup, Card, CardDivider, Checkbox, Collapse, Divider, Dropdown, Email, Empty, File, Fillable, Grid, Icon, Image, InputGroup, Input, Layout, Modal, Nav, NavMenu, NavMenuItem, NavTrigger, Number, Notification, Password, Progress, Radio, Search, Select, Sidebar, SidebarItem, Tab, Table, Tabs, Tag, Tel, Textarea, Transition, utils };

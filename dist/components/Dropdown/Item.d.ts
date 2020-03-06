@@ -3,7 +3,7 @@ import * as PropTypes from 'prop-types';
 export declare type DropdownItemProps = {
     children: React.ReactNode;
     className?: string | null;
-    active?: boolean;
+    active?: boolean | false;
     [key: string]: any;
 };
 declare const DropdownItem: {

@@ -1,12 +1,12 @@
 import * as React from 'react';
 import * as PropTypes from 'prop-types';
-export declare type ModalFooterProps = {
+export declare type ModalBackdropProps = {
     children: React.ReactNode;
     className?: string | null;
     [key: string]: any;
 };
-declare const ModalFooter: {
-    (props: ModalFooterProps): JSX.Element;
+declare const ModalBackdrop: {
+    (props: ModalBackdropProps): JSX.Element;
     propTypes: {
         children: PropTypes.Validator<string | number | boolean | {} | PropTypes.ReactElementLike | PropTypes.ReactNodeArray>;
         className: PropTypes.Requireable<string>;
@@ -15,4 +15,4 @@ declare const ModalFooter: {
         className: null;
     };
 };
-export default ModalFooter;
+export default ModalBackdrop;

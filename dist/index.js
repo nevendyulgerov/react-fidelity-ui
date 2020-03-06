@@ -1307,22 +1307,6 @@ var limitNum = function (num, max) { return (num <= max ? num : max); };
  * @param prop
  */
 var isRenderable = function (prop) { return isNonEmptyStr(prop) || isNum(prop) || isObj(prop); };
-/**
- * @description Contains node
- * @param nodes
- * @param node
- */
-var containsNode = function (nodes, node) {
-    var containsNode = false;
-    for (var i = 0; i < nodes.length; i += 1) {
-        var pathNode = nodes[i];
-        if (isFunc(pathNode.isSameNode) && pathNode.isSameNode(node)) {
-            containsNode = true;
-            break;
-        }
-    }
-    return containsNode;
-};
 
 var Button = function (props) {
     var _a;
@@ -1609,22 +1593,22 @@ var addEventListener = window.addEventListener, removeEventListener = window.rem
 var useRef = React.useRef, useEffect = React.useEffect;
 var Dropdown = function (props) {
     var _a;
-    var children = props.children, className = props.className, onClickOutside = props.onClickOutside, restProps = __rest(props, ["children", "className", "onClickOutside"]);
+    var children = props.children, className = props.className, active = props.active, onClickOutside = props.onClickOutside, restProps = __rest(props, ["children", "className", "active", "onClickOutside"]);
     var refComponent = useRef(null);
     var latestOnClickOutside = useRef(onClickOutside);
     var hasOnClickOutside = isFunc(onClickOutside);
     var componentClassName = classNames((_a = {
-            dropdown: true
+            dropdown: true,
+            'dropdown--active': active
         },
         // @ts-ignore
         _a[className] = isNonEmptyStr(className),
         _a));
     var onClick = function (event) {
-        var pathNodes = event.composedPath();
         var dropdownNode = refComponent.current;
-        var hasPathNodes = isArr(pathNodes);
         // @ts-ignore
-        if (hasPathNodes && !containsNode(pathNodes, dropdownNode)) {
+        var closestDropdown = event.target.closest('.dropdown');
+        if (!isObj(closestDropdown) || !closestDropdown.isSameNode(dropdownNode)) {
             // @ts-ignore
             onClickOutside();
         }
@@ -1654,10 +1638,12 @@ Dropdown.propTypes = {
         propTypes_15(propTypes_8)
     ]).isRequired,
     className: propTypes_7,
+    active: propTypes_3,
     onClickOutside: propTypes_4
 };
 Dropdown.defaultProps = {
     className: null,
+    active: false,
     onClickOutside: null
 };
 
@@ -2158,20 +2144,45 @@ Select.propTypes = {
     })).isRequired
 };
 
-var ModalBody = function (_a) {
-    var _b;
-    var children = _a.children, className = _a.className;
-    var componentClassName = classNames((_b = {
+var ModalBackdrop = function (props) {
+    var _a;
+    var children = props.children, className = props.className, restProps = __rest(props, ["children", "className"]);
+    var componentClassName = classNames((_a = {
+            modal__backdrop: true
+        },
+        // @ts-ignore
+        _a[className] = isNonEmptyStr(className),
+        _a));
+    return (React.createElement("div", __assign({ role: "document" }, restProps, { className: componentClassName }), children));
+};
+ModalBackdrop.propTypes = {
+    children: propTypes_14([
+        propTypes_7,
+        propTypes_5,
+        propTypes_8,
+        propTypes_15(propTypes_8)
+    ]).isRequired,
+    className: propTypes_7
+};
+ModalBackdrop.defaultProps = {
+    className: null
+};
+
+var ModalBody = function (props) {
+    var _a;
+    var children = props.children, className = props.className, restProps = __rest(props, ["children", "className"]);
+    var componentClassName = classNames((_a = {
             modal__body: true
         },
         // @ts-ignore
-        _b[className] = isNonEmptyStr(className),
-        _b));
-    return (React.createElement("div", { className: componentClassName }, children));
+        _a[className] = isNonEmptyStr(className),
+        _a));
+    return (React.createElement("div", __assign({}, restProps, { className: componentClassName }), children));
 };
 ModalBody.propTypes = {
     children: propTypes_14([
         propTypes_7,
+        propTypes_5,
         propTypes_8,
         propTypes_15(propTypes_8)
     ]).isRequired,
@@ -2181,20 +2192,51 @@ ModalBody.defaultProps = {
     className: null
 };
 
-var ModalFooter = function (_a) {
-    var _b;
-    var children = _a.children, className = _a.className;
-    var componentClassName = classNames((_b = {
+var sizes$1 = ['auto', 'xs', 'sm', 'md', 'lg', 'xl', 'fullscreen'];
+var ModalContent = function (props) {
+    var _a;
+    var children = props.children, size = props.size, className = props.className, restProps = __rest(props, ["children", "size", "className"]);
+    var componentClassName = classNames((_a = {
+            modal__content: true
+        },
+        // @ts-ignore
+        _a["modal__content--size-" + size] = ModalContent.sizes.includes(size),
+        // @ts-ignore
+        _a[className] = isNonEmptyStr(className),
+        _a));
+    return (React.createElement("div", __assign({}, restProps, { className: componentClassName }), children));
+};
+ModalContent.sizes = sizes$1;
+ModalContent.propTypes = {
+    children: propTypes_14([
+        propTypes_7,
+        propTypes_5,
+        propTypes_8,
+        propTypes_15(propTypes_8)
+    ]).isRequired,
+    size: propTypes_13(sizes$1),
+    className: propTypes_7
+};
+ModalContent.defaultProps = {
+    size: 'auto',
+    className: null
+};
+
+var ModalFooter = function (props) {
+    var _a;
+    var children = props.children, className = props.className, restProps = __rest(props, ["children", "className"]);
+    var componentClassName = classNames((_a = {
             modal__footer: true
         },
         // @ts-ignore
-        _b[className] = isNonEmptyStr(className),
-        _b));
-    return (React.createElement("div", { className: componentClassName }, children));
+        _a[className] = isNonEmptyStr(className),
+        _a));
+    return (React.createElement("div", __assign({}, restProps, { className: componentClassName }), children));
 };
 ModalFooter.propTypes = {
     children: propTypes_14([
         propTypes_7,
+        propTypes_5,
         propTypes_8,
         propTypes_15(propTypes_8)
     ]).isRequired,
@@ -2204,20 +2246,21 @@ ModalFooter.defaultProps = {
     className: null
 };
 
-var ModalHeader = function (_a) {
-    var _b;
-    var children = _a.children, className = _a.className;
-    var componentClassName = classNames((_b = {
+var ModalHeader = function (props) {
+    var _a;
+    var children = props.children, className = props.className, restProps = __rest(props, ["children", "className"]);
+    var componentClassName = classNames((_a = {
             modal__header: true
         },
         // @ts-ignore
-        _b[className] = isNonEmptyStr(className),
-        _b));
-    return (React.createElement("div", { className: componentClassName }, children));
+        _a[className] = isNonEmptyStr(className),
+        _a));
+    return (React.createElement("div", __assign({}, restProps, { className: componentClassName }), children));
 };
 ModalHeader.propTypes = {
     children: propTypes_14([
         propTypes_7,
+        propTypes_5,
         propTypes_8,
         propTypes_15(propTypes_8)
     ]).isRequired,
@@ -2230,98 +2273,52 @@ ModalHeader.defaultProps = {
 var useRef$2 = React.useRef, useEffect$2 = React.useEffect;
 var Modal = function (props) {
     var _a;
-    var children = props.children, header = props.header, footer = props.footer, size = props.size, className = props.className, active = props.active, fullscreen = props.fullscreen, onEscape = props.onEscape;
+    var children = props.children, className = props.className, active = props.active, disableScroll = props.disableScroll, restProps = __rest(props, ["children", "className", "active", "disableScroll"]);
     var refComponent = useRef$2(null);
-    var hasOnEscape = isFunc(onEscape);
     var componentClassName = classNames((_a = {
             modal: true,
             'modal--active': active
         },
-        _a["modal--" + size] = size !== 'normal',
-        _a['modal--fullscreen'] = active && fullscreen,
         // @ts-ignore
         _a[className] = isNonEmptyStr(className),
         _a));
-    var handleKeyDown = function (event) {
-        if (active && event.key === 'Escape' && hasOnEscape) {
+    useEffect$2(function () {
+        if (disableScroll && active) {
+            var modalScroll = refComponent.current;
             // @ts-ignore
-            onEscape();
+            bodyScrollLock.disableBodyScroll(modalScroll);
         }
-    };
-    var observeKeyDown = function () { return window.addEventListener('keydown', handleKeyDown); };
-    var unobserveKeyDown = function () { return window.removeEventListener('keydown', handleKeyDown); };
-    var disableScroll = function () {
-        // @ts-ignore
-        var modalScroll = refComponent.current.querySelector('.modal__body');
-        bodyScrollLock.disableBodyScroll(modalScroll);
-    };
-    var enableScroll = function () {
-        bodyScrollLock.clearAllBodyScrollLocks();
-    };
-    useEffect$2(function () {
-        observeKeyDown();
-        return function () { return unobserveKeyDown(); };
-    });
-    useEffect$2(function () {
-        if (active) {
-            disableScroll();
+        if (disableScroll && !active) {
+            bodyScrollLock.clearAllBodyScrollLocks();
         }
-        else {
-            enableScroll();
-        }
-    }, [active]);
-    return (React.createElement("div", { ref: refComponent, className: componentClassName },
-        React.createElement("div", { className: "modal__dialog" },
-            React.createElement("div", { className: "modal__content" },
-                header,
-                children,
-                footer))));
+        return function () {
+            if (disableScroll) {
+                bodyScrollLock.clearAllBodyScrollLocks();
+            }
+        };
+    }, [disableScroll, active]);
+    return (React.createElement("div", __assign({ role: "dialog", tabIndex: -1, "aria-hidden": !active }, restProps, { ref: refComponent, className: componentClassName }), children));
 };
+Modal.Backdrop = ModalBackdrop;
+Modal.Body = ModalBody;
+Modal.Content = ModalContent;
+Modal.Footer = ModalFooter;
+Modal.Header = ModalHeader;
 Modal.propTypes = {
     children: propTypes_14([
         propTypes_7,
+        propTypes_5,
         propTypes_8,
         propTypes_15(propTypes_8)
     ]).isRequired,
-    header: propTypes_8,
-    footer: propTypes_8,
-    size: propTypes_13(['sm', 'md', 'normal', 'lg', 'xl']),
     className: propTypes_7,
     active: propTypes_3,
-    fullscreen: propTypes_3,
-    onEscape: propTypes_4,
+    disableScroll: propTypes_3
 };
 Modal.defaultProps = {
-    header: null,
-    footer: null,
-    size: 'normal',
     className: null,
     active: false,
-    fullscreen: false,
-    onEscape: null,
-};
-
-var ModalTitle = function (_a) {
-    var _b;
-    var children = _a.children, className = _a.className;
-    var componentClassName = classNames((_b = {
-            modal__title: true
-        },
-        // @ts-ignore
-        _b[className] = isNonEmptyStr(className),
-        _b));
-    return (React.createElement("h3", { className: componentClassName }, children));
-};
-ModalTitle.propTypes = {
-    children: propTypes_14([
-        propTypes_7,
-        propTypes_8,
-        propTypes_15(propTypes_8)
-    ]).isRequired,
-    className: propTypes_7
-};
-ModalTitle.defaultProps = {
-    className: null
+    disableScroll: true
 };
 
 var NavMenu = function (_a) {
@@ -2610,7 +2607,7 @@ var Collapse = function (props) {
         // @ts-ignore
         _a[className] = isNonEmptyStr(className),
         _a));
-    return (React.createElement("div", __assign({}, restProps, { "aria-expanded": active, className: componentClassName }), children));
+    return (React.createElement("div", __assign({ "aria-expanded": active }, restProps, { className: componentClassName }), children));
 };
 Collapse.propTypes = {
     children: propTypes_14([
@@ -3250,10 +3247,6 @@ exports.Input = Input;
 exports.InputGroup = InputGroup;
 exports.Layout = Layout;
 exports.Modal = Modal;
-exports.ModalBody = ModalBody;
-exports.ModalFooter = ModalFooter;
-exports.ModalHeader = ModalHeader;
-exports.ModalTitle = ModalTitle;
 exports.Nav = Nav;
 exports.NavMenu = NavMenu;
 exports.NavMenuItem = NavMenuItem;

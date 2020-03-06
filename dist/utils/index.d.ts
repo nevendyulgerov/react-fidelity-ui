@@ -88,9 +88,3 @@ export declare const limitNum: (num: number, max: number) => number;
  * @param prop
  */
 export declare const isRenderable: (prop: any) => boolean;
-/**
- * @description Contains node
- * @param nodes
- * @param node
- */
-export declare const containsNode: (nodes: Node[], node: Node) => boolean;
