@@ -6,7 +6,7 @@ import { isNonEmptyStr } from '../../utils';
 export type DropdownItemProps = {
   children: React.ReactNode,
   className?: string | null,
-  active?: boolean,
+  active?: boolean | false,
   [key: string]: any
 };
 
