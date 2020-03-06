@@ -1,0 +1,13 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Components / Modal / Body matches snapshot 1`] = `
+<body>
+  <div>
+    <div
+      class="modal__body"
+    >
+      Modal Body
+    </div>
+  </div>
+</body>
+`;

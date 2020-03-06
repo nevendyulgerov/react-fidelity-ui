@@ -1,0 +1,14 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Components / Modal / Backdrop matches snapshot 1`] = `
+<body>
+  <div>
+    <div
+      class="modal__backdrop"
+      role="document"
+    >
+      Modal Backdrop
+    </div>
+  </div>
+</body>
+`;

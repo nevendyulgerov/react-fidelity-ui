@@ -1,0 +1,13 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Components / Modal / Footer matches snapshot 1`] = `
+<body>
+  <div>
+    <div
+      class="modal__footer"
+    >
+      Modal Footer
+    </div>
+  </div>
+</body>
+`;

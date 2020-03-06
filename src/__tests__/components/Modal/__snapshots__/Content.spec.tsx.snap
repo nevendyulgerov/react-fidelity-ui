@@ -1,0 +1,13 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Components / Modal / Content matches snapshot 1`] = `
+<body>
+  <div>
+    <div
+      class="modal__content modal__content--size-auto"
+    >
+      Modal Content
+    </div>
+  </div>
+</body>
+`;
