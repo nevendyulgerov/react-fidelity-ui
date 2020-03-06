@@ -2,107 +2,87 @@ import * as React from 'react';
 import * as PropTypes from 'prop-types';
 import classNames from 'classnames';
 import { disableBodyScroll, clearAllBodyScrollLocks } from 'body-scroll-lock';
-import { isNonEmptyStr, isFunc } from '../../utils';
+import Backdrop from './Backdrop';
+import Body from './Body';
+import Content from './Content';
+import Footer from './Footer';
+import Header from './Header';
+import { isNonEmptyStr } from '../../utils';
 
 const { useRef, useEffect } = React;
 
 export type ModalProps = {
   children: React.ReactNode,
-  header?: React.ReactNode | null,
-  footer?: React.ReactNode | null,
-  size?: string,
   className?: string | null,
-  active?: boolean,
-  fullscreen?: boolean,
-  onEscape?: () => void
+  active?: boolean | false,
+  disableScroll?: boolean | true,
+  [key: string]: any
 };
 
 const Modal = (props: ModalProps) => {
-  const { children, header, footer, size, className, active, fullscreen, onEscape } = props;
+  const { children, className, active, disableScroll, ...restProps } = props;
   const refComponent = useRef(null);
-  const hasOnEscape = isFunc(onEscape);
-  const componentClassName = classNames({
+  const componentClassName: string = classNames({
     modal: true,
     'modal--active': active,
-    [`modal--${size}`]: size !== 'normal',
-    'modal--fullscreen': active && fullscreen,
     // @ts-ignore
     [className]: isNonEmptyStr(className)
   });
 
-  const handleKeyDown = (event: { key: string }) => {
-    if (active && event.key === 'Escape' && hasOnEscape) {
+  useEffect(() => {
+    if (disableScroll && active) {
+      const modalScroll = refComponent.current;
       // @ts-ignore
-      onEscape();
+      disableBodyScroll(modalScroll);
     }
-  };
 
-  const observeKeyDown = () => window.addEventListener('keydown', handleKeyDown);
-  const unobserveKeyDown = () => window.removeEventListener('keydown', handleKeyDown);
-
-  const disableScroll = () => {
-    // @ts-ignore
-    const modalScroll = refComponent.current.querySelector('.modal__body');
-    disableBodyScroll(modalScroll);
-  };
-  const enableScroll = () => {
-    clearAllBodyScrollLocks();
-  };
-
-  useEffect(() => {
-    observeKeyDown();
-    return () => unobserveKeyDown();
-  });
-
-  useEffect(() => {
-    if (active) {
-      disableScroll();
-    } else {
-      enableScroll();
+    if (disableScroll && !active) {
+      clearAllBodyScrollLocks();
     }
-  }, [active]);
+
+    return () => {
+      if (disableScroll) {
+        clearAllBodyScrollLocks();
+      }
+    };
+  }, [disableScroll, active]);
 
   return (
     <div
+      role="dialog"
+      tabIndex={-1}
+      aria-hidden={!active}
+      {...restProps}
       ref={refComponent}
       className={componentClassName}
     >
-      <div className="modal__dialog">
-        <div className="modal__content">
-          {header}
-
-          {children}
-
-          {footer}
-        </div>
-      </div>
+      {children}
     </div>
   );
 };
 
+Modal.Backdrop = Backdrop;
+Modal.Body = Body;
+Modal.Content = Content;
+Modal.Footer = Footer;
+Modal.Header = Header;
+
 Modal.propTypes = {
   children: PropTypes.oneOfType([
     PropTypes.string,
+    PropTypes.number,
     PropTypes.node,
     PropTypes.arrayOf(PropTypes.node)
   ]).isRequired,
-  header: PropTypes.node,
-  footer: PropTypes.node,
-  size: PropTypes.oneOf(['sm', 'md', 'normal', 'lg', 'xl']),
   className: PropTypes.string,
   active: PropTypes.bool,
-  fullscreen: PropTypes.bool,
-  onEscape: PropTypes.func,
+  disableScroll: PropTypes.bool
 };
 
 Modal.defaultProps = {
-  header: null,
-  footer: null,
-  size: 'normal',
   className: null,
   active: false,
-  fullscreen: false,
-  onEscape: null,
+  disableScroll: true
 };
 
 export default Modal;

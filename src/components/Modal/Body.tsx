@@ -5,10 +5,12 @@ import { isNonEmptyStr } from '../../utils';
 
 export type ModalBodyProps = {
   children: React.ReactNode,
-  className?: string | null
+  className?: string | null,
+  [key: string]: any
 };
 
-const ModalBody = ({ children, className }: ModalBodyProps) => {
+const ModalBody = (props: ModalBodyProps) => {
+  const { children, className, ...restProps } = props;
   const componentClassName = classNames({
     modal__body: true,
     // @ts-ignore
@@ -16,7 +18,10 @@ const ModalBody = ({ children, className }: ModalBodyProps) => {
   });
 
   return (
-    <div className={componentClassName}>
+    <div
+      {...restProps}
+      className={componentClassName}
+    >
       {children}
     </div>
   );
@@ -25,6 +30,7 @@ const ModalBody = ({ children, className }: ModalBodyProps) => {
 ModalBody.propTypes = {
   children: PropTypes.oneOfType([
     PropTypes.string,
+    PropTypes.number,
     PropTypes.node,
     PropTypes.arrayOf(PropTypes.node)
   ]).isRequired,
