@@ -124,23 +124,3 @@ export const limitNum = (num: number, max: number) => (num <= max ? num : max);
  * @param prop
  */
 export const isRenderable = (prop: any) => isNonEmptyStr(prop) || isNum(prop) || isObj(prop);
-
-/**
- * @description Contains node
- * @param nodes
- * @param node
- */
-export const containsNode = (nodes: Node[], node: Node): boolean => {
-  let containsNode = false;
-
-  for (let i = 0; i < nodes.length; i += 1) {
-    const pathNode = nodes[i];
-
-    if (isFunc(pathNode.isSameNode) && pathNode.isSameNode(node)) {
-      containsNode = true;
-      break;
-    }
-  }
-
-  return containsNode;
-};
