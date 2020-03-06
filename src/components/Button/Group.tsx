@@ -1,7 +1,7 @@
 import * as React from 'react';
 import * as PropTypes from 'prop-types';
 import classNames from 'classnames';
-import { isNonEmptyStr } from '../../utils/';
+import { isNonEmptyStr } from '../../utils';
 
 export type ButtonGroupProps = {
   children: React.ReactNode,
