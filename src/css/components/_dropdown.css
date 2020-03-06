@@ -1,28 +1,31 @@
 .fidelity-ui-app .dropdown {
-  --dropdown-body-size--auto: 100%;
-  --dropdown-body-size--xs: 8rem;
-  --dropdown-body-size--sm: 12rem;
-  --dropdown-body-size--md: 16rem;
-  --dropdown-body-size--lg: 20rem;
-  --dropdown-body-size--xl: 24rem;
+  --dropdown-body-size-auto: 100%;
+  --dropdown-body-size-xs: 8rem;
+  --dropdown-body-size-sm: 12rem;
+  --dropdown-body-size-md: 16rem;
+  --dropdown-body-size-lg: 20rem;
+  --dropdown-body-size-xl: 24rem;
   --dropdown-body-min-width: 12rem;
   --dropdown-body-max-width: calc(100vw - var(--gutter) * 2);
   --dropdown-body-max-height: 40rem;
-  --dropdown-body-shadow: var(--depth-4);
+  --dropdown-body-box-shadow: var(--depth-4);
   --dropdown-body-border-radius: var(--border-radius);
-  --dropdown-body-color-bg: var(--color-white);
+  --dropdown-body-background: var(--color-white);
   --dropdown-body-z-index: var(--z-index-20);
   --dropdown-body-padding: calc(var(--spacer) / 2) 0;
-  --dropdown-body-scrollbar-width: 6px;
-  --dropdown-body-scrollbar-thumb-border-radius: 10px;
+  --dropdown-body-webkit-scrollbar-width: 0.375rem;
+  --dropdown-body-webkit-scrollbar-background-color: transparent;
+  --dropdown-body-webkit-scrollbar-thumb-border-radius: 0.625rem;
+  --dropdown-body-webkit-scrollbar-thumb-background-color: var(--color-body--border);
   --dropdown-text-color: var(--color-gray-7);
-  --dropdown-text-color-border: rgba(0, 0, 0, 0.1);
   --dropdown-text-padding: calc(var(--spacer) / 2) var(--spacer);
   --dropdown-item-color: var(--color-gray-10);
-  --dropdown-item-color-bg-hover: rgba(0, 0, 0, 0.025);
-  --dropdown-item-color-focus: var(--color-secondary);
-  --dropdown-item-color-bg-focus: var(--color-white);
+  --dropdown-item-hover-background: rgba(0, 0, 0, 0.025);
+  --dropdown-item-active-background: var(--color-secondary);
+  --dropdown-item-active-color: var(--color-white);
   --dropdown-item-padding: calc(var(--spacer) / 1.5) calc(var(--spacer) * 1.5) calc(var(--spacer) / 1.5) var(--spacer);
+  --dropdown-divider-margin: calc(var(--spacer) / 2) 0;
+  --dropdown-divider-border-color: rgba(0, 0, 0, 0.1);
 
   position: relative;
   display: inline-block;
@@ -38,49 +41,45 @@
     max-height: var(--dropdown-body-max-height);
     padding: var(--dropdown-body-padding);
     z-index: var(--dropdown-body-z-index);
-    box-shadow: var(--dropdown-body-shadow);
+    box-shadow: var(--dropdown-body-box-shadow);
     border-radius: var(--dropdown-body-border-radius);
-    background: var(--dropdown-body-color-bg);
+    background: var(--dropdown-body-background);
     overflow: auto;
     -webkit-overflow-scrolling: touch;
 
     &::-webkit-scrollbar {
-      width: var(--dropdown-body-scrollbar-width);
-      background-color: transparent;
+      width: var(--dropdown-body-webkit-scrollbar-width);
+      background-color: var(--dropdown-body-webkit-scrollbar-background-color);
     }
 
     &::-webkit-scrollbar-thumb {
-      border-radius: var(--dropdown-body-scrollbar-thumb-border-radius);
-      background-color: var(--color-body--border);
-    }
-
-    &--active {
-      display: block;
+      border-radius: var(--dropdown-body-webkit-scrollbar-thumb-border-radius);
+      background-color: var(--dropdown-body-webkit-scrollbar-thumb-background-color);
     }
 
     &--size {
       &-auto {
-        min-width: var(--dropdown-body-size--auto);
+        min-width: var(--dropdown-body-size-auto);
       }
 
       &-xs {
-        min-width: var(--dropdown-body-size--xs);
+        min-width: var(--dropdown-body-size-xs);
       }
 
       &-sm {
-        min-width: var(--dropdown-body-size--sm);
+        min-width: var(--dropdown-body-size-sm);
       }
 
       &-md {
-        min-width: var(--dropdown-body-size--md);
+        min-width: var(--dropdown-body-size-md);
       }
 
       &-lg {
-        min-width: var(--dropdown-body-size--lg);
+        min-width: var(--dropdown-body-size-lg);
       }
 
       &-xl {
-        min-width: var(--dropdown-body-size--xl);
+        min-width: var(--dropdown-body-size-xl);
       }
     }
   }
@@ -89,26 +88,26 @@
     display: flex;
     align-items: center;
     white-space: nowrap;
+    text-decoration: none;
     padding: var(--dropdown-item-padding);
     color: var(--dropdown-item-color);
-    text-decoration: none;
 
     &:hover {
       text-decoration: none;
-      background: var(--dropdown-item-color-bg-hover);
+      background: var(--dropdown-item-hover-background);
     }
 
     &--active,
     &--active:hover,
     &:focus:active {
-      background: var(--dropdown-item-color-focus);
-      color: var(--dropdown-item-color-bg-focus);
+      color: var(--dropdown-item-active-color);
+      background: var(--dropdown-item-active-background);
     }
 
     &--active *,
     &--active:hover,
     &:focus:active * {
-      color: var(--dropdown-item-color-bg-focus);
+      color: var(--dropdown-item-active-color);
     }
   }
 
@@ -120,7 +119,13 @@
 
   &__divider {
     pointer-events: none;
-    border-top: 1px solid var(--dropdown-text-color-border);
-    margin: calc(var(--spacer) / 2) 0;
+    border-top: 1px solid var(--dropdown-divider-border-color);
+    margin: var(--dropdown-divider-margin);
+  }
+
+  &--active {
+    & > .dropdown__body {
+      display: block;
+    }
   }
 }
