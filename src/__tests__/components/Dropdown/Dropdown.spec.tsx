@@ -83,6 +83,30 @@ describe('Components / Dropdown', () => {
     expect(node.getAttribute('role')).toBe(role);
   });
 
+  it('activates dropdown', () => {
+    const { baseElement } = render(
+      <Dropdown active>
+        Dropdown
+      </Dropdown>
+    );
+    const node = baseElement.querySelector('.dropdown--active');
+
+    // @ts-ignore
+    expect(isObj(node)).toBe(true);
+  });
+
+  it('deactivates dropdown', () => {
+    const { baseElement } = render(
+      <Dropdown active={false}>
+        Dropdown
+      </Dropdown>
+    );
+    const node = baseElement.querySelector('.dropdown--active');
+
+    // @ts-ignore
+    expect(isObj(node)).toBe(false);
+  });
+
   it('calls "onClickOutside" callback when click event is triggered outside', () => {
     let isTriggered = false;
     const onClickOutside = () => {

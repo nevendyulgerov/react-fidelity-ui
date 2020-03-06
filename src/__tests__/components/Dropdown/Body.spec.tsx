@@ -83,31 +83,7 @@ describe('Components / Dropdown / Body', () => {
     expect(node.getAttribute('role')).toBe(role);
   });
 
-  it('activates dropdown body', () => {
-    const { baseElement } = render(
-      <Dropdown.Body active>
-        Dropdown
-      </Dropdown.Body>
-    );
-    const node = baseElement.querySelector('.dropdown__body--active');
-
-    // @ts-ignore
-    expect(isObj(node)).toBe(true);
-  });
-
-  it('deactivates dropdown body', () => {
-    const { baseElement } = render(
-      <Dropdown.Body active={false}>
-        Dropdown
-      </Dropdown.Body>
-    );
-    const node = baseElement.querySelector('.dropdown__body--active');
-
-    // @ts-ignore
-    expect(isObj(node)).toBe(false);
-  });
-
-  it('applies correct size', () => {
+  it('applies correct given size', () => {
     const { baseElement, rerender } = render(
       <Dropdown.Body>
         Dropdown
@@ -125,7 +101,7 @@ describe('Components / Dropdown / Body', () => {
     });
   });
 
-  it('applies correct size', () => {
+  it('does not apply incorrect given size', () => {
     const invalidSize = 'invalid-size';
     const { baseElement } = render(
       <Dropdown.Body size={invalidSize}>
