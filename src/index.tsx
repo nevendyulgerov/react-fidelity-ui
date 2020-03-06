@@ -4,7 +4,7 @@ import Dropdown from './components/Dropdown';
 import Grid from './components/Grid';
 import Layout from './components/Layout';
 import { Checkbox, Email, File, Group as InputGroup, Input, Number, Password, Radio, Search, Select, Tel, Textarea } from './components/Input';
-import { Modal, Body as ModalBody, Header as ModalHeader, Footer as ModalFooter, Title as ModalTitle } from './components/Modal';
+import Modal from './components/Modal';
 import { Nav, NavTrigger, Menu as NavMenu, MenuItem as NavMenuItem } from './components/Nav';
 import { Sidebar, SidebarItem } from './components/Sidebar';
 import { Tabs, Tab } from './components/Tabs';
@@ -50,10 +50,6 @@ export {
   Input,
   Layout,
   Modal,
-  ModalBody,
-  ModalFooter,
-  ModalHeader,
-  ModalTitle,
   Nav,
   NavMenu,
   NavMenuItem,
